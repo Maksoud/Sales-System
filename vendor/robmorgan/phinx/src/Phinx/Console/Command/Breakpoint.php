@@ -83,12 +83,12 @@ EOT
             $output->writeln('<info>using environment</info> ' . $environment);
         }
 
-        if ($version && $removeAll) {
+        if ($version && $removeAll){
             throw new \InvalidArgumentException('Cannot toggle a breakpoint and remove all breakpoints at the same time.');
         }
 
         // Remove all breakpoints
-        if ($removeAll) {
+        if ($removeAll){
             $this->getManager()->removeBreakpoints($environment);
         } else {
             // Toggle the breakpoint.

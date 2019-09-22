@@ -78,7 +78,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $message The message to display.
      * @return bool
      */
-    public function skipif ($shouldSkip, $message = '')
+    public function skipIf($shouldSkip, $message = '')
     {
         if ($shouldSkip) {
             $this->markTestSkipped($message);

@@ -101,18 +101,18 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="top-15 col-xs-6 text-right">
-                                <span class="label label-success text-uppercase">Disponível</span>
+                                <span class="label label-success text-uppercase"><?= __('Disponível'); ?></span>
                                 <div class="clearfix"></div>
-                                <span class="text-cinza"><em>saldo disponível</em></span>
+                                <span class="text-cinza"><em><?= __('saldo disponível'); ?></em></span>
                                 <div class="clearfix"></div>
-                                <h3 class="text-verde top-0"><?= $this->Number->currency ($saldo_disponivel, 'BRL') ?></h3>
+                                <h3 class="text-verde top-0"><?= $this->Number->currency($saldo_disponivel, 'BRL') ?></h3>
                             </div>
                             <div class="top-15 col-xs-6 saldo-bloqueado">
-                                <span class="label label-primary text-uppercase">Bloqueado</span>
+                                <span class="label label-primary text-uppercase"><?= __('Bloqueado'); ?></span>
                                 <div class="clearfix"></div>
                                 <span><em>a receber</em></span>
                                 <div class="clearfix"></div>
-                                <h3 class="top-0"><?= $this->Number->currency ($saldo_bloqueado, 'BRL') ?></h3>
+                                <h3 class="top-0"><?= $this->Number->currency($saldo_bloqueado, 'BRL') ?></h3>
                             </div>
                             <?php if ($status_usuario != 'P') { ?>xs
                                 <div class="top-20 bottom-10 col-xs-12 col-md-offset-2 col-md-8">
@@ -123,7 +123,7 @@
                     </div>
                 <?php endif; ?>
                 
-                <?php if (!empty ($metas->toArray()) && $tipo_plano != 'Cliente'): ?>
+                <?php if (!empty($metas) && $tipo_plano != 'Cliente'): ?>
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="col-xs-12">
@@ -137,7 +137,7 @@
                                 
                                 foreach ($metas as $meta):
 
-                                    if (!empty ($meta->meta)) {
+                                    if (!empty($meta->meta)) {
 
                                         //Descrição dos planos
                                         foreach ($planos as $index => $plano):
@@ -171,7 +171,7 @@
                                             </div>
                                         </div>
                                         <?php 
-                                    }//if (!empty ($meta->meta))
+                                    }//if (!empty($meta->meta))
 
                                 endforeach; 
                                 

@@ -133,7 +133,7 @@ class Manager
                     $status, $migration->getVersion(), $version['start_time'], $version['end_time'], $migration->getName()
                 ));
 
-                if ($version && $version['breakpoint']) {
+                if ($version && $version['breakpoint']){
                     $output->writeln('         <error>BREAKPOINT SET</error>');
                 }
 
@@ -149,7 +149,7 @@ class Manager
                         $missing, $version['start_time'], $version['end_time'], str_pad($version['migration_name'], $maxNameLength, ' ')
                     ));
 
-                    if ($version && $version['breakpoint']) {
+                    if ($version && $version['breakpoint']){
                         $output->writeln('         <error>BREAKPOINT SET</error>');
                     }
                 }
@@ -416,7 +416,7 @@ class Manager
             }
 
             if (in_array($migration->getVersion(), $versions)) {
-                if (isset($versionLog[$migration->getVersion()]) && 0 != $versionLog[$migration->getVersion()]['breakpoint'] && !$force) {
+                if (isset($versionLog[$migration->getVersion()]) && 0 != $versionLog[$migration->getVersion()]['breakpoint'] && !$force){
                     $this->getOutput()->writeln('<error>Breakpoint reached. Further rollbacks inhibited.</error>');
                     break;
                 }
@@ -719,7 +719,7 @@ class Manager
      * @param int $version
      * @return void
      */
-    public function toggleBreakpoint($environment, $version) {
+    public function toggleBreakpoint($environment, $version){
         $migrations = $this->getMigrations();
         $this->getMigrations();
         $env = $this->getEnvironment($environment);
@@ -759,7 +759,7 @@ class Manager
      * @param string $environment
      * @return void
      */
-    public function removeBreakpoints($environment) {
+    public function removeBreakpoints($environment){
         $this->getOutput()->writeln(sprintf(
             ' %d breakpoints cleared.',
             $this->getEnvironment($environment)->getAdapter()->resetAllBreakpoints()

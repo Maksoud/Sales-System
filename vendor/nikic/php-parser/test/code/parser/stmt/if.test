@@ -18,21 +18,21 @@ endif;
 if ($a): endif; // without else
 -----
 array(
-    0: Stmt_if (
+    0: Stmt_If(
         cond: Expr_Variable(
             name: a
         )
         stmts: array(
         )
         elseifs: array(
-            0: Stmt_Elseif (
+            0: Stmt_ElseIf(
                 cond: Expr_Variable(
                     name: b
                 )
                 stmts: array(
                 )
             )
-            1: Stmt_Elseif (
+            1: Stmt_ElseIf(
                 cond: Expr_Variable(
                     name: c
                 )
@@ -45,7 +45,7 @@ array(
             )
         )
     )
-    1: Stmt_if (
+    1: Stmt_If(
         cond: Expr_Variable(
             name: a
         )
@@ -55,21 +55,21 @@ array(
         )
         else: null
     )
-    2: Stmt_if (
+    2: Stmt_If(
         cond: Expr_Variable(
             name: a
         )
         stmts: array(
         )
         elseifs: array(
-            0: Stmt_Elseif (
+            0: Stmt_ElseIf(
                 cond: Expr_Variable(
                     name: b
                 )
                 stmts: array(
                 )
             )
-            1: Stmt_Elseif (
+            1: Stmt_ElseIf(
                 cond: Expr_Variable(
                     name: c
                 )
@@ -85,7 +85,7 @@ array(
             0: // without else
         )
     )
-    3: Stmt_if (
+    3: Stmt_If(
         cond: Expr_Variable(
             name: a
         )

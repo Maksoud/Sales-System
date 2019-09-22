@@ -49,11 +49,6 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/logout', ['controller' => 'Pages', 'action' => 'logout']);
     
     /**
-     * Usuarios
-     */
-    $routes->connect('/usuario/:login/add/link', ['controller' => 'Usuarios', 'action' => 'addlink']);
-
-    /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...

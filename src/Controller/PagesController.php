@@ -65,12 +65,46 @@ class PagesController extends AppController
         //SALDOS DO USUÁRIO
         $saldo_disponivel = 1234.56;
         $saldo_bloqueado = 2469.12;
+
+        $this->set(compact('saldo_disponivel', 'saldo_bloqueado'));
         
         /**********************************************************************/
         
         //METAS DO USUÁRIO
-        
-        $this->set(compact('saldo_disponivel', 'saldo_bloqueado', 'metas', 'produtos', 'planos'));
+        $metas = ['1'=> ['tipo'           => 'I',
+                         'meta'           => 10,
+                         'qtganha'        => 10,
+                         'de_planos_id'   => 3,
+                         'para_planos_id' => 4,
+                         'produtos_id'    => '',
+                         'bonificacao_produtos_id' => 1
+                        ],
+                  '2'=> ['tipo'           => 'I',
+                         'meta'           => 10,
+                         'qtganha'        => 1,
+                         'de_planos_id'   => 3,
+                         'para_planos_id' => 5,
+                         'produtos_id'    => '',
+                         'bonificacao_produtos_id' => 1
+                        ],
+                  '3'=> ['tipo'           => 'V',
+                         'meta'           => 10,
+                         'qtganha'        => 1,
+                         'de_planos_id'   => 4,
+                         'para_planos_id' => 5,
+                         'produtos_id'    => '',
+                         'bonificacao_produtos_id' => 1
+                        ],
+                  '4'=> ['tipo'           => 'V',
+                         'meta'           => 10,
+                         'qtganha'        => 1,
+                         'de_planos_id'   => 5,
+                         'para_planos_id' => 5,
+                         'produtos_id'    => '',
+                         'bonificacao_produtos_id' => 1
+                        ],
+                 ];
+        $this->set('metas', $metas);
         
         /**********************************************************************/
         //DASHBOARD

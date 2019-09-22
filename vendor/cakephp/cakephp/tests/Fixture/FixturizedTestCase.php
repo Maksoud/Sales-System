@@ -43,7 +43,7 @@ class FixturizedTestCase extends TestCase
      */
     public function testSkipIfTrue()
     {
-        $this->skipif (true);
+        $this->skipIf(true);
     }
 
     /**
@@ -53,7 +53,7 @@ class FixturizedTestCase extends TestCase
      */
     public function testSkipIfFalse()
     {
-        $this->skipif (false);
+        $this->skipIf(false);
     }
 
     /**

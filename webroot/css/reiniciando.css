@@ -34,10 +34,6 @@
         text-overflow: ellipsis;
         max-width: 160px;
     }
-    table {
-        /*page-break-after: always;
-        page-break-before: always;*/
-    }
     .prt-report {
         width: 1085px;
         font-size: 14px;

@@ -1149,7 +1149,7 @@ class Mobile_Detect
         // Check specifically for cloudfront headers if the useragent === 'Amazon CloudFront'
         if ($this->getUserAgent() === 'Amazon CloudFront') {
             $cfHeaders = $this->getCfHeaders();
-            if (array_key_exists('HTTP_CLOUDFRONT_IS_MOBILE_VIEWER', $cfHeaders) && $cfHeaders['HTTP_CLOUDFRONT_IS_MOBILE_VIEWER'] === 'true') {
+            if(array_key_exists('HTTP_CLOUDFRONT_IS_MOBILE_VIEWER', $cfHeaders) && $cfHeaders['HTTP_CLOUDFRONT_IS_MOBILE_VIEWER'] === 'true') {
                 return true;
             }
         }
@@ -1177,7 +1177,7 @@ class Mobile_Detect
         // Check specifically for cloudfront headers if the useragent === 'Amazon CloudFront'
         if ($this->getUserAgent() === 'Amazon CloudFront') {
             $cfHeaders = $this->getCfHeaders();
-            if (array_key_exists('HTTP_CLOUDFRONT_IS_TABLET_VIEWER', $cfHeaders) && $cfHeaders['HTTP_CLOUDFRONT_IS_TABLET_VIEWER'] === 'true') {
+            if(array_key_exists('HTTP_CLOUDFRONT_IS_TABLET_VIEWER', $cfHeaders) && $cfHeaders['HTTP_CLOUDFRONT_IS_TABLET_VIEWER'] === 'true') {
                 return true;
             }
         }
@@ -1410,7 +1410,7 @@ class Mobile_Detect
 
             // Opera Desktop 10-12 - Tested on OS X 10.7 and Windows 7
             $this->version('Opera', self::VERSION_TYPE_FLOAT) >= 10 && !$isMobile
-        ) {
+        ){
             return self::MOBILE_GRADE_A;
         }
 
@@ -1431,7 +1431,7 @@ class Mobile_Detect
 
             // @todo: report this (tested on Nokia N71)
             $this->version('Opera Mobi', self::VERSION_TYPE_FLOAT) >= 11 && $this->is('SymbianOS')
-        ) {
+        ){
             return self::MOBILE_GRADE_B;
         }
 
@@ -1448,7 +1448,7 @@ class Mobile_Detect
 
             // Internet Explorer 7 and older - Tested on Windows XP
             $this->version('IE', self::VERSION_TYPE_FLOAT) <= 7.0 && !$isMobile
-        ) {
+        ){
             return self::MOBILE_GRADE_C;
         }
 

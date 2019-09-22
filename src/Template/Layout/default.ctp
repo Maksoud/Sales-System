@@ -39,7 +39,7 @@
                                 <i class="fa fa-bell-o fa-stack-1x fa-inverse"></i>
                             </span>
                             <span class="badge" data-count="<?= $count_avisos ?>">
-                                <?= $count_avisos ?> Avisos
+                                <?= $count_avisos ?> <?= __('Avisos'); ?>
                             </span>
                         </a>
                     </div>
@@ -60,7 +60,7 @@
                             <div class="clearfix"></div>
 
                             <div class="pull-right font-12">
-                                <small>Sua sessão expira em: </small><strong><span id="countdown"></span></strong>
+                                <small><?= __('Sua sessão expira em:'); ?> </small><strong><span id="countdown"></span></strong>
                             </div>
 
                             <script>
@@ -137,7 +137,7 @@
                                             <i class="fa fa-bell-o fa-stack-1x fa-inverse"></i>
                                         </span>
                                         <span class="badge" data-count="<?= $count_avisos ?>">
-                                            <?= $count_avisos ?> Avisos
+                                            <?= $count_avisos ?> <?= __('Avisos'); ?>
                                         </span>
                                     </a>
                                 </div>

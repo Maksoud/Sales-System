@@ -162,7 +162,7 @@ class SqlFormatterTest extends PHPUnit_Framework_TestCase {
 	
 	
 	function sqlData() {
-		if (!$this->sqlData) {
+		if(!$this->sqlData) {
 			$this->sqlData = explode("\n\n",file_get_contents(__DIR__."/sql.sql"));
 		}
 		

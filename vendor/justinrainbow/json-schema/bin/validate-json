@@ -233,7 +233,7 @@ try {
     $validator->check($data, $schema);
 
     if ($validator->isValid()) {
-        if (isset($arOptions['--verbose'])) {
+        if(isset($arOptions['--verbose'])) {
             output("OK. The supplied JSON validates against the schema.\n");
         }
     } else {

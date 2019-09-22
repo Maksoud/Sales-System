@@ -99,7 +99,7 @@ array(
                     )
                 )
             )
-            6: Stmt_if (
+            6: Stmt_If(
                 cond: Expr_Yield(
                     key: null
                     value: Expr_Variable(
@@ -109,7 +109,7 @@ array(
                 stmts: array(
                 )
                 elseifs: array(
-                    0: Stmt_Elseif (
+                    0: Stmt_ElseIf(
                         cond: Expr_Yield(
                             key: null
                             value: Expr_Variable(
@@ -125,7 +125,7 @@ array(
                     0: // yield in language constructs with their own parentheses
                 )
             )
-            7: Stmt_if (
+            7: Stmt_If(
                 cond: Expr_Yield(
                     key: null
                     value: Expr_Variable(
@@ -135,7 +135,7 @@ array(
                 stmts: array(
                 )
                 elseifs: array(
-                    0: Stmt_Elseif (
+                    0: Stmt_ElseIf(
                         cond: Expr_Yield(
                             key: null
                             value: Expr_Variable(

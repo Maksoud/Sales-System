@@ -7,7 +7,7 @@ if (true) {
 }
 -----
 array(
-    0: Stmt_if (
+    0: Stmt_If(
         cond: Expr_ConstFetch(
             name: Name(
                 parts: array(

@@ -1150,7 +1150,7 @@ class PostgresAdapter extends PdoAdapter implements AdapterInterface
      */
     protected function isArrayType($columnType)
     {
-        if (!preg_match('/^([a-z]+)(?:\[\]) {1,}$/', $columnType, $matches)) {
+        if (!preg_match('/^([a-z]+)(?:\[\]){1,}$/', $columnType, $matches)) {
             return false;
         }
 

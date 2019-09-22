@@ -36,7 +36,7 @@ class FunctionContextPassTest extends CodeCleanerTestCase
     {
         return array(
             array('function foo() { yield; }'),
-            array('if (function() { yield; })'),
+            array('if (function(){ yield; })'),
         );
     }
 

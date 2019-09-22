@@ -244,7 +244,7 @@ class ReflectionCaster
             if ($v = $c->getType()) {
                 $a[$prefix.'typeHint'] = $v instanceof \ReflectionNamedType ? $v->getName() : $v->__toString();
             }
-        } elseif (preg_match('/^(?:[^ ]++ ) {4}([a-zA-Z_\x7F-\xFF][^ ]++)/', $c, $v)) {
+        } elseif (preg_match('/^(?:[^ ]++ ){4}([a-zA-Z_\x7F-\xFF][^ ]++)/', $c, $v)) {
             $a[$prefix.'typeHint'] = $v[1];
         }
 

@@ -253,7 +253,7 @@ class ExprBuilder
                 $if = $expr->ifPart;
                 $then = $expr->thenPart;
                 $expressions[$k] = function ($v) use ($if, $then) {
-                    return $if ($v) ? $then($v) : $v;
+                    return $if($v) ? $then($v) : $v;
                 };
             }
         }

@@ -15,7 +15,7 @@ $a->$b['c']();
 
 // array dereferencing
 $a->b()['c'];
-$a->b() {'c'}; // invalid PHP: drop Support?
+$a->b(){'c'}; // invalid PHP: drop Support?
 -----
 !!php5
 array(

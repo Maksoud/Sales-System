@@ -263,7 +263,7 @@ class SqlFormatter
                 }
             }
             
-            if ($ret[self::TOKEN_VALUE] !== null) return $ret;
+            if($ret[self::TOKEN_VALUE] !== null) return $ret;
         }
 
         // Number (decimal, binary, or hex)
@@ -696,9 +696,9 @@ class SqlFormatter
             }
             
             // If this is the "-" of a negative number, it shouldn't have a space after it
-            if ($token[self::TOKEN_VALUE] === '-' && isset($tokens[$i+1]) && $tokens[$i+1][self::TOKEN_TYPE] === self::TOKEN_TYPE_NUMBER && isset($tokens[$i-1])) {
+            if($token[self::TOKEN_VALUE] === '-' && isset($tokens[$i+1]) && $tokens[$i+1][self::TOKEN_TYPE] === self::TOKEN_TYPE_NUMBER && isset($tokens[$i-1])) {
                 $prev = $tokens[$i-1][self::TOKEN_TYPE];
-                if ($prev !== self::TOKEN_TYPE_QUOTE && $prev !== self::TOKEN_TYPE_BACKTICK_QUOTE && $prev !== self::TOKEN_TYPE_WORD && $prev !== self::TOKEN_TYPE_NUMBER) {
+                if($prev !== self::TOKEN_TYPE_QUOTE && $prev !== self::TOKEN_TYPE_BACKTICK_QUOTE && $prev !== self::TOKEN_TYPE_WORD && $prev !== self::TOKEN_TYPE_NUMBER) {
                     $return = rtrim($return,' ');
                 }
             } 

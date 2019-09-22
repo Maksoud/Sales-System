@@ -216,7 +216,7 @@ class Config implements ConfigInterface
      *
      * @return string|null
      */
-    public function getAlias($alias) {
+    public function getAlias($alias){
         return !empty($this->values['aliases'][$alias]) ? $this->values['aliases'][$alias] : null;
     }
 

@@ -17,7 +17,7 @@ $propertyHintMap = $this->DocBlock->buildEntityPropertyHintTypeMap(isset($proper
 $associationHintMap = $this->DocBlock->buildEntityAssociationHintTypeMap(isset($propertySchema) ? $propertySchema : []);
 
 $annotations = $this->DocBlock->propertyHints($propertyHintMap);
-if (!empty($associationHintMap)) {
+if(!empty($associationHintMap)) {
     $annotations[] = "";
     $annotations = array_merge($annotations, $this->DocBlock->propertyHints($associationHintMap));
 }

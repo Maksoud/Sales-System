@@ -350,10 +350,10 @@ class Lexer
             if (T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif (T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = Tokens::T_ECHO;
-            } elseif (T_CLOSE_TAG === $i) {
+            } elseif(T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {

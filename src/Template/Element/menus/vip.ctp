@@ -7,7 +7,7 @@
 <li>
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
-        Pedidos<span class="caret"></span>
+        <?= __('Pedidos') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <?php if ($status_usuario != 'P') { ?>
@@ -24,7 +24,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-        Financeiro<span class="caret"></span>
+        <?= __('Financeiro') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <?php if ($status_usuario != 'P') { ?>
@@ -41,7 +41,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-address-book-o" aria-hidden="true"></i>&nbsp;
-        Documentos<span class="caret"></span>
+        <?= __('Documentos') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>

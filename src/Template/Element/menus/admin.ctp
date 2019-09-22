@@ -4,7 +4,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;
-        Minha Rede<span class="caret"></span>
+        <?= __('Minha Rede') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -19,7 +19,7 @@
 <li>
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
-        Pedidos<span class="caret"></span>
+        <?= __('Pedidos') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -34,7 +34,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-        Financeiro<span class="caret"></span>
+        <?= __('Financeiro') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -49,7 +49,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
-        Gerenciar<span class="caret"></span>
+        <?= __('Gerenciar') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -70,7 +70,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;
-        Relatórios<span class="caret"></span>
+        <?= __('Relatórios') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -108,7 +108,7 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-address-book-o" aria-hidden="true"></i>&nbsp;
-        Documentos<span class="caret"></span>
+        <?= __('Documentos') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
@@ -121,7 +121,4 @@
             <?= $this->Html->link('<i class="fa fa-refresh" aria-hidden="true"></i> Lavou Tá Novo', ['controller' => 'Pages', 'action' => 'download', 'flyer-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
         </li>
     </ul>
-</li>
-<li>
-    <?= $this->Html->link('<i class="fa fa-weixin" aria-hidden="true"></i> Chat', ['controller' => 'Pages', 'action' => 'chat'], ['escape' => false, 'target' => '_blank']); ?>
 </li>

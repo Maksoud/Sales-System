@@ -111,13 +111,13 @@
                         </a>
                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                             <li>
-                                <?= $this->Html->link(('Meus dados'), ['controller' => 'Usuarios', 'action' => 'dados'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Meus Dados', 'title' => 'Meus dados', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Meus dados'), ['controller' => 'Pages', 'action' => 'dados'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Meus Dados', 'title' => 'Meus dados', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
-                                <?= $this->Html->link(('Alterar minha senha'), ['controller' => 'Usuarios', 'action' => 'senha'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Alterar Minha Senha', 'title' => 'Alterar minha senha', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Alterar minha senha'), ['controller' => 'Pages', 'action' => 'senha'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Alterar Minha Senha', 'title' => 'Alterar minha senha', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
-                                <?= $this->Html->link(('Dados bancários'), ['controller' => 'Usuarios', 'action' => 'banco'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Dados Bancários', 'title' => 'Dados bancários', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Dados bancários'), ['controller' => 'Pages', 'action' => 'banco'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Dados Bancários', 'title' => 'Dados bancários', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
                                 <?= $this->Html->link('<i class="fa fa-sign-out pull-right" aria-hidden="true"></i> Sair', ['controller' => 'Pages', 'action' => 'logout'], ['escape' => false]) ?>
@@ -144,7 +144,7 @@
                                 <!-- FIM AVISOS PARA VERSAO MOVEL -->
                                 
                                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-reiniciando">
-                                    <span>Menu</span>
+                                    <span><?= __('Menu') ?></span>
                                     <span class="icon-bar top-bar"></span>
                                     <span class="icon-bar middle-bar"></span>
                                     <span class="icon-bar bottom-bar"></span>
@@ -174,6 +174,16 @@
                                         
                                 ?>
                                 </ul>
+                            </div>
+
+                            <div class="font-9 pull-right" style="padding-top:25px;margin-top:-73px;margin-right:-12px;opacity:0.7;">
+                                <?php $style = 'border-radius:50%;background-color:#337ab7;color:white;padding:6px;width:43px;text-align:center;float:left;margin-right:4px;'; ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 1'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 1], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 2'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 2], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 3'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 3], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 4'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 4], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 5'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 5], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 6'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 6], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
                             </div>
                         </nav>
                     </div>

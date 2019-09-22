@@ -27,7 +27,7 @@
                     <div class="panel-body">
                         <div class="col-xs-12">
                             <div class="text-center font-20 text-danger">
-                                <strong>AGUARDANDO CONFIRMAÇÃO DE PAGAMENTO</strong>
+                                <strong><?= __('AGUARDANDO CONFIRMAÇÃO DE PAGAMENTO') ?></strong>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="panel-body atalho bottom-10">
                     <div class="col-xs-12">
                         <h2 class="panel-titulo">
-                            Acesso rápido
+                            <?= __('Acesso rápido') ?>
                         </h2>
                     </div>
                     
@@ -128,7 +128,7 @@
                         <div class="panel-body">
                             <div class="col-xs-12">
                                 <h2 class="panel-titulo">
-                                    Minhas Metas
+                                    <?= __('Minhas Metas') ?>
                                 </h2>
                             </div>
                             
@@ -179,7 +179,7 @@
                             
                                 <div class="col-xs-12">
                                     <span class="label label-default">
-                                        Você não tem nenhuma meta ativa
+                                        <?= __('Você não tem nenhuma meta ativa') ?>
                                     </span>
                                 </div>
                                 
@@ -199,7 +199,7 @@
                         
                         <div class="col-xs-12">
                             <h2 class="panel-titulo">
-                                Relatórios
+                                <?= __('Relatórios') ?>
                             </h2>
                         </div>
                         

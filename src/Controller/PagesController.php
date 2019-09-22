@@ -21,8 +21,19 @@ class PagesController extends AppController
         parent::initialize();
 
         //Autoriza a exibição das páginas
-        $this->Auth->allow(['login', 'logout', 'home', 'content', 'modalContent', 'modal2']);
+        $this->Auth->allow(['login', 'logout', 'home', 'changeTypeOfAccess', 'content', 'modalContent', 'modal2']);
 
+    }
+    
+    public function changeTypeOfAccess($planos_id)
+    {
+        //Muda o tipo do acesso
+        $this->request->Session()->write('planos_id', $planos_id);
+
+        //Without template
+        $this->autoRender = false;
+
+        return $this->redirect(['controller' => 'Pages', 'action' => 'home']);
     }
     
     public function login()

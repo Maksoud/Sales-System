@@ -77,8 +77,8 @@ class AppController extends Controller
 
         ////////////////////////////////////////////////////////////////////////
 
-        $this->request->Session()->write(['planos_id'       => 3,
-                                          'status_usuario'  => 'P',
+        //Define alguns valores na sessão
+        $this->request->Session()->write(['status_usuario'  => 'P',
                                           'foto_usuario'    => 'usuarios/img.jpg',
                                           'locale'          => 'pt_BR',
                                           'Session.timeout' => 30,
@@ -95,8 +95,6 @@ class AppController extends Controller
         $this->set('usuarios_id', 1);
         $this->set('foto_usuario', $this->request->Session()->read('foto_usuario'));
         $this->set('status_usuario', 'A');
-        $this->set('id_planos_usuario', $this->request->Session()->read('planos_id'));
-        $this->set('planos_usuario', $this->GETplanoText($this->request->Session()->read('planos_id')));
 
         ////////////////////////////////////////////////////////////////////////
         // $count_avisos = $this->AvisosListar->listar($this->Auth->user('id'), $this->Auth->user('planos_id'));
@@ -114,6 +112,18 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+
+        //Define alguns valores na sessão
+        $this->request->Session()->write('sessionPlanoId', $this->GETplanoSlug($this->request->Session()->read('planos_id')));
+
+        //Define alguns valores para view
+        $this->set('id_planos_usuario', $this->request->Session()->read('planos_id'));
+        $this->set('planos_usuario', $this->GETplanoText($this->request->Session()->read('planos_id')));
+
+        //Muda o tipo do acesso
+        if (empty($this->request->Session()->read('planos_id'))) {
+            $this->request->Session()->write('planos_id', 1);
+        }//if (empty($this->request->Session()->read('planos_id')))
     }
     
     public function beforeRender(Event $event)

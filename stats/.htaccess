@@ -1,0 +1,5 @@
+AuthType Basic
+require valid-user
+<Files .stats-htpasswd>
+deny from all
+</Files>

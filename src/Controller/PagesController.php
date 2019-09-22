@@ -1,0 +1,177 @@
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ * 
+ * All rights reserved - 2018-2019
+ */
+
+namespace App\Controller;
+
+use Cake\Core\Configure;
+use Cake\Network\Exception\ForbiddenException;
+use Cake\Network\Exception\NotFoundException;
+use Cake\View\Exception\MissingTemplateException;
+use Cake\ORM\TableRegistry;
+
+class PagesController extends AppController
+{
+    public function initialize()
+    {
+        parent::initialize();
+
+        //Autoriza a exibição das páginas
+        $this->Auth->allow(['login', 'logout', 'home', 'content', 'modalContent', 'modal2']);
+
+    }
+    
+    public function login()
+    {
+        $this->Usuarios = TableRegistry::get('Usuarios');
+        
+        if ($this->request->is('post')) {
+            
+            $user = $this->Auth->identify();
+
+            if ($user) {
+
+                $this->Auth->setUser($user);
+                
+                //GRAVA VARIÁVEIS NA SESSÃO
+                $this->session(); 
+                
+                //REDIRECIONA PARA PÁGINA INICIAL
+                return $this->redirect($this->Auth->redirectUrl());
+
+            }//if ($user)
+            
+            $this->Flash->error(__('Usuário/senha incorreto, tente novamente'));
+            return $this->redirect($this->Auth->logout());
+
+        }//if ($this->request->is('post'))
+
+    }
+    
+    public function logout() 
+    {
+        $this->request->Session()->destroy();
+        $this->Flash->success(__('Sessão Finalizada'));
+        return $this->redirect($this->Auth->logout());
+    }
+    
+    public function home()
+    {
+        
+        //SALDOS DO USUÁRIO
+        $saldo_disponivel = 1234.56;
+        $saldo_bloqueado = 2469.12;
+        
+        /**********************************************************************/
+        
+        //METAS DO USUÁRIO
+        
+        $this->set(compact('saldo_disponivel', 'saldo_bloqueado', 'metas', 'produtos', 'planos'));
+        
+        /**********************************************************************/
+        //DASHBOARD
+        /**********************************************************************/
+        
+        $this->set(compact('usuarios'));
+        
+        /**********************************************************************/
+        
+        $this->set(compact('faturas'));
+        
+        /**********************************************************************/
+        
+        $this->set(compact('pedidos'));
+        
+        /**********************************************************************/
+        
+        $this->set(compact('saldos_disponivel', 'saldos_bloqueado'));
+        
+        /**********************************************************************/
+        
+        //Metas
+        for ($i = 0; $i <= 10; $i++) {
+            $smToM[$i] = $smToVip[$i] = $mToVip[$i] = $VipToVip[$i] = 0;
+        }//for ($i = 0; $i <= 10; $i++)
+        
+        /************************/
+        
+        //SM indicando Master
+        // if ($usuarios_meta->usuario['planos_id'] == '3' && $meta->para_planos_id == '4') {
+        //     //echo 'SM indicando Master: '.$usuarios_meta->contador.'<br>';
+        //     $smToM[$usuarios_meta->contador] += 1;
+        // }
+        
+        //SM indicando VIP
+        // if ($usuarios_meta->usuario['planos_id'] == '3' && $meta->para_planos_id == '5') {
+        //     //echo 'SM indicando VIP: '.$usuarios_meta->contador.'<br>';
+        //     $smToVip[$usuarios_meta->contador] += 1;
+        // }
+        
+        //Master indicando VIP
+        // if ($usuarios_meta->usuario['planos_id'] == '4' && $meta->para_planos_id == '5') {
+        //     //echo 'Master indicando VIP: '.$usuarios_meta->contador.'<br>';
+        //     $mToVip[$usuarios_meta->contador] += 1;
+        // }
+        
+        //VIP indicando VIP
+        // if ($usuarios_meta->usuario['planos_id'] == '5' && $meta->para_planos_id == '5') {
+        //     //echo 'VIP indicando VIP: '.$usuarios_meta->contador.'<br>';
+        //     $VipToVip[$usuarios_meta->contador] += 1;
+        // }
+            
+        //debug($smToM);
+        //debug($smToVip);
+        //debug($mToVip);
+        //debug($VipToVip);
+        
+        $this->set(compact('smToM', 'smToVip', 'mToVip', 'VipToVip'));
+        
+        /**********************************************************************/
+        
+    }
+    
+    public function debugMode()
+    {
+        if (Configure::read('debug') == true) {
+            Configure::write('debug', 0);
+            $this->Flash->warning('Modo DEBUG desativado!');
+        } else {
+            Configure::write('debug', 1);
+            $this->Flash->warning('Modo DEBUG ativo!');
+        }
+        return $this->redirect($this->referer());
+    }
+    
+    public function display(...$path)
+    {
+        $count = count($path);
+        if (!$count) {
+            return $this->redirect('/');
+        }
+        if (in_array('..', $path, true) || in_array('.', $path, true)) {
+            throw new ForbiddenException();
+        }
+        $page = $subpage = null;
+
+        if (!empty($path[0])) {
+            $page = $path[0];
+        }
+        if (!empty($path[1])) {
+            $subpage = $path[1];
+        }
+        $this->set(compact('page', 'subpage'));
+
+        try {
+            $this->render(implode('/', $path));
+        } catch (MissingTemplateException $e) {
+            if (Configure::read('debug')) {
+                throw $e;
+            }
+            throw new NotFoundException();
+        }
+    }
+}

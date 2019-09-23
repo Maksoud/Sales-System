@@ -149,7 +149,7 @@
         </li>
         <li class="divider"></li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-linux" aria-hidden="true"></i> Atualizar Sistema'), ['controller' => 'Pages', 'action' => 'update?token=y5eehc123avse6463asd35k3cb6'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-linux" aria-hidden="true"></i> Atualizar Sistema'), ['controller' => 'Pages', 'action' => 'update'], ['escape' => false]) ?>
         </li>
         <li>
             <?= $this->Html->link(('<i class="fa fa-bug" aria-hidden="true"></i> Modo Debug'), ['controller' => 'Pages', 'action' => 'debug_mode'], ['escape' => false]) ?>

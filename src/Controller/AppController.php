@@ -121,7 +121,7 @@ class AppController extends Controller
         $this->set('planos_usuario', $this->GETplanoText($this->request->Session()->read('planos_id')));
 
         //Muda o tipo do acesso
-        if (empty($this->request->Session()->read('planos_id'))) {
+        if (!$this->request->Session()->read('planos_id')) {
             $this->request->Session()->write('planos_id', 1);
         }//if (empty($this->request->Session()->read('planos_id')))
     }

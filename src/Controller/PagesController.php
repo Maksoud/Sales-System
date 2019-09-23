@@ -20,11 +20,39 @@ class PagesController extends AppController
         parent::initialize();
 
         //Autoriza a exibição das páginas
-        $this->Auth->allow(['regioesIndex', 'changeTypeOfAccess', 'login', 'logout', 'home', 'update', 'content', 'modalContent', 'modal2']);
+        $this->Auth->allow(['changeTypeOfAccess', 'login', 'logout', 'home', 'update', 'content', 'modalContent', 'modal2']);
+
+        //Páginas Internas
+        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex']);
 
     }
 
     public function regioesIndex()
+    {
+        //
+    }
+
+    public function planosIndex()
+    {
+        //
+    }
+
+    public function metasIndex()
+    {
+        //
+    }
+
+    public function comissoesIndex()
+    {
+        //
+    }
+
+    public function produtosIndex()
+    {
+        //
+    }
+
+    public function usuariosIndex()
     {
         //
     }
@@ -202,9 +230,10 @@ class PagesController extends AppController
                 $textoLog .= PHP_EOL . $shell . '<br>';
                 $textoLog .= PHP_EOL . '================================================ <br />';
                 
-                $arquivoLog = fopen('log.log', 'r+');
-                fwrite($arquivoLog, $textoLog);
-                fclose($arquivoLog);
+                if ($arquivoLog = @fopen('log.log', 'r+')) {
+                    fwrite($arquivoLog, $textoLog);
+                    fclose($arquivoLog);
+                }//if ($arquivoLog = fopen('log.log', 'r+'))
                 
                 $this->Flash->success(__('Atualização realizada com sucesso'));
                 return $this->redirect($this->referer());

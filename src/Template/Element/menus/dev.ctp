@@ -133,19 +133,19 @@
             <?= $this->Html->link(('<i class="fa fa-globe" aria-hidden="true"></i> Regiões'), ['controller' => 'Pages', 'action' => 'regioesIndex'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-server" aria-hidden="true"></i> Planos'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-server" aria-hidden="true"></i> Planos'), ['controller' => 'Pages', 'action' => 'planosIndex'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-crosshairs" aria-hidden="true"></i> Metas'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-crosshairs" aria-hidden="true"></i> Metas'), ['controller' => 'Pages', 'action' => 'metasIndex'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'comissoesIndex'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> Produtos'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> Produtos'), ['controller' => 'Pages', 'action' => 'ProdutosIndex'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-users" aria-hidden="true"></i> Usuários'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-users" aria-hidden="true"></i> Usuários'), ['controller' => 'Pages', 'action' => 'UsuariosIndex'], ['escape' => false]) ?>
         </li>
         <li class="divider"></li>
         <li>

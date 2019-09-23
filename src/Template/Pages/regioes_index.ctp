@@ -15,12 +15,13 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
 
 ?>
 <div class="container-fluid noPadding">
+
 	<?= $this->element('navbar-side-system') ?>
     
     <div class="col-xs-12 col-sm-9 col-md-10">
         <div class="no-padding-lat">
-            <div class="pull-right"><?= $this->Html->link((' Incluir'), ['controller' => 'Pages', 'action' => 'modalContent'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Nova Região']) ?></div>
-            <h3 class="page-header top-20"><?= ('Regiões') ?></h3>
+            <div class="pull-right"><?= $this->Html->link(__(' Incluir'), ['controller' => 'Pages', 'action' => 'modalContent'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Nova Região']) ?></div>
+            <h3 class="page-header top-20"><?= __('Regiões') ?></h3>
         </div>
         
         <?= $this->element('msg-alert') ?>
@@ -29,7 +30,7 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
             <div class="col-md-12">
                 <?=$this->Form->create(null, ['type' => 'get', 'class' => 'form-inline']);?>    
                 <?=$this->Form->text('title', ['class' => 'form-control', 'label' => false, 'placeholder' => 'Digite o nome do associado', 'value' => @$this->request->query['title']]);?> 
-                <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?></button>
                 <?=$this->Html->link('<i class="fa fa-list" aria-hidden="true"></i> Listar Todos', ['action' => 'index'], ['class'=>'btn btn-default', 'escape' => false]);?>
                 <?=$this->Form->end();?>        
             </div>
@@ -39,13 +40,13 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
             <table class="table table-striped box" id="adjustable">
                 <thead>
                     <tr>
-                        <th class="text-nowrap"><?= ('#') ?></th>
-                        <th class="text-nowrap"><?= ('Data de Cadastro') ?></th>
-                        <th class="text-nowrap"><?= ('Data de Modificação') ?></th>
-                        <th class="text-nowrap"><?= ('Descrição') ?></th>
-                        <th class="text-nowrap"><?= ('Exclusiva') ?></th>
-                        <th class="text-nowrap"><?= ('Nº Cidades Vinculadas') ?></th>
-                        <th class="text-center"><?= ('Ações') ?></th>
+                        <th class="text-nowrap"><?= __('#') ?></th>
+                        <th class="text-nowrap"><?= __('Data de Cadastro') ?></th>
+                        <th class="text-nowrap"><?= __('Data de Modificação') ?></th>
+                        <th class="text-nowrap"><?= __('Descrição') ?></th>
+                        <th class="text-nowrap"><?= __('Exclusiva') ?></th>
+                        <th class="text-nowrap"><?= __('Cidades Vinculadas') ?></th>
+                        <th class="text-center"><?= __('Ações') ?></th>
                     </tr>
                 </thead>
                 <tbody>

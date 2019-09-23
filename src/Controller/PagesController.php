@@ -23,7 +23,7 @@ class PagesController extends AppController
         $this->Auth->allow(['changeTypeOfAccess', 'login', 'logout', 'home', 'update', 'content', 'modalContent', 'modal2']);
 
         //Páginas Internas
-        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex']);
+        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex', 'modalContent']);
 
     }
 
@@ -53,6 +53,11 @@ class PagesController extends AppController
     }
 
     public function usuariosIndex()
+    {
+        //
+    }
+
+    public function modalContent()
     {
         //
     }

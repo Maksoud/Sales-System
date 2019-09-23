@@ -26,11 +26,6 @@ elseif ($this->request->url == 'registros')         $registros .= 'active';
             <?= $this->Html->link(('<i class="fa fa-handshake-o fa-fw" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'comissoesIndex'], ['class' => $comissoes, 'escape' => false]); ?>
             <?= $this->Html->link(('<i class="fa fa-diamond fa-fw" aria-hidden="true"></i> Produtos'), ['controller' => 'Pages', 'action' => 'produtosIndex'], ['class' => $produtos, 'escape' => false]); ?>
             <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> Usuários'), ['controller' => 'Pages', 'action' => 'usuariosIndex'], ['class' => $usuarios, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-archive fa-fw" aria-hidden="true"></i> Lista de Backups'), ['controller' => 'Pages', 'action' => 'list_backup'], ['class' => $backup, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-download fa-fw" aria-hidden="true"></i> Backup do Sistema'), ['controller' => 'Pages', 'action' => 'make_backup'], ['class' => 'list-group-item btn_modal', 'escape' => false, 'data-loading-text' => 'Carregando...', 'data-title' => 'Backup do Sistema']); ?>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> Log de Registros'), ['controller' => 'Pages', 'action' => 'index'], ['class' => $registros, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> Log do Sistema'), ['controller' => 'Pages', 'action' => 'viewSystemLog'], ['target' => '_blank', 'class' => 'list-group-item', 'escape' => false, 'data-loading-text' => 'Carregando...', 'data-title' => 'Backup do Sistema']); ?>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> Log de Atualizações'), ['controller' => 'Pages', 'action' => 'viewUpdateLog'], ['target' => '_blank', 'class' => 'list-group-item', 'escape' => false, 'data-loading-text' => 'Carregando...', 'data-title' => 'Backup do Sistema']); ?>
         </div>
     </div>
 </div>

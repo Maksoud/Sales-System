@@ -154,22 +154,5 @@
         <li>
             <?= $this->Html->link(('<i class="fa fa-bug" aria-hidden="true"></i> Modo Debug'), ['controller' => 'Pages', 'action' => 'debug_mode'], ['escape' => false]) ?>
         </li>
-        <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-archive" aria-hidden="true"></i> Lista de Backups'), ['controller' => 'Pages', 'action' => 'list_backup'], ['escape' => false]) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-download" aria-hidden="true"></i> Gerar Backup Automático'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Log de Registros'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Log do Sistema'), ['controller' => 'Pages', 'action' => 'viewSystemLog'], ['target' => '_blank', 'escape' => false]) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Log de Atualizações'), ['controller' => 'Pages', 'action' => 'viewUpdateLog'], ['target' => '_blank', 'escape' => false]) ?>
-        </li>
     </ul>
 </li>

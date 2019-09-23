@@ -130,7 +130,7 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
-            <?= $this->Html->link(('<i class="fa fa-globe" aria-hidden="true"></i> Regiões'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-globe" aria-hidden="true"></i> Regiões'), ['controller' => 'Pages', 'action' => 'regioesIndex'], ['escape' => false]) ?>
         </li>
         <li>
             <?= $this->Html->link(('<i class="fa fa-server" aria-hidden="true"></i> Planos'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>

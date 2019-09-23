@@ -12,7 +12,6 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
-use Cake\ORM\TableRegistry;
 
 class PagesController extends AppController
 {
@@ -21,8 +20,13 @@ class PagesController extends AppController
         parent::initialize();
 
         //Autoriza a exibição das páginas
-        $this->Auth->allow(['login', 'logout', 'home', 'changeTypeOfAccess', 'content', 'modalContent', 'modal2']);
+        $this->Auth->allow(['regioesIndex', 'changeTypeOfAccess', 'login', 'logout', 'home', 'update', 'content', 'modalContent', 'modal2']);
 
+    }
+
+    public function regioesIndex()
+    {
+        //
     }
     
     public function changeTypeOfAccess($planos_id)
@@ -38,8 +42,7 @@ class PagesController extends AppController
     
     public function login()
     {
-        $this->Usuarios = TableRegistry::get('Usuarios');
-        
+
         if ($this->request->is('post')) {
             
             $user = $this->Auth->identify();

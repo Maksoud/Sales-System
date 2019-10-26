@@ -107,24 +107,6 @@
 </li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-address-book-o" aria-hidden="true"></i>&nbsp;
-        <?= __('Documentos') ?><span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link('<i class="fa fa-handshake-o" aria-hidden="true"></i> Contrato', ['controller' => 'Pages', 'action' => 'download', 'contrato-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-        <li>
-            <?= $this->Html->link('<i class="fa fa-user-circle-o" aria-hidden="true"></i> Business Plan', ['controller' => 'Pages', 'action' => 'download', 'business-plan-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-        <li>
-            <?= $this->Html->link('<i class="fa fa-refresh" aria-hidden="true"></i> Lavou Tá Novo', ['controller' => 'Pages', 'action' => 'download', 'flyer-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-    </ul>
-</li>
-
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
         <i class="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;
         <?= __('Sistema') ?><span class="caret"></span>
     </a>

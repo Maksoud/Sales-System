@@ -15,7 +15,7 @@
         <li>
             <?= $this->Html->link(('<i class="fa fa-user-plus" aria-hidden="true"></i> Cadastrar Associado'), ['controller' => 'Pages', 'action' => 'add'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Novo Associado', 'escape' => false]) ?>
         </li>
-        <?php } ?>
+        <?php }//if ($status_usuario != 'P') ?>
     </ul>
 </li>
 <li>
@@ -29,7 +29,7 @@
             <?= $this->Html->link('<i class="fa fa-cart-plus" aria-hidden="true"></i> Loja', ['controller' => 'Pages', 'action' => 'loja'], ['escape' => false]); ?>
         </li>
         <li class="divider"></li>
-        <?php } ?>
+        <?php }//if ($status_usuario != 'P') ?>
         <li>
             <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Meus Pedidos'), ['controller' => 'Pages', 'action' => 'meu-pedido'], ['escape' => false]) ?>
         </li>
@@ -62,21 +62,4 @@
         </li>
     </ul>
 </li>
-<?php } ?>
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-address-book-o" aria-hidden="true"></i>&nbsp;
-        <?= __('Documentos') ?><span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link('<i class="fa fa-handshake-o" aria-hidden="true"></i> Contrato', ['controller' => 'Pages', 'action' => 'download', 'contrato-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-        <li>
-            <?= $this->Html->link('<i class="fa fa-user-circle-o" aria-hidden="true"></i> Business Plan', ['controller' => 'Pages', 'action' => 'download', 'business-plan-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-        <li>
-            <?= $this->Html->link('<i class="fa fa-refresh" aria-hidden="true"></i> Lavou Tá Novo', ['controller' => 'Pages', 'action' => 'download', 'flyer-092017.pdf', 'documentos'], ['escape' => false, 'target' => '_blank']); ?>
-        </li>
-    </ul>
-</li>
+<?php }//if ($status_usuario != 'P') ?>

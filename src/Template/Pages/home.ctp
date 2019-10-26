@@ -1,6 +1,10 @@
-<!-- Home -->
-
 <?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ * 
+ * All rights reserved - 2018-2019
+ */
 
     $tipo_plano     = $this->request->Session()->read('sessionPlanoId');
     $status_usuario = $this->request->Session()->read('status_usuario');

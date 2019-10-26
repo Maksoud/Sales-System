@@ -1,4 +1,14 @@
-<!-- Produtos -->
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ * 
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Pages/Products/index.ctp */
+?>
+
 <div class="container-fluid noPadding">
 
     <?= $this->element('navbar-side-system') ?>

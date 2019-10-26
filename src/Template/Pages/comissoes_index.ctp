@@ -1,4 +1,14 @@
-<!-- Comissões -->
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ * 
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Pages/SaleCommissions/index.ctp */
+?>
+
 <div class="container-fluid noPadding">
 
     <?= $this->element('navbar-side-system') ?>
@@ -6,7 +16,7 @@
     <div class="col-xs-12 col-sm-9 col-md-10">
         <div class="no-padding-lat">
             <div class="pull-right"><?= $this->Html->link(__(' Incluir'), ['controller' => 'Pages', 'action' => 'add'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Nova Comissão']) ?></div>
-            <h3 class="page-header top-20"><?= ('Comissões') ?></h3>
+            <h3 class="page-header top-20"><?= __('Comissões') ?></h3>
         </div>
         
         <?= $this->element('msg-alert') ?>

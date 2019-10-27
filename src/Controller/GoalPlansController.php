@@ -6,14 +6,14 @@
  * All rights reserved - 2018-2019
  */
 
-/* File: src/Controller/SaleGoalsController.php */
+/* File: src/Controller/GoalPlansController.php */
 
 namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Log\Log;
 
-class SaleGoalsController extends AppController
+class GoalPlansController extends AppController
 {
     public function initialize()
     {
@@ -37,21 +37,21 @@ class SaleGoalsController extends AppController
                                'detail'  => 'like'
                               ]
                         ];
-        $where   = $this->ContentFilter->wheres($this->request, 'SaleGoals', $fieldContent);
-        $contain = $this->ContentFilter->contain($this->request, 'SaleGoals');
-        $order   = $this->ContentFilter->order($this->request, 'SaleGoals');
+        $where   = $this->ContentFilter->wheres($this->request, 'GoalPlans', $fieldContent);
+        $contain = $this->ContentFilter->contain($this->request, 'GoalPlans');
+        $order   = $this->ContentFilter->order($this->request, 'GoalPlans');
         $limit   = $this->ContentFilter->limit($this->request, 30);
 
         /*******/
         
         //Data query object
         /*
-        $data = $this->SaleGoals->find('all')
+        $data = $this->GoalPlans->find('all')
                                 ->where($where)  
                                 ->order($order)  
                                 ->contain($contain)
                                 ->limit($limit);
-        */
+        
         /*******/
 
         //Send object data to view
@@ -63,31 +63,31 @@ class SaleGoalsController extends AppController
     {
         /*
         //Create a new data entity
-        $data = $this->SaleGoals->newEntity();
-        */
+        $data = $this->GoalPlans->newEntity();
+        
         /*******/
         
         //Access method restriction
         if ($this->request->is('post')) {
             
             //Merge form data into object
-            //$data = $this->SaleGoals->patchEntity($data, $this->request->getData());
+            //$data = $this->GoalPlans->patchEntity($data, $this->request->getData());
 
             /*******/
             /*
             //Save all data
-            if ($this->SaleGoals->save($data)) {
+            if ($this->GoalPlans->save($data)) {
                 
                 //Success message and page redirection
                 $this->Flash->success(__('Registro gravado com sucesso'));
                 return $this->redirect($this->referer());
                 
-            }//if ($this->SaleGoals->save($data))
-            */
+            }//if ($this->GoalPlans->save($data))
+            
             /*******/
             /*
             //Set error message log
-            Log::write('debug', 'SaleGoalsController->add: '.json_encode($data->errors()));
+            Log::write('debug', 'GoalPlansController->add: '.json_encode($data->errors()));
 
             /*******/
             
@@ -102,32 +102,31 @@ class SaleGoalsController extends AppController
     {
         /*
         //Find record data
-        $data = $this->SaleGoals->get($id);
-        */
+        $data = $this->GoalPlans->get($id);
+        
         /*******/
         
         //Access method restriction
         if ($this->request->is(['patch', 'post', 'put'])) {
             /*
             //Merge form data into object
-            $data = $this->SaleGoals->patchEntity($data, $this->request->getData());
-            */
+            $data = $this->GoalPlans->patchEntity($data, $this->request->getData());
+            
             /*******/
             /*
             //Save all modification
-            if ($this->SaleGoals->save($data)) {
+            if ($this->GoalPlans->save($data)) {
                 
                 //Success message and page redirection
                 $this->Flash->success(__('Registro gravado com sucesso'));
                 return $this->redirect($this->referer());
                 
-            }//if ($this->SaleGoals->save($data))
-            */
+            }//if ($this->GoalPlans->save($data))
 
             /*******/
             /*
             //Set error message log
-            Log::write('debug', 'SaleGoalsController->edit: '.json_encode($data->errors()));
+            Log::write('debug', 'GoalPlansController->edit: '.json_encode($data->errors()));
 
             /*******/
             
@@ -154,12 +153,12 @@ class SaleGoalsController extends AppController
         /*******/
         /*
         //Find record data
-        $data = $this->SaleGoals->get($id);
+        $data = $this->GoalPlans->get($id);
         
         /*******/
         /*
         //Delete record and shows a message
-        if ($this->SaleGoals->delete($data)) {
+        if ($this->GoalPlans->delete($data)) {
             
             //Success page link
             $this->referer = $this->referer.'?action=deleted';
@@ -167,12 +166,12 @@ class SaleGoalsController extends AppController
             //Page redirection
             return $this->redirect($this->referer);
             
-        }//if ($this->SaleGoals->delete($data))
+        }//if ($this->GoalPlans->delete($data))
         
         /*******/
         /*
         //Set error message log
-        Log::write('debug', 'SaleGoalsController->delete: '.json_encode($data->errors()));
+        Log::write('debug', 'GoalPlansController->delete: '.json_encode($data->errors()));
         */  
         //Error message
         $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi excluído. Por favor, tente novamente'));

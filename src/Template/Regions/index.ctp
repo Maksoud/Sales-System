@@ -1,6 +1,12 @@
-<!-- Regiões -->
-
 <?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ * 
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Pages/Regions/index.ctp */
 
 $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
                          'Piauí'               => 'Teresina',
@@ -20,7 +26,7 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
     
     <div class="col-xs-12 col-sm-9 col-md-10">
         <div class="no-padding-lat">
-            <div class="pull-right"><?= $this->Html->link(__(' Incluir'), ['controller' => 'Pages', 'action' => 'modalContent'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Nova Região']) ?></div>
+            <div class="pull-right"><?= $this->Html->link(__(' Incluir'), ['controller' => 'Regions', 'action' => 'add'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Nova Região')]) ?></div>
             <h3 class="page-header top-20"><?= __('Regiões') ?></h3>
         </div>
         
@@ -29,9 +35,9 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
         <div class="row form-busca bottom-10">
             <div class="col-md-12">
                 <?=$this->Form->create(null, ['type' => 'get', 'class' => 'form-inline']);?>    
-                <?=$this->Form->text('title', ['class' => 'form-control', 'label' => false, 'placeholder' => 'Digite o nome do associado', 'value' => @$this->request->query['title']]);?> 
+                <?=$this->Form->text('title', ['class' => 'form-control', 'label' => false, 'placeholder' => __('Digite o nome do associado'), 'value' => @$this->request->query['title']]);?> 
                 <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?></button>
-                <?=$this->Html->link('<i class="fa fa-list" aria-hidden="true"></i> Listar Todos', ['action' => 'index'], ['class'=>'btn btn-default', 'escape' => false]);?>
+                <?=$this->Html->link(('<i class="fa fa-list" aria-hidden="true"></i> '.__('Listar Todos')), ['action' => 'index'], ['class'=>'btn btn-default', 'escape' => false]);?>
                 <?=$this->Form->end();?>        
             </div>
         </div>
@@ -54,14 +60,13 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
                         <td><?= str_pad(1234, 6, '0', STR_PAD_LEFT) ?></td>
                         <td><?= $this->MyHtml->date('2019-08-23') ?></td>
                         <td><?= $this->MyHtml->date('2019-08-23') ?></td>
-                        <td><?= 'Nordeste' ?></td>
-                        <td><?= $this->Html->link('Renée Maksoud', ['controller' => 'Pages', 'action' => 'usuarioView'], ['class' => 'btn_modal', 'data-title' => 'Visualizar Usuário']) ?></td>
+                        <td><?= __('Nordeste') ?></td>
+                        <td><?= __('Sim') ?></td>
                         <td><?= implode(', ', array_values($capitais_do_nordeste)); ?></td>
-                        <td class="btn-actions-group col-xs-1">
-                            <div>
-                                <?= $this->Html->link('', ['action' => 'modalContent'], ['class' => 'btn btn-actions btn_modal fa fa-pencil', 'data-loading-text' => 'Carregando...', 'data-title' => 'Editar Cadastro', 'title' => 'Editar', 'aria-hidden' => true, 'escape' => false]) ?>
-                                <?= $this->Form->postLink('', ['action' => '#'], ['confirm' => 'Você tem certeza que deseja excluir o registro?', 'class' => 'btn btn-actions fa fa-trash-o', 'title' => 'Excluir', 'aria-hidden' => true, 'escape' => false]) ?>
-                            </div>
+                        <td class="col-xs-1">
+                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'Regions', 'action' => 'edit', 1234], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
+                            <div class="clearfix"></div>
+                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'Regions', 'action' => 'delete', 1234], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
                         </td>
                     </tr>
                 </tbody>

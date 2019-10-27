@@ -74,34 +74,34 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Pedidos'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pedidos']) ?>
+            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Pedidos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pedidos']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i> Faturas'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
+            <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i> Faturas'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Metas'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
+            <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Metas'), ['controller' => 'SaleGoals', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?> 
+            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?> 
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> Associados'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Associados']) ?>
+            <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> Associados'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Associados']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-user fa-fw" aria-hidden="true"></i> Clientes'), ['controller' => 'Pages', 'action' => 'relatorio_clientes'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Clientes']) ?>
+            <?= $this->Html->link(('<i class="fa fa-user fa-fw" aria-hidden="true"></i> Clientes'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Clientes']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Pagamentos'), ['controller' => 'Pages', 'action' => 'relatorio_pagamentos'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pagamentos']) ?>
+            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Pagamentos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pagamentos']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-money" aria-hidden="true"></i> Saldos'), ['controller' => 'Pages', 'action' => 'relatorio_saldos'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
+            <?= $this->Html->link(('<i class="fa fa-money" aria-hidden="true"></i> Saldos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> Cadastros'), ['controller' => 'Pages', 'action' => 'produtos'], ['escape' => false, 'target' => '_blank'])?>
+            <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> Cadastros'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'target' => '_blank'])?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-paw" aria-hidden="true"></i> Impostos'), ['controller' => 'Pages', 'action' => 'impostos'], ['escape' => false, 'target' => '_blank'])?>
+            <?= $this->Html->link(('<i class="fa fa-paw" aria-hidden="true"></i> Impostos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'target' => '_blank'])?>
         </li>
     </ul>
 </li>

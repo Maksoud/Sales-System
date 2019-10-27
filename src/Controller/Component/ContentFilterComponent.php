@@ -11,7 +11,7 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
-class ProdutosFiltrarComponent extends Component
+class ContentFilterComponent extends Component
 {  
     public $params = array();
 
@@ -76,14 +76,14 @@ class ProdutosFiltrarComponent extends Component
         if (!empty($fieldList)) {
 
             foreach ($fieldList as $field) {
-                
-                if (!empty($this->params[$field['field']]) && $field['detail'] == 'like') {
+
+                if (!empty($this->params[$field['content']]) && $field['detail'] == 'like') {
                     
-                    $where[] = '(' . $table . '.' . $field['field'] . ' LIKE "%' . $this->params[$field['field']] . '%")';
+                    $where[] = '(' . $table . '.' . $field['content'] . ' LIKE "%' . $this->params[$field['content']] . '%")';
 
-                } elseif (!empty($this->params[$field['field']]) && $field['detail'] == 'specific') {
+                } elseif (!empty($this->params[$field['content']]) && $field['detail'] == 'specific') {
 
-                    $where[] = '(' . $table . '.' . $field['field'] . ' = "' . $this->params[$field['field']] . '")';
+                    $where[] = '(' . $table . '.' . $field['content'] . ' = "' . $this->params[$field['content']] . '")';
 
                 }//elseif ($field['detail'] == 'specific')
                 

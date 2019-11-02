@@ -83,7 +83,7 @@
             <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> '.__('Metas')), ['controller' => 'SaleGoals', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> '.__('Comissões')), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?> 
+            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> '.__('Comissões')), ['controller' => 'SaleCommissions', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?> 
         </li>
         <li>
             <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> '.__('Associados')), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Associados']) ?>
@@ -121,7 +121,7 @@
             <?= $this->Html->link(('<i class="fa fa-crosshairs" aria-hidden="true"></i> '.__('Metas')), ['controller' => 'SaleGoals', 'action' => 'index'], ['escape' => false]) ?>
         </li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> '.__('Comissões')), ['controller' => 'Pages', 'action' => 'comissoesIndex'], ['escape' => false]) ?>
+            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> '.__('Comissões')), ['controller' => 'SaleCommissions', 'action' => 'index'], ['escape' => false]) ?>
         </li>
         <li>
             <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> '.__('Produtos')), ['controller' => 'Products', 'action' => 'index'], ['escape' => false]) ?>

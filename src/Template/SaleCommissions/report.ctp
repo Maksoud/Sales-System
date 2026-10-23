@@ -50,7 +50,13 @@ $this->layout = 'ajax';
               <div class="col-md-12">  
                   <div class="form-group">
                     <label for="type"><?= __('Tipo:'); ?></label>
-                    <?= $this->Comissoes->select_tipos('type', ['class' => 'form-control', 'id' => 'type', 'label' => false, 'empty' => '- todos -']);?>                                   
+                    <?= $this->Form->select('type', ['ID' => __('Indicação Direta'),
+                                                     'II' => __('Indicação Indireta'),
+                                                     'IM' => __('Indicação Multinível'),
+                                                     'VD' => __('Venda Direta'),
+                                                     'VI' => __('Venda Indireta'),
+                                                     'VM' => __('Venda Multinível')
+                                                    ], ['class' => 'form-control', 'id' => 'type', 'empty' => '- todos -']);?>
                   </div>
               </div>
 

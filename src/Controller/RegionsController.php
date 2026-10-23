@@ -44,6 +44,9 @@ class RegionsController extends AppController
 
         /*******/
         
+        //Enquanto a consulta ao banco estiver desativada, envia uma lista vazia
+        $data = [];
+
         //Data query object
         /*
         $data = $this->Regions->find('all')

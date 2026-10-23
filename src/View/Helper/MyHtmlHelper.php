@@ -124,7 +124,7 @@ class MyHtmlHelper extends HtmlHelper
                 if ($mes == 'julho'     || $mes == 'july') {      return '7'; }
                 if ($mes == 'agosto'    || $mes == 'august') {    return '8'; }
                 if ($mes == 'setembro'  || $mes == 'september') { return '9'; }
-                if ($mes == 'outubro'   || $mes == 'octuber') {   return '10'; }
+                if ($mes == 'outubro'   || $mes == 'october') {   return '10'; }
                 if ($mes == 'novembro'  || $mes == 'november') {  return '11'; }
                 if ($mes == 'dezembro'  || $mes == 'december') {  return '12'; }
 
@@ -137,19 +137,22 @@ class MyHtmlHelper extends HtmlHelper
     public function fullDate($date)
     {
         if (!empty($date)) {
-            
+
+            //$string guarda o valor original (antes era usado sem ser definido)
+            $string = $date;
+
             if (!$date = strtotime($date)) {
-				
+
                 //Cake\I18n\FrozenTime
                 $date = new Time($string->format('Y-m-d'));
-				
+
             } else {
-				
+
                 //Cake\I18n\FrozenDate
                 $date = new Time($date);
-				
+
             }
-			
+
             return $date->i18nFormat("dd 'de' MMMM 'de' yyyy");
 			
             
@@ -194,8 +197,7 @@ class MyHtmlHelper extends HtmlHelper
 				} else {
 					$string = $date->i18nFormat("yyyy-MM-dd");
 				}
-				return $date->i18nFormat("MMMM, dd 'of' yyyy");
-				
+
 			}
 			
             return $string;

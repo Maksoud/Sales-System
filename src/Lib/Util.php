@@ -10,28 +10,30 @@ use Cake\I18n\Time;
 
 class Util{   
 
-  public static function GerarCodificacao($length = 8)
-  {  
+  /*
+  * Gera uma sequência aleatória sem caracteres repetidos.
+  * Usa random_int (seguro) e limita o tamanho ao total de caracteres
+  * disponíveis; antes, pedir mais que isso causava um loop infinito.
+  */
+  private static function caracteresUnicos($possible, $length)
+  {
+        $chars = str_split($possible);
 
-        // inicializa variables
-        $string = "";
-        $i = 0;
-        $possible = "0123456789abcdefghjklmnopqrstuvwxyz"; 
-
-        // agrega random
-        while ($i < $length) {
-
-            $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
-            
-            if (!strstr($string, $char)) { 
-
-                $string .= $char;
-                $i++;
-            }
+        // embaralhamento Fisher-Yates
+        for ($i = count($chars) - 1; $i > 0; $i--) {
+            $j = function_exists('random_int') ? random_int(0, $i) : mt_rand(0, $i); // composer.json ainda aceita PHP 5.6
+            list($chars[$i], $chars[$j]) = [$chars[$j], $chars[$i]];
         }
 
-        return $string;
-  }      
+        $length = max(0, min((int)$length, count($chars)));
+
+        return implode('', array_slice($chars, 0, $length));
+  }
+
+  public static function GerarCodificacao($length = 8)
+  {
+        return self::caracteresUnicos("0123456789abcdefghjklmnopqrstuvwxyz", $length);
+  }
 
   public static function ToSlug($string = "", $replacement = '-')
   {
@@ -78,26 +80,8 @@ class Util{
 
    public static function GerarProtocolo($length = 8)
    {
-
-        // inicializa variables
-        $string = "";
-        $i = 0;
-        $possible = "0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ";  
-
-        // agrega random
-        while ($i < $length) {
-
-            $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
-            
-            if (!strstr($string, $char)) { 
-
-                $string .= $char;
-                $i++;
-            }
-        }
-
-        return $string;
-    }   
+        return self::caracteresUnicos("0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ", $length);
+    }
 
 }
 

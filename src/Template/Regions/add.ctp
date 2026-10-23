@@ -36,7 +36,7 @@ $this->layout = 'ajax';
                 <?= __('Exclusiva?'); ?>
                     <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="<?= __('Caso escolha um usuário essa região será somente dele, caso não seja exclusiva qualquer usuário poderá atuar na região de acordo com seu o plano'); ?>"></i>
                 </label>
-                <?= $this->Form->control('exclusive', ['label' => false, 'class' => $input, 'type' => 'select', 'options' => ['Sim', 'Não'], 'empty' => __('Não')]) ?>
+                <?= $this->Form->control('exclusive', ['label' => false, 'class' => $input, 'type' => 'select', 'options' => [1 => __('Sim'), 0 => __('Não')], 'default' => 0]) ?>
             </div>
         </div>
         

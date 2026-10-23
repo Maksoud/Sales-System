@@ -20,10 +20,11 @@ class PagesController extends AppController
         parent::initialize();
 
         //Autoriza a exibição das páginas
-        $this->Auth->allow(['changeTypeOfAccess', 'login', 'logout', 'home', 'update', 'content', 'modalContent', 'modal2']);
+        //'update' NÃO é público: ele executa comandos git no servidor
+        $this->Auth->allow(['changeTypeOfAccess', 'login', 'logout', 'home', 'content', 'modalContent']);
 
         //Páginas Internas
-        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex', 'modalContent']);
+        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex']);
 
     }
 
@@ -62,10 +63,14 @@ class PagesController extends AppController
         //
     }
     
-    public function changeTypeOfAccess($planos_id)
+    public function changeTypeOfAccess($planos_id = null)
     {
-        //Muda o tipo do acesso
-        $this->request->Session()->write('planos_id', $planos_id);
+        //Muda o tipo do acesso (somente para um plano existente)
+        if ($this->isValidPlano($planos_id)) {
+            $this->request->Session()->write('planos_id', (int)$planos_id);
+        } else {
+            $this->Flash->error(__('Tipo de acesso inválido'));
+        }
 
         //Without template
         $this->autoRender = false;
@@ -156,24 +161,9 @@ class PagesController extends AppController
         /**********************************************************************/
         //DASHBOARD
         /**********************************************************************/
-        
-        $this->set(compact('usuarios'));
-        
-        /**********************************************************************/
-        
-        $this->set(compact('faturas'));
-        
-        /**********************************************************************/
-        
-        $this->set(compact('pedidos'));
-        
-        /**********************************************************************/
-        
-        $this->set(compact('saldos_disponivel', 'saldos_bloqueado'));
-        
-        /**********************************************************************/
-        
+
         //Metas
+        $smToM = $smToVip = $mToVip = $VipToVip = [];
         for ($i = 0; $i <= 10; $i++) {
             $smToM[$i] = $smToVip[$i] = $mToVip[$i] = $VipToVip[$i] = 0;
         }//for ($i = 0; $i <= 10; $i++)
@@ -217,35 +207,31 @@ class PagesController extends AppController
 
     public function update()
     {
-        if ($this->request->is(['get'])) {
-                
-                //CRIA DIRETÓRIO SE NÃO EXISTIR 
-                if (!file_exists('log.log')) {
-                    @fopen('log.log', 'x+');
-                }//if (!file_exists('log.log'))
-                
-                //O USO DESSA OPÇÃO É PREJUDICIAL AOS ARQUIVOS DE LOG QUE SERÃO SOBRESCRITOS
-                $shell = shell_exec("git reset --hard FETCH_HEAD 2>&1");
-                $shell .= shell_exec("git clean -df 2>&1");
-                
-                $shell .= shell_exec("git pull origin master 2>&1");
-                
-                $textoLog  = PHP_EOL . '================================================ <br />';
-                $textoLog .= PHP_EOL . "Data: " . date('d'."/".'m'."/".'Y'." - ".'H'.":".'i'.":".'s') . '<br>';
-                $textoLog .= PHP_EOL . $shell . '<br>';
-                $textoLog .= PHP_EOL . '================================================ <br />';
-                
-                if ($arquivoLog = @fopen('log.log', 'r+')) {
-                    fwrite($arquivoLog, $textoLog);
-                    fclose($arquivoLog);
-                }//if ($arquivoLog = fopen('log.log', 'r+'))
-                
-                $this->Flash->success(__('Atualização realizada com sucesso'));
-                return $this->redirect($this->referer());
+        //Somente POST: um link GET pode ser disparado por robôs/pré-carregamento do navegador
+        if (!$this->request->is('post')) {
+            $this->Flash->error(__('Sistema NÃO atualizado'));
+            return $this->redirect($this->referer());
+        }
 
-        }//if ($this->request->is(['get']))
+        //Somente desenvolvedores
+        if ((int)$this->request->Session()->read('planos_id') !== (int)$this->Dev) {
+            $this->Flash->error(__('Você não têm autorização de acessar este conteúdo'));
+            return $this->redirect($this->referer());
+        }
 
-        $this->Flash->error(__('Sistema NÃO atualizado'));
+        //O USO DESSA OPÇÃO É PREJUDICIAL AOS ARQUIVOS DE LOG QUE SERÃO SOBRESCRITOS
+        $shell  = (string)shell_exec("git reset --hard FETCH_HEAD 2>&1");
+        $shell .= (string)shell_exec("git clean -df 2>&1");
+        $shell .= (string)shell_exec("git pull origin master 2>&1");
+
+        //Grava o log fora do webroot (antes ficava público em webroot/log.log)
+        $textoLog  = PHP_EOL . '================================================';
+        $textoLog .= PHP_EOL . 'Data: ' . date('d/m/Y - H:i:s');
+        $textoLog .= PHP_EOL . $shell;
+        $textoLog .= PHP_EOL . '================================================' . PHP_EOL;
+        @file_put_contents(LOGS . 'update.log', $textoLog, FILE_APPEND);
+
+        $this->Flash->success(__('Atualização realizada com sucesso'));
         return $this->redirect($this->referer());
     }
     

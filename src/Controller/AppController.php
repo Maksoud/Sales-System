@@ -82,7 +82,7 @@ class AppController extends Controller
                                           'foto_usuario'    => 'usuarios/img.jpg',
                                           'locale'          => 'pt_BR',
                                           'Session.timeout' => 30,
-                                          'debug'           => true
+                                          'debug'           => (bool)Configure::read('debug')
                                          ]);
         
         ////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ class AppController extends Controller
         
         ////////////////////////////////////////////////////////////////////////
         
-        $this->set(compact('title', 'tipos_planos', 'count_avisos'));
+        $this->set(compact('title'));
 
     }
 
@@ -113,17 +113,20 @@ class AppController extends Controller
     {
         parent::beforeFilter($event);
 
+        //Garante um tipo de acesso válido ANTES de montar o menu
+        //(antes o padrão era gravado depois, e o primeiro acesso exibia erro no menu)
+        $planos_id = (int)$this->request->Session()->read('planos_id');
+        if (!$this->isValidPlano($planos_id)) {
+            $planos_id = (int)$this->Dev;
+            $this->request->Session()->write('planos_id', $planos_id);
+        }
+
         //Define alguns valores na sessão
-        $this->request->Session()->write('sessionPlanoId', $this->GETplanoSlug($this->request->Session()->read('planos_id')));
+        $this->request->Session()->write('sessionPlanoId', $this->GETplanoSlug($planos_id));
 
         //Define alguns valores para view
-        $this->set('id_planos_usuario', $this->request->Session()->read('planos_id'));
-        $this->set('planos_usuario', $this->GETplanoText($this->request->Session()->read('planos_id')));
-
-        //Muda o tipo do acesso
-        if (!$this->request->Session()->read('planos_id')) {
-            $this->request->Session()->write('planos_id', 1);
-        }//if (empty($this->request->Session()->read('planos_id')))
+        $this->set('id_planos_usuario', $planos_id);
+        $this->set('planos_usuario', $this->GETplanoText($planos_id));
     }
     
     public function beforeRender(Event $event)
@@ -135,24 +138,35 @@ class AppController extends Controller
         }
     }
     
-    public function GETplanoSlug($planos_id)
+    /**
+     * Mapa id do plano => [slug, nome exibido].
+     */
+    protected function planos()
     {
-        if ($planos_id == $this->Dev)         return "Dev";
-        elseif ($planos_id == $this->Admin)   return "Admin";
-        elseif ($planos_id == $this->SM)      return "SM";
-        elseif ($planos_id == $this->Master)  return "Master";
-        elseif ($planos_id == $this->VIP)     return "VIP";
-        elseif ($planos_id == $this->Cliente) return "Cliente";
+        return [
+            (int)$this->Dev     => ['Dev',     'Desenvolvedor'],
+            (int)$this->Admin   => ['Admin',   'Administrador'],
+            (int)$this->SM      => ['SM',      'Super Master'],
+            (int)$this->Master  => ['Master',  'Master'],
+            (int)$this->VIP     => ['VIP',     'VIP'],
+            (int)$this->Cliente => ['Cliente', 'Cliente'],
+        ];
     }
-    
-    public function GETplanoText($planos_id)
+
+    protected function isValidPlano($planos_id)
     {
-        if ($planos_id == $this->Dev)         return "Desenvolvedor";
-        elseif ($planos_id == $this->Admin)   return "Administrador";
-        elseif ($planos_id == $this->SM)      return "Super Master";
-        elseif ($planos_id == $this->Master)  return "Master";
-        elseif ($planos_id == $this->VIP)     return "VIP";
-        elseif ($planos_id == $this->Cliente) return "Cliente";
+        return is_numeric($planos_id) && array_key_exists((int)$planos_id, $this->planos());
     }
-    
+
+    //Métodos protegidos: métodos públicos do controller viram URLs acessíveis
+    protected function GETplanoSlug($planos_id)
+    {
+        return $this->isValidPlano($planos_id) ? $this->planos()[(int)$planos_id][0] : null;
+    }
+
+    protected function GETplanoText($planos_id)
+    {
+        return $this->isValidPlano($planos_id) ? $this->planos()[(int)$planos_id][1] : null;
+    }
+
 }

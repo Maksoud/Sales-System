@@ -5,7 +5,7 @@
     </head>
     <body>
         <?= $this->fetch('content') ?>
-        <?= $this->element('chat') ?>
+        <?= $this->elementExists('chat') ? $this->element('chat') : '' ?>
         <footer>
             <?= $this->element('footer') ?>
         </footer>

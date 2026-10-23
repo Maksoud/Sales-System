@@ -3,7 +3,7 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2018-2019
  */
 
@@ -12,87 +12,96 @@ namespace App\Controller\Component;
 use Cake\Controller\Component;
 
 class ContentFilterComponent extends Component
-{  
-    public $params = array();
+{
+    public $params = [];
 
-    public function __construct()
-    {
-        //Construct function content
-    }
-
-    public function prepareParams($request = array())
+    public function prepareParams($request)
     {
         if ($request->is('post')) {
-           
-            $params = $request->data; 
-
+            $params = $request->getData();
         } else {
+            $params = $request->getQueryParams();
+        }
 
-           $params = $request->query;
+        $this->params = is_array($params) ? $params : [];
+    }
 
-        }//else if ($request->is('post'))
+    /**
+     * Aceita apenas nomes de colunas simples (letras, números e "_"),
+     * pois são concatenados na consulta e não podem vir livres do usuário.
+     */
+    protected function isSafeIdentifier($name)
+    {
+        return is_string($name) && preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $name) === 1;
+    }
 
-        /*******/
+    /**
+     * Retorna o valor do parâmetro como texto, ou null se vazio/inválido.
+     */
+    protected function param($name)
+    {
+        if (!isset($this->params[$name]) || is_array($this->params[$name])) {
+            return null;
+        }
 
-        $this->params = $params;
-    }  
+        $value = trim((string)$this->params[$name]);
+
+        return $value === '' ? null : $value;
+    }
 
     /*
     * Help for filter all parameters and requests for searching the contents
     */
-    public function fields($request, $table) 
+    public function fields($request, $table)
     {
         //Prepare params
         $this->prepareParams($request);
 
-        /*******/
-
-        //Set variables
-        $fields = [$table . '.id', $table . '.title', $table . 'created', $table . 'modified'];
-
-        /*******/
-
-        return $fields;
-    } 
+        return [$table . '.id', $table . '.title', $table . '.created', $table . '.modified'];
+    }
 
     /*
      * Help for filter all parameters and requests for searching the contacts
      *  $table = Table name
      *  $field = Field name of the table
      *  $detail = Type of comparison (like, specific)
+     *
+     * Retorna condições no formato de array do ORM, para que os valores
+     * sejam enviados como parâmetros (evita SQL injection).
     */
-    public function wheres($request, $table, $fieldList) 
+    public function wheres($request, $table, $fieldList)
     {
         //Prepare params
         $this->prepareParams($request);
 
-        /*******/
-
-        //Set variables
         $where = [];
 
-        /*******/
-        
-        if (!empty($fieldList)) {
+        foreach ((array)$fieldList as $field) {
 
-            foreach ($fieldList as $field) {
+            if (!$this->isSafeIdentifier($field['content'])) {
+                continue;
+            }
 
-                if (!empty($this->params[$field['content']]) && $field['detail'] == 'like') {
-                    
-                    $where[] = '(' . $table . '.' . $field['content'] . ' LIKE "%' . $this->params[$field['content']] . '%")';
+            $value = $this->param($field['content']);
+            if ($value === null) {
+                continue;
+            }
 
-                } elseif (!empty($this->params[$field['content']]) && $field['detail'] == 'specific') {
+            $column = $table . '.' . $field['content'];
 
-                    $where[] = '(' . $table . '.' . $field['content'] . ' = "' . $this->params[$field['content']] . '")';
+            if ($field['detail'] == 'like') {
 
-                }//elseif ($field['detail'] == 'specific')
-                
-            }//foreach ($fieldList as $field)
+                //Escapa os curingas do LIKE digitados pelo usuário
+                $where[$column . ' LIKE'] = '%' . addcslashes($value, '%_\\') . '%';
 
-        }//if (!empty($fieldList))
+            } elseif ($field['detail'] == 'specific') {
 
-        /*******/
-        
+                $where[$column] = $value;
+
+            }//elseif ($field['detail'] == 'specific')
+
+        }//foreach ($fieldList as $field)
+
         return $where;
     }
 
@@ -101,63 +110,29 @@ class ContentFilterComponent extends Component
         //Prepare params
         $this->prepareParams($request);
 
-        /*******/
+        $orderBy   = $this->param('orderBy');
+        $orderType = strtoupper((string)$this->param('orderType')) === 'ASC' ? 'ASC' : 'DESC';
 
-        //Set variables
-        $order = $table . '.id';
-        $orderType = 'DESC';
+        if ($orderBy === 'rand') {
+            return 'RAND()';
+        }
 
-        /*******/
-        
-        if (!empty($this->params['orderBy'])) {
+        if ($orderBy === null || !$this->isSafeIdentifier($orderBy)) {
+            $orderBy = 'id';
+        }
 
-            if ($this->params['orderBy'] == 'rand') {
-                
-                $orderString = "rand()";
-
-            } else {
-
-                $order = $table . "." . $this->params['orderBy'];
-
-                /*******/
-
-                if (!empty($this->params['orderType'])) {
-                    
-                    $orderType = $this->params['orderType'];
-
-                }//if (!empty($this->params['orderType']))
-
-                /*******/
-
-                $orderString = $order . ' ' . $orderType;
-
-            }//else if ($this->params['orderBy'] == 'rand')
-
-        } else {
-
-            $orderString = $order . ' ' . $orderType;
-
-        }//else if (!empty($this->params['orderBy']))
-
-        /*******/
-
-        return $orderString;
+        return $table . '.' . $orderBy . ' ' . $orderType;
     }
 
     /**
      * At this function, you could put all dependencies list to identify through $request params
      */
-    public function contain($request, $table) 
+    public function contain($request, $table)
     {
         //Prepare params
         $this->prepareParams($request);
 
-        /*******/
-
-        //Set variables
         $contain = [];
-
-        /*******/
 
         if ($table == 'SaleGoals') {
 
@@ -170,9 +145,7 @@ class ContentFilterComponent extends Component
 
         }//elseif ($table == 'SaleCommissions')
 
-        /*******/
-
-        return $contain; 
+        return $contain;
     }
 
     public function limit($request, $limit = 30)
@@ -180,23 +153,17 @@ class ContentFilterComponent extends Component
         //Prepare params
         $this->prepareParams($request);
 
-        /*******/
+        $param = $this->param('limit');
 
-        if (!empty($this->params['limit'])) {
+        if ($param === 'false') {
 
-            if (@is_numeric($this->params['limit']) && $this->params['limit'] < 1000) { 
-                
-                $limit = $this->params['limit'];
+            $limit = 1000;
 
-            } elseif (@$this->params['limit'] == 'false') {
+        } elseif ($param !== null && ctype_digit($param) && (int)$param >= 1 && (int)$param < 1000) {
 
-                $limit = 1000; 
+            $limit = (int)$param;
 
-            }//elseif (@$this->params['limit'] == 'false')
-
-        }//if (!empty($this->params['limit']))
-
-        /*******/
+        }//elseif ($param !== null && ctype_digit($param) ...)
 
         return $limit;
     }

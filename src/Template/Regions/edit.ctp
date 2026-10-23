@@ -36,7 +36,7 @@ $this->layout = 'ajax';
                     <?= __('Exclusiva?'); ?>
                     <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="<?= __('Caso escolha um usuário essa região será somente dele, caso não seja exclusiva qualquer usuário poderá atuar na região de acordo com seu o plano'); ?>"></i>
                 </label>
-                <?= $this->Form->control('exclusive', ['label' => false, 'class' => $input, 'type' => 'select', 'options' => ['Sim', 'Não'], 'empty' => __('Não')]) ?>
+                <?= $this->Form->control('exclusive', ['label' => false, 'class' => $input, 'type' => 'select', 'options' => [1 => __('Sim'), 0 => __('Não')], 'default' => 0]) ?>
             </div>
         </div>
         
@@ -69,9 +69,9 @@ $this->layout = 'ajax';
                 <?php 
                 if (!empty($regioesItens)) {
                     foreach($regioesItens as $itens): ?>
-                        <div id="cidade<?= $itens->id ?>" class="alert alert-info pull-left">
-                            <input type="hidden" name="cidade[]" value="<?= $itens->id ?>"> <?= $itens->cidade ?>
-                            <button type="button" class="close" aria-label="Close" data-id="<?= $itens->id ?>">
+                        <div id="cidade<?= h($itens->id) ?>" class="alert alert-info pull-left">
+                            <input type="hidden" name="cidade[]" value="<?= h($itens->id) ?>"> <?= h($itens->cidade) ?>
+                            <button type="button" class="close" aria-label="Close" data-id="<?= h($itens->id) ?>">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>

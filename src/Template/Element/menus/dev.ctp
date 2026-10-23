@@ -131,7 +131,7 @@
         </li>
         <li class="divider"></li>
         <li>
-            <?= $this->Html->link(('<i class="fa fa-linux" aria-hidden="true"></i> '.__('Atualizar Sistema')), ['controller' => 'Pages', 'action' => 'update'], ['escape' => false]) ?>
+            <?= $this->Form->postLink(('<i class="fa fa-linux" aria-hidden="true"></i> '.__('Atualizar Sistema')), ['controller' => 'Pages', 'action' => 'update'], ['escape' => false, 'confirm' => __('Atualizar o sistema a partir do repositório?')]) ?>
         </li>
         <li>
             <?= $this->Html->link(('<i class="fa fa-bug" aria-hidden="true"></i> '.__('Modo Debug')), ['controller' => 'Pages', 'action' => 'debug_mode'], ['escape' => false]) ?>

@@ -23,7 +23,7 @@ class SaleCommissionsController extends AppController
         /*******/
 
         //Internal Pages
-        $this->Auth->allow(['index', 'add', 'edit', 'delete']);
+        $this->Auth->allow(['index', 'add', 'edit', 'delete', 'report']);
 
     }
 
@@ -44,6 +44,9 @@ class SaleCommissionsController extends AppController
 
         /*******/
         
+        //Enquanto a consulta ao banco estiver desativada, envia uma lista vazia
+        $data = [];
+
         //Data query object
         /*
         $data = $this->SaleCommissions->find('all')
@@ -142,6 +145,15 @@ class SaleCommissionsController extends AppController
         $data = null;
         $this->set(compact('data'));
         $this->set('_serialize', ['data']);
+    }
+
+    public function report()
+    {
+        //GET exibe o formulário de filtros (modal); o envio ainda não gera relatório
+        if ($this->request->is('post')) {
+            $this->Flash->warning(__('O relatório de comissões ainda não está disponível'));
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     public function delete($id)

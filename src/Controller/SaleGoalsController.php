@@ -44,6 +44,9 @@ class SaleGoalsController extends AppController
 
         /*******/
         
+        //Enquanto a consulta ao banco estiver desativada, envia uma lista vazia
+        $data = [];
+
         //Data query object
         /*
         $data = $this->SaleGoals->find('all')

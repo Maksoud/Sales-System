@@ -38,9 +38,9 @@ if (!defined('DISPLAY_ERROR_MESSAGES'))
 
 //Image fetching and caching
 if (!defined('ALLOW_EXTERNAL'))
-    define('ALLOW_EXTERNAL', TRUE);                  // Allow image fetching from external websites. Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
+    define('ALLOW_EXTERNAL', FALSE);                // Allow image fetching from external websites. Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
 if (!defined('ALLOW_ALL_EXTERNAL_SITES'))
-    define('ALLOW_ALL_EXTERNAL_SITES', TRUE);        // Less secure. 
+    define('ALLOW_ALL_EXTERNAL_SITES', FALSE);      // Less secure. 
 if (!defined('FILE_CACHE_ENABLED'))
     define('FILE_CACHE_ENABLED', TRUE);              // Should we store resized/modified images on disk to speed things up?
 if (!defined('FILE_CACHE_TIME_BETWEEN_CLEANS'))

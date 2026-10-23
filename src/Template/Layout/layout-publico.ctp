@@ -56,7 +56,7 @@
 
         <?= $this->fetch('content') ?>
         <?= $this->element('modal') ?>
-        <?= $this->element('chat') ?>
+        <?= $this->elementExists('chat') ? $this->element('chat') : '' ?>
 
         <footer>
             <?= $this->element('footer') ?>

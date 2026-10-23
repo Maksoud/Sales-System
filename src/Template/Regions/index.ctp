@@ -35,7 +35,7 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
         <div class="row form-busca bottom-10">
             <div class="col-md-12">
                 <?=$this->Form->create(null, ['type' => 'get', 'class' => 'form-inline']);?>    
-                <?=$this->Form->text('title', ['class' => 'form-control', 'label' => false, 'placeholder' => __('Digite o nome do associado'), 'value' => @$this->request->query['title']]);?> 
+                <?=$this->Form->text('title', ['class' => 'form-control', 'label' => false, 'placeholder' => __('Digite o nome da região'), 'value' => @$this->request->query['title']]);?> 
                 <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?></button>
                 <?=$this->Html->link(('<i class="fa fa-list" aria-hidden="true"></i> '.__('Listar Todos')), ['action' => 'index'], ['class'=>'btn btn-default', 'escape' => false]);?>
                 <?=$this->Form->end();?>        

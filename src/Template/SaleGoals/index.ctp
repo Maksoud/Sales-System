@@ -31,42 +31,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr role="row" class="odd">
-                        <td><?= str_pad(1234, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal"><i class="fa fa-users" aria-hidden="true" title="Meta de Indicações"></i> O <span title="VIP"><strong>VIP</strong></span> ganha <strong>1 Produto</strong> ao indicar <strong>10 novos <span title="VIP"><strong>VIP</strong></span></strong> por  meta de <strong>INDICAÇÕES DIRETAS</strong></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'SaleGoals', 'action' => 'edit', 1234], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'SaleGoals', 'action' => 'delete', 1234], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr role="row" class="even">
-                        <td><?= str_pad(1235, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal"><i class="fa fa-users" aria-hidden="true" title="Meta de Indicações"></i> O <span title="Master"><strong>Master</strong></span> ganha <strong>1 Produto</strong> ao indicar <strong>10 novos <span title="VIP"><strong>VIP</strong></span></strong> por  meta de <strong>INDICAÇÕES DIRETAS</strong></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'SaleGoals', 'action' => 'edit', 1235], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'SaleGoals', 'action' => 'delete', 1235], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr role="row" class="odd">
-                        <td><?= str_pad(1236, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal"><i class="fa fa-users" aria-hidden="true" title="Meta de Indicações"></i> O <span title="Super Master"><strong>SM</strong></span> ganha <strong>1 Produto</strong> ao indicar <strong>10 novos <span title="VIP"><strong>VIP</strong></span></strong> por  meta de <strong>INDICAÇÕES DIRETAS</strong></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'SaleGoals', 'action' => 'edit', 1236], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'SaleGoals', 'action' => 'delete', 1236], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr role="row" class="even">
-                        <td><?= str_pad(1237, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal"><i class="fa fa-users" aria-hidden="true" title="Meta de Indicações"></i> O <span title="Super Master"><strong>SM</strong></span> ganha <strong>10 Produtos</strong> ao indicar <strong>10 novos <span title="Master"><strong>Master</strong></span></strong> por  meta de <strong>INDICAÇÕES DIRETAS</strong></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'SaleGoals', 'action' => 'edit', 1237], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'SaleGoals', 'action' => 'delete', 1237], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
+                    <?php
+                        $planosMeta   = \App\Lib\DemoData::planos();
+                        $produtosMeta = \App\Lib\DemoData::produtosLista();
+                    ?>
+                    <?php foreach ($data as $meta): ?>
+                        <?php
+                            $de     = $planosMeta[$meta->de_planos_id];
+                            $ganho  = $meta->qtganha . ' ' . $produtosMeta[$meta->bonificacao_produtos_id];
+                        ?>
+                        <tr>
+                            <td><?= str_pad($meta->id, 6, '0', STR_PAD_LEFT) ?></td>
+                            <td style="white-space: normal">
+                                <?php if ($meta->tipo == 'I'): ?>
+                                    <?php $para = $planosMeta[$meta->para_planos_id]; ?>
+                                    <i class="fa fa-users" aria-hidden="true" title="<?= __('Meta de Indicações') ?>"></i>
+                                    <?= __('O') ?> <strong title="<?= h($de->title) ?>"><?= h($de->slug) ?></strong> <?= __('ganha') ?> <strong><?= h($ganho) ?></strong>
+                                    <?= __('ao indicar') ?> <strong><?= $meta->meta ?> <?= __('novos') ?> <span title="<?= h($para->title) ?>"><?= h($para->slug) ?></span></strong>
+                                    <?= __('por meta de') ?> <strong><?= __('INDICAÇÕES DIRETAS') ?></strong>
+                                <?php else: ?>
+                                    <i class="fa fa-handshake-o fa-fw" aria-hidden="true" title="<?= __('Meta de Vendas') ?>"></i>
+                                    <?= __('O') ?> <strong title="<?= h($de->title) ?>"><?= h($de->slug) ?></strong> <?= __('ganha') ?> <strong><?= h($ganho) ?></strong>
+                                    <?= __('ao comprar') ?> <strong><?= $meta->meta ?> <?= h($produtosMeta[$meta->produtos_id]) ?></strong>
+                                    <?= __('por meta de') ?> <strong><?= __('VENDAS') ?></strong>
+                                <?php endif; ?>
+                            </td>
+                            <td class="col-xs-1">
+                                <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'SaleGoals', 'action' => 'edit', $meta->id], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
+                                <div class="clearfix"></div>
+                                <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'SaleGoals', 'action' => 'delete', $meta->id], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         

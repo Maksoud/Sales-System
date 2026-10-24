@@ -1,12 +1,24 @@
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ *
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Element/menus/cliente.ctp */
+
+$icone = function ($icone, $texto) { return '<i class="fa ' . $icone . ' fa-fw" aria-hidden="true"></i> ' . $texto; };
+?>
 <li>
-    <?= $this->Html->link(('<i class="fa fa-home" aria-hidden="true"></i> '.__('Início')), ['controller' => 'Pages', 'action' => 'home'], ['escape' => false]); ?>
+    <?= $this->Html->link($icone('fa-home', __('Início')), ['controller' => 'Pages', 'action' => 'home'], ['escape' => false]) ?>
 </li>
 <li>
-    <?= $this->Html->link(('<i class="fa fa-cart-plus" aria-hidden="true"></i> '.__('Loja')), ['controller' => 'Pages', 'action' => 'loja'], ['escape' => false]); ?>
+    <?= $this->Html->link($icone('fa-cart-plus', __('Loja')), ['controller' => 'Orders', 'action' => 'store'], ['escape' => false]) ?>
 </li>
 <li>
-    <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> '.__('Meus Pedidos')), ['controller' => 'Pages', 'action' => 'meu-pedido'], ['escape' => false]) ?>
+    <?= $this->Html->link($icone('fa-file-text-o', __('Meus Pedidos')), ['controller' => 'Orders', 'action' => 'myOrders'], ['escape' => false]) ?>
 </li>
 <li>
-    <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> '.__('Meu Extrato')), ['controller' => 'Pages', 'action' => 'meu_extrato'], ['escape' => false]) ?>
+    <?= $this->Html->link($icone('fa-usd', __('Meu Extrato')), ['controller' => 'Invoices', 'action' => 'statement'], ['escape' => false]) ?>
 </li>

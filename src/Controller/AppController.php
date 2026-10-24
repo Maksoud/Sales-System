@@ -12,6 +12,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\I18n\Number;
+use App\Lib\DemoData;
 
 Number::config('', \NumberFormatter::CURRENCY, [
     'before'  => null,
@@ -78,7 +79,8 @@ class AppController extends Controller
         ////////////////////////////////////////////////////////////////////////
 
         //Define alguns valores na sessão
-        $this->request->Session()->write(['status_usuario'  => 'P',
+        //status 'A' (ativo): com 'P' o painel esconde a loja, o cadastro e o saque
+        $this->request->Session()->write(['status_usuario'  => 'A',
                                           'foto_usuario'    => 'usuarios/img.jpg',
                                           'locale'          => 'pt_BR',
                                           'Session.timeout' => 30,
@@ -87,18 +89,9 @@ class AppController extends Controller
         
         ////////////////////////////////////////////////////////////////////////
 
-        //Registra o nome do usuário para consulta
-        $this->set('username', 'Renée Maksoud');
-        $this->set('login', 'maksoudrodrigues');
-        $this->set('count_avisos', 99);
-        $this->set('email', 'em@il.com');
-        $this->set('usuarios_id', 1);
-        $this->set('foto_usuario', $this->request->Session()->read('foto_usuario'));
-        $this->set('status_usuario', 'A');
+        //O usuário logado (nome, login, avisos...) é definido no beforeFilter,
+        //conforme o perfil escolhido no seletor "Ver como"
 
-        ////////////////////////////////////////////////////////////////////////
-        // $count_avisos = $this->AvisosListar->listar($this->Auth->user('id'), $this->Auth->user('planos_id'));
-        // $count_avisos = count($count_avisos->toArray());
         ////////////////////////////////////////////////////////////////////////
 
         $title = "Painel Administrativo :: Reiniciando";
@@ -123,6 +116,16 @@ class AppController extends Controller
 
         //Define alguns valores na sessão
         $this->request->Session()->write('sessionPlanoId', $this->GETplanoSlug($planos_id));
+
+        //Usuário de demonstração que representa o perfil (enquanto não há login real)
+        $usuario = $this->usuarioAtual();
+        $this->set('username', $usuario->nome);
+        $this->set('login', $usuario->login);
+        $this->set('email', $usuario->email);
+        $this->set('usuarios_id', $usuario->id);
+        $this->set('foto_usuario', 'usuarios/' . $usuario->foto);
+        $this->set('status_usuario', $this->request->Session()->read('status_usuario'));
+        $this->set('count_avisos', count(DemoData::avisosDoPerfil($planos_id)));
 
         //Define alguns valores para view
         $this->set('id_planos_usuario', $planos_id);
@@ -152,6 +155,32 @@ class AppController extends Controller
             (int)$this->VIP     => ['VIP',     'VIP'],
             (int)$this->Cliente => ['Cliente', 'Cliente'],
         ];
+    }
+
+    /**
+     * Usuário de demonstração do perfil atual.
+     */
+    protected function usuarioAtual()
+    {
+        return DemoData::usuarioDoPerfil((int)$this->request->Session()->read('planos_id'));
+    }
+
+    /**
+     * Perfis de gestão (Dev e Admin).
+     */
+    protected function isGestao()
+    {
+        return DemoData::isGestao((int)$this->request->Session()->read('planos_id'));
+    }
+
+    /**
+     * Resposta padrão das ações que gravariam no banco: sem banco de dados,
+     * a operação é apenas simulada e o usuário volta para a tela anterior.
+     */
+    protected function simularGravacao($mensagem = null)
+    {
+        $this->Flash->success(($mensagem ?: __('Registro gravado com sucesso')) . ' ' . __('(demonstração: nenhum dado foi alterado)'));
+        return $this->redirect($this->referer(['controller' => 'Pages', 'action' => 'home'], true));
     }
 
     protected function isValidPlano($planos_id)

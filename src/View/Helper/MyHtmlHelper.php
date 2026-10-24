@@ -136,6 +136,11 @@ class MyHtmlHelper extends HtmlHelper
     
     public function fullDate($date)
     {
+        //Objetos de data viram texto ISO: o __toString deles depende do locale e o strtotime pode errar dia/mês
+        if ($date instanceof \DateTimeInterface) {
+            $date = $date->format('Y-m-d H:i:s');
+        }
+
         if (!empty($date)) {
 
             //$string guarda o valor original (antes era usado sem ser definido)
@@ -162,6 +167,11 @@ class MyHtmlHelper extends HtmlHelper
     
     public function tinyDate($date)
     {
+        //Objetos de data viram texto ISO: o __toString deles depende do locale e o strtotime pode errar dia/mês
+        if ($date instanceof \DateTimeInterface) {
+            $date = $date->format('Y-m-d H:i:s');
+        }
+
         if (!empty($date)) {
             
             $string = $date;
@@ -208,6 +218,11 @@ class MyHtmlHelper extends HtmlHelper
     
     public function date($date)
     {
+        //Objetos de data viram texto ISO: o __toString deles depende do locale e o strtotime pode errar dia/mês
+        if ($date instanceof \DateTimeInterface) {
+            $date = $date->format('Y-m-d H:i:s');
+        }
+
         
         if (!empty($date)) {
             

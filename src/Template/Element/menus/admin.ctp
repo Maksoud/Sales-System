@@ -1,107 +1,74 @@
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ *
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Element/menus/admin.ctp */
+
+//Opções dos links que abrem em modal
+$modal   = function ($titulo, $tamanho = null) {
+    return ['escape' => false, 'class' => 'btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => $titulo] + ($tamanho ? ['data-tamanho' => $tamanho] : []);
+};
+$icone   = function ($icone, $texto) { return '<i class="fa ' . $icone . ' fa-fw" aria-hidden="true"></i> ' . $texto; };
+?>
 <li>
-    <?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> Início', ['controller' => 'Pages', 'action' => 'home'], ['escape' => false]); ?>
+    <?= $this->Html->link($icone('fa-home', __('Início')), ['controller' => 'Pages', 'action' => 'home'], ['escape' => false]) ?>
 </li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;
-        <?= __('Minha Rede') ?><span class="caret"></span>
+        <i class="fa fa-sitemap" aria-hidden="true"></i>&nbsp;<?= __('Minha Rede') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-users" aria-hidden="true"></i> Visualizar'), ['controller' => 'Pages', 'action' => 'minha-rede'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Minha Rede', 'title' => 'Visualizar', 'aria-hidden' => true, 'escape' => false]) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-users', __('Visualizar')), ['controller' => 'Users', 'action' => 'network'], $modal(__('Rede Reiniciando'))) ?></li>
         <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-user-plus" aria-hidden="true"></i> Cadastrar Associado'), ['controller' => 'Pages', 'action' => 'add'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Novo Associado', 'escape' => false]) ?>
-        </li>
-    </ul>
-</li>
-<li>
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
-        <?= __('Pedidos') ?><span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link('<i class="fa fa-cart-plus" aria-hidden="true"></i> Loja', ['controller' => 'Pages', 'action' => 'loja'], ['escape' => false]); ?>
-        </li>
-        <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Meus Pedidos'), ['controller' => 'Pages', 'action' => 'meu-pedido'], ['escape' => false]) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-user-plus', __('Cadastrar Associado')), ['controller' => 'Users', 'action' => 'add'], $modal(__('Novo Associado'))) ?></li>
     </ul>
 </li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-        <?= __('Financeiro') ?><span class="caret"></span>
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;<?= __('Pedidos') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Solicitar Saque'), ['controller' => 'Pages', 'action' => 'saque'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Solicitação de Saque']) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-cart-plus', __('Loja (bonificação)')), ['controller' => 'Orders', 'action' => 'store'], ['escape' => false]) ?></li>
         <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Meu Extrato'), ['controller' => 'Pages', 'action' => 'meu_extrato'], ['escape' => false]) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-gift', __('Bonificações Lançadas')), ['controller' => 'Orders', 'action' => 'myOrders'], ['escape' => false]) ?></li>
     </ul>
 </li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
-        <?= __('Gerenciar') ?><span class="caret"></span>
+        <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<?= __('Gerenciar') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-shopping-cart" aria-hidden="true"></i> Pedidos da loja'), ['controller' => 'Pages', 'action' => 'index', '?' => ['status' => 'M', 'iniciar_busca' => 'true']], ['escape' => false]) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i> Extrato Geral'), ['controller' => 'Pages', 'action' => 'index', '?' => ['status' => 'P', 'iniciar_busca' => 'true']], ['escape' => false]) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Solicitações de Saques'), ['controller' => 'Pages', 'action' => 'index', '?' => ['tipo' => 'S', 'status' => 'P']], ['escape' => false]) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-shopping-cart', __('Pedidos da Loja')), ['controller' => 'Orders', 'action' => 'index', '?' => ['status' => 'M', 'iniciar_busca' => 'true']], ['escape' => false]) ?></li>
         <li class="divider"></li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-bell" aria-hidden="true"></i> Avisos'), ['controller' => 'Pages', 'action' => 'index'], ['escape' => false]) ?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-usd', __('Extrato Geral')), ['controller' => 'Invoices', 'action' => 'index'], ['escape' => false]) ?></li>
+        <li><?= $this->Html->link($icone('fa-btc', __('Solicitações de Saques')), ['controller' => 'Invoices', 'action' => 'index', '?' => ['tipo' => 'S', 'status' => 'P']], ['escape' => false]) ?></li>
+        <li><?= $this->Html->link($icone('fa-line-chart', __('Taxas de Inscrições')), ['controller' => 'Invoices', 'action' => 'index', '?' => ['tipo' => 'T']], ['escape' => false]) ?></li>
+        <li><?= $this->Html->link($icone('fa-file-text-o', __('Faturas de Pedidos')), ['controller' => 'Invoices', 'action' => 'index', '?' => ['tipo' => 'P']], ['escape' => false]) ?></li>
+        <li><?= $this->Html->link($icone('fa-handshake-o', __('Faturas de Comissões')), ['controller' => 'Invoices', 'action' => 'index', '?' => ['tipo' => 'C']], ['escape' => false]) ?></li>
+        <li><?= $this->Html->link($icone('fa-university', __('Extrato da Empresa')), ['controller' => 'Invoices', 'action' => 'statement'], ['escape' => false]) ?></li>
+        <li class="divider"></li>
+        <li><?= $this->Html->link($icone('fa-bell', __('Avisos')), ['controller' => 'Notices', 'action' => 'index'], ['escape' => false]) ?></li>
     </ul>
 </li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;
-        <?= __('Relatórios') ?><span class="caret"></span>
+        <i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;<?= __('Relatórios') ?><span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i> Pedidos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pedidos']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i> Faturas'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Metas'), ['controller' => 'SaleGoals', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?> 
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> Associados'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Associados']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-user fa-fw" aria-hidden="true"></i> Clientes'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Clientes']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Pagamentos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pagamentos']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-money" aria-hidden="true"></i> Saldos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-diamond" aria-hidden="true"></i> Cadastros'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'target' => '_blank'])?>
-        </li>
-        <li>
-            <?= $this->Html->link(('<i class="fa fa-paw" aria-hidden="true"></i> Impostos'), ['controller' => 'Pages', 'action' => 'report'], ['escape' => false, 'target' => '_blank'])?>
-        </li>
+        <li><?= $this->Html->link($icone('fa-file-text-o', __('Pedidos')), ['controller' => 'Orders', 'action' => 'report'], $modal(__('Relatório de Pedidos'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-usd', __('Faturas')), ['controller' => 'Invoices', 'action' => 'report'], $modal(__('Relatório de Faturas'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-star', __('Metas')), ['controller' => 'SaleGoals', 'action' => 'report'], $modal(__('Relatório de Metas'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-handshake-o', __('Comissões')), ['controller' => 'SaleCommissions', 'action' => 'report'], $modal(__('Relatório de Comissões'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-users', __('Associados')), ['controller' => 'Users', 'action' => 'report'], $modal(__('Relatório de Associados'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-user', __('Clientes')), ['controller' => 'Users', 'action' => 'clientsReport'], $modal(__('Relatório de Clientes'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-btc', __('Pagamentos')), ['controller' => 'Invoices', 'action' => 'paymentsReport'], $modal(__('Relatório de Pagamentos'), 'sm')) ?></li>
+        <li><?= $this->Html->link($icone('fa-money', __('Saldos')), ['controller' => 'Invoices', 'action' => 'balancesReport'], $modal(__('Relatório de Saldos'), 'sm')) ?></li>
+        <li class="divider"></li>
+        <li><?= $this->Html->link($icone('fa-bar-chart', __('Cadastros')), ['controller' => 'Reports', 'action' => 'registrations'], ['escape' => false, 'target' => '_blank']) ?></li>
+        <li><?= $this->Html->link($icone('fa-percent', __('Impostos')), ['controller' => 'Reports', 'action' => 'taxes'], ['escape' => false, 'target' => '_blank']) ?></li>
     </ul>
 </li>

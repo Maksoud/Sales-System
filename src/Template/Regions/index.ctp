@@ -56,19 +56,21 @@ $capitais_do_nordeste = ['Maranhão'            => 'São Luís',
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><?= str_pad(1234, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $this->MyHtml->date('2019-08-23') ?></td>
-                        <td><?= $this->MyHtml->date('2019-08-23') ?></td>
-                        <td><?= __('Nordeste') ?></td>
-                        <td><?= __('Sim') ?></td>
-                        <td><?= implode(', ', array_values($capitais_do_nordeste)); ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'Regions', 'action' => 'edit', 1234], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'Regions', 'action' => 'delete', 1234], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
+                    <?php foreach ($data as $regiao): ?>
+                        <tr>
+                            <td><?= str_pad($regiao->id, 6, '0', STR_PAD_LEFT) ?></td>
+                            <td data-order="<?= $regiao->created->format('Ymd') ?>"><?= $this->MyHtml->date($regiao->created) ?></td>
+                            <td data-order="<?= $regiao->modified->format('Ymd') ?>"><?= $this->MyHtml->date($regiao->modified) ?></td>
+                            <td><?= h($regiao->title) ?> <small class="text-cinza">(<?= h($regiao->uf) ?>)</small></td>
+                            <td><?= h($regiao->exclusiva) ?></td>
+                            <td style="white-space: normal"><?= h(implode(', ', $regiao->cidades)) ?></td>
+                            <td class="col-xs-1">
+                                <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'Regions', 'action' => 'edit', $regiao->id], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
+                                <div class="clearfix"></div>
+                                <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'Regions', 'action' => 'delete', $regiao->id], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

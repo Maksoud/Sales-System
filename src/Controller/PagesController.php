@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Lib\DemoData;
 use Cake\Core\Configure;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
@@ -23,39 +24,7 @@ class PagesController extends AppController
         //'update' NÃO é público: ele executa comandos git no servidor
         $this->Auth->allow(['changeTypeOfAccess', 'login', 'logout', 'home', 'content', 'modalContent']);
 
-        //Páginas Internas
-        $this->Auth->allow(['regioesIndex', 'planosIndex', 'metasIndex', 'comissoesIndex', 'produtosIndex', 'usuariosIndex']);
-
-    }
-
-    public function regioesIndex()
-    {
-        //
-    }
-
-    public function planosIndex()
-    {
-        //
-    }
-
-    public function metasIndex()
-    {
-        //
-    }
-
-    public function comissoesIndex()
-    {
-        //
-    }
-
-    public function produtosIndex()
-    {
-        //
-    }
-
-    public function usuariosIndex()
-    {
-        //
+        //As páginas internas ficam nos próprios controllers (Regions, GoalPlans, Products, Users...)
     }
 
     public function modalContent()
@@ -114,49 +83,49 @@ class PagesController extends AppController
     public function home()
     {
         
+        $usuario = $this->usuarioAtual();
+
         //SALDOS DO USUÁRIO
-        $saldo_disponivel = 1234.56;
-        $saldo_bloqueado = 2469.12;
+        $saldos           = DemoData::saldos($usuario->id);
+        $saldo_disponivel = $saldos['disponivel'];
+        $saldo_bloqueado  = $saldos['bloqueado'];
 
         $this->set(compact('saldo_disponivel', 'saldo_bloqueado'));
-        
+
         /**********************************************************************/
-        
-        //METAS DO USUÁRIO
-        $metas = ['1'=> ['tipo'           => 'I',
-                         'meta'           => 10,
-                         'qtganha'        => 10,
-                         'de_planos_id'   => 3,
-                         'para_planos_id' => 4,
-                         'produtos_id'    => '',
-                         'bonificacao_produtos_id' => 1
-                        ],
-                  '2'=> ['tipo'           => 'I',
-                         'meta'           => 10,
-                         'qtganha'        => 1,
-                         'de_planos_id'   => 3,
-                         'para_planos_id' => 5,
-                         'produtos_id'    => '',
-                         'bonificacao_produtos_id' => 1
-                        ],
-                  '3'=> ['tipo'           => 'V',
-                         'meta'           => 10,
-                         'qtganha'        => 1,
-                         'de_planos_id'   => 4,
-                         'para_planos_id' => 5,
-                         'produtos_id'    => '',
-                         'bonificacao_produtos_id' => 1
-                        ],
-                  '4'=> ['tipo'           => 'V',
-                         'meta'           => 10,
-                         'qtganha'        => 1,
-                         'de_planos_id'   => 5,
-                         'para_planos_id' => 5,
-                         'produtos_id'    => '',
-                         'bonificacao_produtos_id' => 1
-                        ],
-                 ];
-        $this->set('metas', $metas);
+
+        //METAS DO USUÁRIO (entidades {meta, contador})
+        $this->set('metas', DemoData::metasDoUsuario($usuario));
+        $this->set('planos', DemoData::planosLista());
+        $this->set('produtos', DemoData::produtosLista());
+
+        /**********************************************************************/
+
+        //INDICADORES DA GESTÃO (Dev e Admin)
+        if ($this->isGestao()) {
+            $indicadores = ['pedidos' => 0, 'saques' => 0, 'saques_valor' => 0, 'vencidas' => 0, 'novos' => 0, 'vendas_mes' => 0];
+
+            foreach (DemoData::pedidos() as $pedido) {
+                if (in_array($pedido->status, ['V', 'S', 'T'])) $indicadores['pedidos']++;
+            }
+            foreach (DemoData::faturas() as $fatura) {
+                if ($fatura->tipo == 'S' && $fatura->status == 'P') {
+                    $indicadores['saques']++;
+                    $indicadores['saques_valor'] += $fatura->total;
+                }
+                if (in_array($fatura->tipo, ['T', 'P']) && $fatura->status == 'P' && $fatura->vencimento->format('Y-m-d') < date('Y-m-d')) {
+                    $indicadores['vencidas']++;
+                }
+                if (in_array($fatura->tipo, ['T', 'P']) && $fatura->status == 'F' && $fatura->pagamento->format('Y-m') == date('Y-m')) {
+                    $indicadores['vendas_mes'] += $fatura->total;
+                }
+            }
+            foreach (DemoData::usuarios() as $associado) {
+                if ($associado->created->format('Y-m') == date('Y-m')) $indicadores['novos']++;
+            }
+
+            $this->set('indicadores', $indicadores);
+        }
         
         /**********************************************************************/
         //DASHBOARD

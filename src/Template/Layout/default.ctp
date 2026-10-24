@@ -31,7 +31,7 @@
                     </div>
                     <div class="top-15 hidden-xs col-sm-4 text-center">
                         <?php
-                            $link_avisos = $this->Url->build(["controller" => "Avisos", "action" => "listar"]);
+                            $link_avisos = $this->Url->build(["controller" => "Notices", "action" => "pending"]);
                         ?>
                         <a href="<?= $link_avisos ?>" class="btn-avisos btn_modal <?php if ($count_avisos > 0 ) echo 'avisos-alerta'; ?>" data-loading-text="Carregando..." data-title="Avisos">
                             <span class="fa-stack fa-lg">
@@ -111,13 +111,13 @@
                         </a>
                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                             <li>
-                                <?= $this->Html->link(('Meus dados'), ['controller' => 'Pages', 'action' => 'dados'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Meus Dados', 'title' => 'Meus dados', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Meus dados'), ['controller' => 'Users', 'action' => 'profile'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Meus Dados', 'title' => 'Meus dados', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
-                                <?= $this->Html->link(('Alterar minha senha'), ['controller' => 'Pages', 'action' => 'senha'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Alterar Minha Senha', 'title' => 'Alterar minha senha', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Alterar minha senha'), ['controller' => 'Users', 'action' => 'password'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Alterar Minha Senha', 'title' => 'Alterar minha senha', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
-                                <?= $this->Html->link(('Dados bancários'), ['controller' => 'Pages', 'action' => 'banco'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Dados Bancários', 'title' => 'Dados bancários', 'aria-hidden' => true, 'escape' => false]) ?>
+                                <?= $this->Html->link(('Dados bancários'), ['controller' => 'Users', 'action' => 'bank'], ['class' => 'btn_modal', 'data-loading-text' => 'Carregando...', 'data-tamanho' => 'sm', 'data-title' => 'Dados Bancários', 'title' => 'Dados bancários', 'aria-hidden' => true, 'escape' => false]) ?>
                             </li>
                             <li>
                                 <?= $this->Html->link('<i class="fa fa-sign-out pull-right" aria-hidden="true"></i> Sair', ['controller' => 'Pages', 'action' => 'logout'], ['escape' => false]) ?>

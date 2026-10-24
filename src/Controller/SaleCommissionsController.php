@@ -11,6 +11,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Lib\DemoData;
 use Cake\Log\Log;
 
 class SaleCommissionsController extends AppController
@@ -44,8 +45,8 @@ class SaleCommissionsController extends AppController
 
         /*******/
         
-        //Enquanto a consulta ao banco estiver desativada, envia uma lista vazia
-        $data = [];
+        //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
+        $data = DemoData::comissoes();
 
         //Data query object
         /*
@@ -94,9 +95,8 @@ class SaleCommissionsController extends AppController
 
             /*******/
             
-            //Error message and page redirection
-            $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi gravado. Por favor, tente novamente'));
-            return $this->redirect($this->referer());
+            //Sem banco de dados: a gravação é apenas simulada
+            return $this->simularGravacao();
             
         }//if ($this->request->is('post'))
     }
@@ -133,9 +133,8 @@ class SaleCommissionsController extends AppController
 
             /*******/
             
-            //Error message and page redirection
-            $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi gravado. Por favor, tente novamente'));
-            return $this->redirect($this->referer());
+            //Sem banco de dados: a gravação é apenas simulada
+            return $this->simularGravacao();
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
@@ -147,13 +146,12 @@ class SaleCommissionsController extends AppController
         $this->set('_serialize', ['data']);
     }
 
+    /**
+     * Filtros do relatório de comissões (modal). O relatório abre em Reports::commissions.
+     */
     public function report()
     {
-        //GET exibe o formulário de filtros (modal); o envio ainda não gera relatório
-        if ($this->request->is('post')) {
-            $this->Flash->warning(__('O relatório de comissões ainda não está disponível'));
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->set('associados', DemoData::associadosLista());
     }
 
     public function delete($id)
@@ -185,10 +183,7 @@ class SaleCommissionsController extends AppController
         //Set error message log
         Log::write('debug', 'SaleCommissionsController->delete: '.json_encode($data->errors()));
         */  
-        //Error message
-        $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi excluído. Por favor, tente novamente'));
-
-        //Page redirection
-        return $this->redirect($this->referer());
+        //Sem banco de dados: a exclusão é apenas simulada
+        return $this->simularGravacao(__('Registro excluído'));
     }
 }

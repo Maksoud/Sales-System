@@ -36,62 +36,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><?= str_pad(1234, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $this->MyHtml->date('2019-09-23') ?></td>
-                        <td><?= 'Descrição do Plano 1' ?></td>
-                        <td><?= $this->Number->currency(1234.56, 'BRL') ?></td>
-                        <td><?= $this->Html->link('Descrição do Produto 1', ['controller' => 'Products', 'action' => 'view', 1234], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) ?></td>
-                        <td><?= $this->Number->format(10) ?></td>
-                        <td><?= $this->Number->format(1) ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', 1234], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', 1234], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1235, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $this->MyHtml->date('2019-09-23') ?></td>
-                        <td><?= 'Descrição do Plano 2' ?></td>
-                        <td><?= $this->Number->currency(1234.56, 'BRL') ?></td>
-                        <td><?= $this->Html->link('Descrição do Produto 2', ['controller' => 'Products', 'action' => 'view', 1235], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) ?></td>
-                        <td><?= $this->Number->format(10) ?></td>
-                        <td><?= $this->Number->format(1) ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', 1235], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', 1235], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1236, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $this->MyHtml->date('2019-09-23') ?></td>
-                        <td><?= 'Descrição do Plano 3' ?></td>
-                        <td><?= $this->Number->currency(1234.56, 'BRL') ?></td>
-                        <td><?= $this->Html->link('Descrição do Produto 3', ['controller' => 'Products', 'action' => 'view', 1236], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) ?></td>
-                        <td><?= $this->Number->format(10) ?></td>
-                        <td><?= $this->Number->format(1) ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', 1236], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', 1236], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1237, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= $this->MyHtml->date('2019-09-23') ?></td>
-                        <td><?= 'Descrição do Plano 4' ?></td>
-                        <td><?= $this->Number->currency(1234.56, 'BRL') ?></td>
-                        <td><?= $this->Html->link('Descrição do Produto 4', ['controller' => 'Products', 'action' => 'view', 1237], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) ?></td>
-                        <td><?= $this->Number->format(10) ?></td>
-                        <td><?= $this->Number->format(1) ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', 1237], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', 1237], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
+                    <?php foreach ($data as $plano): ?>
+                        <?php if (in_array($plano->id, [1, 2])) continue; //Dev e Admin não são planos de venda ?>
+                        <?php $produto = $plano->produtos_id ? \App\Lib\DemoData::produto($plano->produtos_id) : null; ?>
+                        <tr>
+                            <td><?= str_pad($plano->id, 6, '0', STR_PAD_LEFT) ?></td>
+                            <td data-order="<?= $plano->created->format('Ymd') ?>"><?= $this->MyHtml->date($plano->created) ?></td>
+                            <td><span class="plano<?= $plano->id ?> text-nowrap"><label class="fa"></label> <?= h($plano->title) ?></span></td>
+                            <td data-order="<?= $plano->taxa ?>"><?= $plano->taxa > 0 ? $this->Number->currency($plano->taxa, 'BRL') : __('Sem taxa') ?></td>
+                            <td><?= $produto ? $this->Html->link(h($produto->title), ['controller' => 'Products', 'action' => 'view', $produto->id], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) : '-' ?></td>
+                            <td><?= $plano->qtprodutos ? $this->Number->format($plano->qtprodutos) : '-' ?></td>
+                            <td>-</td>
+                            <td class="col-xs-1">
+                                <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', $plano->id], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
+                                <div class="clearfix"></div>
+                                <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', $plano->id], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

@@ -56,54 +56,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><?= str_pad(1234, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal">
-                            <?= '<i class="fa fa-diamond" title="Produto Vinculado 1"></i>' ?>
-                            <?= 'Descrição da Comissão 1' ?>
-                        </td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link('<i class="fa fa-eye"></i> Ver/Editar', ['controller' => 'SaleCommissions', 'action' => 'edit', 1234], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink('<i class="fa fa-trash"></i> Apagar', ['controller' => 'SaleCommissions', 'action' => 'delete', 1234], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1235, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal">
-                            <?= '<i class="fa fa-diamond" title="Produto Vinculado 2"></i>' ?>
-                            <?= 'Descrição da Comissão 2' ?>
-                        </td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link('<i class="fa fa-eye"></i> Ver/Editar', ['controller' => 'SaleCommissions', 'action' => 'edit', 1235], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink('<i class="fa fa-trash"></i> Apagar', ['controller' => 'SaleCommissions', 'action' => 'delete', 1235], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1236, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal">
-                            <?= '<i class="fa fa-diamond" title="Produto Vinculado 3"></i>' ?>
-                            <?= 'Descrição da Comissão 3' ?>
-                        </td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link('<i class="fa fa-eye"></i> Ver/Editar', ['controller' => 'SaleCommissions', 'action' => 'edit', 1236], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink('<i class="fa fa-trash"></i> Apagar', ['controller' => 'SaleCommissions', 'action' => 'delete', 1236], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?= str_pad(1237, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td style="white-space: normal">
-                            <?= '<i class="fa fa-diamond" title="Produto Vinculado 4"></i>' ?>
-                            <?= 'Descrição da Comissão 4' ?>
-                        </td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link('<i class="fa fa-eye"></i> Ver/Editar', ['controller' => 'SaleCommissions', 'action' => 'edit', 1237], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink('<i class="fa fa-trash"></i> Apagar', ['controller' => 'SaleCommissions', 'action' => 'delete', 1237], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
+                    <?php foreach ($data as $comissao): ?>
+                        <tr>
+                            <td><?= str_pad($comissao->id, 6, '0', STR_PAD_LEFT) ?></td>
+                            <td style="white-space: normal">
+                                <i class="fa <?= $comissao->origem == 'T' ? 'fa-users' : 'fa-diamond' ?>" aria-hidden="true" title="<?= $comissao->origem == 'T' ? __('Taxa de inscrição') : __('Pedidos da loja') ?>"></i>
+                                <strong><?= $this->Comissoes->tipo($comissao->tipo) ?></strong>:
+                                <?= $comissao->porcentagem ?>% <?= $comissao->origem == 'T' ? __('sobre a taxa de inscrição') : __('sobre os pedidos (sem frete)') ?>
+                                <?= __('para o associado {0} nível(is) acima de quem pagou', $comissao->nivel) ?>
+                            </td>
+                            <td class="col-xs-1">
+                                <?= $this->Html->link('<i class="fa fa-eye"></i> ' . __('Ver/Editar'), ['controller' => 'SaleCommissions', 'action' => 'edit', $comissao->id], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
+                                <div class="clearfix"></div>
+                                <?= $this->Form->postLink('<i class="fa fa-trash"></i> ' . __('Apagar'), ['controller' => 'SaleCommissions', 'action' => 'delete', $comissao->id], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         

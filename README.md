@@ -4,10 +4,25 @@ Painel de gestão de vendas, comissões e metas da rede **Reiniciando**, feito e
 
 Produção: <http://reiniciando.com.br/Sales-System/>
 
-> **Estado atual:** protótipo em desenvolvimento. As telas de Regiões, Planos, Metas e Comissões
-> existem, mas as consultas ao banco estão desativadas nos controllers e as listas aparecem vazias.
-> Os atalhos do dashboard de módulos que ainda não existem (Pedidos, Faturas, Saques, Avisos etc.)
-> aparecem com o selo **"Em breve"**.
+> **Estado atual:** demonstração funcional, sem banco de dados. Todas as telas dos 6 perfis
+> funcionam com **dados simulados** gerados por `src/Lib/DemoData.php`: uma rede de 35 usuários,
+> cerca de 80 pedidos e 270 faturas (taxas, pedidos, comissões e saques) coerentes entre si, com
+> datas relativas ao dia atual. Formulários e ações (salvar, baixar, cancelar, excluir) apenas
+> simulam a gravação e exibem uma mensagem "(demonstração: nenhum dado foi alterado)".
+
+## Módulos
+
+| Controller | Telas |
+|---|---|
+| `OrdersController` | Loja, Meus Pedidos, Pedidos da Loja, detalhes, envio, frete e impostos |
+| `InvoicesController` | Extrato Geral, Saques, Taxas, Faturas de Pedidos e de Comissões, Meu Extrato, Solicitar Saque |
+| `NoticesController` | Avisos (gestão) e o sino de avisos pendentes do cabeçalho |
+| `UsersController` | Minha Rede, Cadastrar Associado, Meus Dados, senha, dados bancários, Sistema > Usuários |
+| `ProductsController` | Sistema > Produtos |
+| `ReportsController` | Relatórios para impressão: pedidos, faturas, metas, comissões, associados, clientes, pagamentos, saldos, cadastros e impostos |
+
+Para ligar ao banco no futuro, troque as chamadas a `DemoData` nos controllers por consultas ao ORM;
+os campos das entidades seguem o esquema do projeto de origem (`mineralli.sql`).
 
 ---
 
@@ -143,7 +158,8 @@ config/
   bootstrap.php       Inicialização e IDs dos perfis
   routes.php          Rotas (/, /login, /logout + rotas padrão)
 src/
-  Controller/         Pages, Regions, GoalPlans, SaleGoals, SaleCommissions
+  Controller/         Pages, Orders, Invoices, Notices, Users, Products, Reports e Sistema
+  Lib/DemoData.php    Dados simulados usados enquanto não há banco
   Model/Table/        Models do ORM
   Template/           Views (.ctp). Layout principal: Template/Layout/default.ctp
 webroot/              Arquivos públicos (css, js, img, fontes)

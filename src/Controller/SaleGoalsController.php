@@ -11,6 +11,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Lib\DemoData;
 use Cake\Log\Log;
 
 class SaleGoalsController extends AppController
@@ -23,8 +24,16 @@ class SaleGoalsController extends AppController
         /*******/
 
         //Internal Pages
-        $this->Auth->allow(['index', 'add', 'edit', 'delete']);
+        $this->Auth->allow(['index', 'add', 'edit', 'delete', 'report']);
 
+    }
+
+    /**
+     * Filtros do relatório de metas (modal). O relatório abre em Reports::goals.
+     */
+    public function report()
+    {
+        $this->set('planos', DemoData::planosLista(true));
     }
 
     public function index()
@@ -44,8 +53,8 @@ class SaleGoalsController extends AppController
 
         /*******/
         
-        //Enquanto a consulta ao banco estiver desativada, envia uma lista vazia
-        $data = [];
+        //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
+        $data = DemoData::metas();
 
         //Data query object
         /*
@@ -94,9 +103,8 @@ class SaleGoalsController extends AppController
 
             /*******/
             
-            //Error message and page redirection
-            $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi gravado. Por favor, tente novamente'));
-            return $this->redirect($this->referer());
+            //Sem banco de dados: a gravação é apenas simulada
+            return $this->simularGravacao();
             
         }//if ($this->request->is('post'))
     }
@@ -134,9 +142,8 @@ class SaleGoalsController extends AppController
 
             /*******/
             
-            //Error message and page redirection
-            $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi gravado. Por favor, tente novamente'));
-            return $this->redirect($this->referer());
+            //Sem banco de dados: a gravação é apenas simulada
+            return $this->simularGravacao();
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
@@ -177,10 +184,7 @@ class SaleGoalsController extends AppController
         //Set error message log
         Log::write('debug', 'SaleGoalsController->delete: '.json_encode($data->errors()));
         */  
-        //Error message
-        $this->Flash->error(__('Desculpe, ocorreu um erro e o registro não foi excluído. Por favor, tente novamente'));
-
-        //Page redirection
-        return $this->redirect($this->referer());
+        //Sem banco de dados: a exclusão é apenas simulada
+        return $this->simularGravacao(__('Registro excluído'));
     }
 }

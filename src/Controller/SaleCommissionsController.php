@@ -46,7 +46,7 @@ class SaleCommissionsController extends AppController
         /*******/
         
         //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
-        $data = DemoData::comissoes();
+        $data = DemoData::filtrar(DemoData::comissoes(), $this->request->getQueryParams(), ['type' => 'tipo']);
 
         //Data query object
         /*
@@ -96,9 +96,16 @@ class SaleCommissionsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Comissão cadastrada.'));
             
         }//if ($this->request->is('post'))
+
+        //Send object data to view
+        $comissao = null;
+        $planos   = DemoData::planosLista(true);
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('comissao', 'planos', 'produtos'));
+        $this->render('form');
     }
 
     public function edit($id)
@@ -134,16 +141,19 @@ class SaleCommissionsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Comissão atualizada.'));
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
         /*******/
 
         //Send object data to view
-        $data = null;
-        $this->set(compact('data'));
-        $this->set('_serialize', ['data']);
+        $comissoes = DemoData::comissoes();
+        $comissao = isset($comissoes[$id]) ? $comissoes[$id] : reset($comissoes);
+        $planos   = DemoData::planosLista(true);
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('comissao', 'planos', 'produtos'));
+        $this->render('form');
     }
 
     /**
@@ -184,6 +194,6 @@ class SaleCommissionsController extends AppController
         Log::write('debug', 'SaleCommissionsController->delete: '.json_encode($data->errors()));
         */  
         //Sem banco de dados: a exclusão é apenas simulada
-        return $this->simularGravacao(__('Registro excluído'));
+        return $this->simularGravacao(__('Comissão excluída.'));
     }
 }

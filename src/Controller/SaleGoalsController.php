@@ -54,7 +54,9 @@ class SaleGoalsController extends AppController
         /*******/
         
         //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
-        $data = DemoData::metas();
+        $data     = DemoData::metas();
+        $planos   = DemoData::planos();
+        $produtos = DemoData::produtosLista();
 
         //Data query object
         /*
@@ -67,7 +69,7 @@ class SaleGoalsController extends AppController
         /*******/
 
         //Send object data to view
-        $this->set(compact('data'));
+        $this->set(compact('data', 'planos', 'produtos'));
         $this->set('_serialize', ['data']);
     }
 
@@ -104,9 +106,16 @@ class SaleGoalsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Meta cadastrada.'));
             
         }//if ($this->request->is('post'))
+
+        //Send object data to view
+        $meta = null;
+        $planos   = DemoData::planosLista(true);
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('meta', 'planos', 'produtos'));
+        $this->render('form');
     }
 
     public function edit($id)
@@ -143,16 +152,19 @@ class SaleGoalsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Meta atualizada.'));
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
         /*******/
 
         //Send object data to view
-        $data = null;
-        $this->set(compact('data'));
-        $this->set('_serialize', ['data']);
+        $metas = DemoData::metas();
+        $meta = isset($metas[$id]) ? $metas[$id] : reset($metas);
+        $planos   = DemoData::planosLista(true);
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('meta', 'planos', 'produtos'));
+        $this->render('form');
     }
 
     public function delete($id)
@@ -185,6 +197,6 @@ class SaleGoalsController extends AppController
         Log::write('debug', 'SaleGoalsController->delete: '.json_encode($data->errors()));
         */  
         //Sem banco de dados: a exclusão é apenas simulada
-        return $this->simularGravacao(__('Registro excluído'));
+        return $this->simularGravacao(__('Meta excluída.'));
     }
 }

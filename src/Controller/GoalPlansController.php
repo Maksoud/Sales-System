@@ -46,7 +46,8 @@ class GoalPlansController extends AppController
         /*******/
         
         //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
-        $data = DemoData::planos();
+        $data     = DemoData::planos();
+        $produtos = DemoData::produtos();
 
         //Data query object
         /*
@@ -59,7 +60,7 @@ class GoalPlansController extends AppController
         /*******/
 
         //Send object data to view
-        $this->set(compact('data'));
+        $this->set(compact('data', 'produtos'));
         $this->set('_serialize', ['data']);
     }
 
@@ -96,9 +97,15 @@ class GoalPlansController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Plano cadastrado.'));
             
         }//if ($this->request->is('post'))
+
+        //Send object data to view
+        $plano = null;
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('plano', 'produtos'));
+        $this->render('form');
     }
 
     public function edit($id)
@@ -134,16 +141,18 @@ class GoalPlansController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Plano atualizado.'));
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
         /*******/
 
         //Send object data to view
-        $data = null;
-        $this->set(compact('data'));
-        $this->set('_serialize', ['data']);
+        $planos = DemoData::planos();
+        $plano = isset($planos[$id]) ? $planos[$id] : reset($planos);
+        $produtos = DemoData::produtosLista();
+        $this->set(compact('plano', 'produtos'));
+        $this->render('form');
     }
 
     public function delete($id)
@@ -176,6 +185,6 @@ class GoalPlansController extends AppController
         Log::write('debug', 'GoalPlansController->delete: '.json_encode($data->errors()));
         */  
         //Sem banco de dados: a exclusão é apenas simulada
-        return $this->simularGravacao(__('Registro excluído'));
+        return $this->simularGravacao(__('Plano excluído.'));
     }
 }

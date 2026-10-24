@@ -132,14 +132,32 @@ para texto; Alterar senha, Dados bancários e Meus dados só foram conferidos pe
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (Regions, GoalPlans, SaleGoals, SaleCommissions, Pages; Users saiu em 2026-10-24): **retire o controller da lista ao migrar a tela** |
+| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (hoje só Pages; Users, Regions, GoalPlans, SaleGoals e SaleCommissions saíram em 2026-10-24): **retire o controller da lista ao migrar a tela** |
 | [x] | `Products/index.ctp` | I | 2026-10-24 | Novo `ProdutosHelper` (`statusLista`, `statusLabel($status, $loja)`). Ações: editar + excluir (ícones). Marca de comissões vai na linha de apoio + legenda `ss-note`. Coluna de ações sem ordenação (`data-orderable="false"`) |
 | [x] | `Products/view.ctp` | V | 2026-10-24 | Modal (aberto a partir de Planos). Usa os textos da loja (Disponível / Fora de linha) |
 | [x] | `Products/form.ctp` | F | 2026-10-24 | Seções Identificação, Venda, Imagem. "Gravar" → Salvar/Cadastrar; Cancelar `type=button`; Excluir no rodapé (`postLink` com `block`). Sem `Form->error()`: o form usa `create(null)` e não há erro de campo para mostrar |
-| [ ] | `Regions/index.ctp`, `add.ctp`, `edit.ctp` | I/F | | |
-| [ ] | `GoalPlans/index.ctp`, `add.ctp`, `edit.ctp` | I/F | | |
-| [ ] | `SaleGoals/index.ctp`, `add.ctp`, `edit.ctp`, `report.ctp` | I/F | | |
-| [ ] | `SaleCommissions/index.ctp`, `add.ctp`, `edit.ctp`, `report.ctp` | I/F | | |
+| [x] | `Regions/index.ctp` | I | 2026-10-24 | 7 colunas: Código, Região (UF · N cidades na linha de apoio), Cidades, Exclusividade (associado responsável + selo do plano, ou "Aberta a todos" em `ss-muted`), Cadastro (`ss-hide-xs`), Atualização, ações (Editar e Excluir em ícones). Regra da exclusividade em `ss-note`. **A busca passou a filtrar** (região, UF ou cidade; antes o campo era ignorado). Estado vazio com e sem filtro |
+| [x] | `Regions/form.ctp` (substitui `add.ctp` e `edit.ctp`) | F | 2026-10-24 | Modal. Na edição, código e responsável em `ss-dl` no topo. Seções Identificação e Cidades; o tooltip da exclusividade virou `help-block`. Cidades da região no novo `ss-chips` (remover funciona pelo `data-dismiss="alert"` do Bootstrap). País/Estado/Cidade e `#btn_add_cidade` continuam sem JS (já não funcionavam), com as mesmas opções de exemplo. Ids `#states`, `#cities`, `#lista_cidades` mantidos |
+| [x] | `GoalPlans/index.ctp` | I | 2026-10-24 | Lista em cards (`ss-grid-auto`), como `listagem.md` sugere para planos: título, código, selo do plano, `ss-dl--grid` com Taxa de inscrição, Bonificação (qtd × produto, abre o produto em modal), Meta mínima de vendas (sempre —, o dado não existe) e Cadastro; rodapé com Editar e Excluir. Dev e Admin continuam fora |
+| [x] | `GoalPlans/form.ctp` (substitui `add.ctp` e `edit.ctp`) | F | 2026-10-24 | Modal. Seções Plano e Bonificação pela inscrição; tooltips viraram `help-block`. Produtos reais no select (antes "opção 1..4"). O campo da meta continua `salesGoals` na inclusão e `saleGoals` na edição (nomes antigos mantidos). Saiu o `onkeyup` (o campo é `number` com `min`) |
+| [x] | `SaleGoals/index.ctp` | I | 2026-10-24 | A frase única virou colunas: Código, Meta ("Indicar 10 novos VIP" / "Comprar 50 × produto", tipo com ícone na linha de apoio), Plano (selo), Prêmio, Cadastro, ações. Legenda de ícones removida (o tipo está escrito). Corrigida a `</div>` que faltava no fim do template |
+| [x] | `SaleGoals/form.ctp` (substitui `add.ctp` e `edit.ctp`) | F | 2026-10-24 | Modal. Tipo em `ss-choices` (ids `tipo-i`/`tipo-v`, `name` `tipo`). Seções Plano e meta, Prêmio. **`#tipo_indicacao`/`#tipo_venda` agora alternam** com o tipo (script curto no template; antes "Vendas de" nunca aparecia). Nomes antigos mantidos: `benefit_products_id`/`howmuch` na inclusão, `benefits_products_id`/`qtganha` na edição. Planos e produtos reais nos selects |
+| [x] | `SaleGoals/report.ctp` | F | 2026-10-24 | Só o texto de "todos" do select |
+| [x] | `SaleCommissions/index.ctp` | I | 2026-10-24 | Busca em `ss-filters` com opções vazias por extenso ("Recebe: todos os planos", "Paga: todos os planos", "Todos os tipos"). Colunas: Código, Comissão (tipo; origem com ícone na linha de apoio: `fa-ticket` taxa, `fa-shopping-cart` pedidos), Percentual, Quem recebe ("N níveis acima de quem pagou"), Cadastro, ações. Legenda de 7 ícones trocada por `ss-note` explicando os níveis. **O filtro de tipo passou a funcionar**; valor e planos continuam sem efeito (as regras de exemplo não têm esses campos) |
+| [x] | `SaleCommissions/form.ctp` (substitui `add.ctp` e `edit.ctp`) | F | 2026-10-24 | Modal. Na edição, código e "Regra atual" em `ss-dl`. Seções Planos e Comissão; tooltips viraram `help-block`; Multinível vem marcado para IM/VM. **O formulário pede valor em R$, mas as regras são em %**: na edição o valor vem vazio (antes R$ 1.234,56 fixo). Resolver quando o banco voltar |
+| [x] | `SaleCommissions/report.ctp` | F | 2026-10-24 | Só os textos de "todos" dos selects |
+
+Regiões, Planos, Metas e Comissões verificados em 2026-10-24 no navegador (1280px; 375px num iframe),
+perfil Dev: listas, busca de regiões e filtro de tipo das comissões, modais de edição (regra, meta
+de venda com troca de tipo, região com remoção de cidade), cadastrar região (flash), sem rolagem
+horizontal. Excluir não foi clicado (abre `confirm`). Controllers: `add`/`edit` renderizam o `form`
+com o registro de demonstração e as listas de planos/produtos; mensagens de flash específicas
+("Região cadastrada." etc.). O botão salvar perdeu a classe `scroll-modal`, cujo JS chamava
+`preventDefault()` no clique e impedia o envio. Tema em `ss-theme.css?v=8`:
+- `ss-chips`/`ss-chip` (seção 7).
+- Cards em `ss-grid-auto` com a mesma altura e rodapé embaixo.
+- `.ss-table--stack.dataTable { width: 100% !important }` no celular: com uma coluna `ss-hide-xs`,
+  o DataTables gravava `width: 0px` na tabela e o card ficava espremido.
 
 Sistema > Produtos verificado em 2026-10-24 no navegador (1280px e 375px): subnav, filtros,
 estado vazio, modal de edição e de inclusão (foco no nome), salvar, cadastrar, excluir pela
@@ -184,4 +202,5 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 | 2026-10-24 | `ss-product` (card de produto da loja) | 17. Peças do domínio | Loja precisava de imagem, preço, quantidade e subtotal por produto; nenhum card existente tinha campo de quantidade |
 | 2026-10-24 | `ss-net-node` (pessoa na árvore da rede) | 17. Peças do domínio | O nó antigo empilhava itens com `clearfix` e `style`; precisava de avatar, nome, login, plano, status e contagem num card só, e de um estado sem clique para quem não tem indicados |
 | 2026-10-24 | `ss-goals` / `ss-progress` (metas com barra de progresso) | 17. Peças do domínio | A barra do Bootstrap precisa de `style="width"`; o `<progress>` nativo recebe o valor sem estilo inline |
+| 2026-10-24 | `ss-chips` / `ss-chip` (itens removíveis) | 7. Badges e selos | Cidades da região: o antigo `alert alert-info pull-left` com × não removia nada; precisava de item compacto com campo oculto e botão de remover |
 | 2026-10-24 | `ss-richtext` e `ss-figure` (texto com HTML e imagem do aviso) | 16. Mensagens, avisos e estado vazio | A mensagem do aviso vem com `<p>`/`<strong>`: `ss-message-text` usa `pre-line` e é um `<p>`, o que quebrava o espaçamento; a imagem precisava de borda e raio dos tokens |

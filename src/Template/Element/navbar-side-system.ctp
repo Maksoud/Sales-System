@@ -21,7 +21,7 @@ $atual = $this->request->getParam('controller');
 
 //Telas que ainda usam o layout antigo (coluna .sidebar + col-sm-9).
 //Retire o controller daqui ao migrar a tela para o ss-layout; quando esvaziar, apague o bloco antigo.
-$legado = ['Regions', 'GoalPlans', 'SaleGoals', 'SaleCommissions', 'Pages'];
+$legado = ['Pages'];
 ?>
 
 <?php if (in_array($atual, $legado)): ?>

@@ -14,6 +14,6 @@ echo $this->element('report-form', [
     'url'     => ['controller' => 'Reports', 'action' => 'goals'],
     'periodo' => false,
     'selects' => [
-        'planos_id' => [__('Plano'), $planos],
+        'planos_id' => [__('Plano'), $planos, __('Todos os planos')],
     ],
 ]);

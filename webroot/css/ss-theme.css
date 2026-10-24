@@ -709,6 +709,30 @@ input[type="file"]::file-selector-button {
 .ss-plan--vip,     .ss-plan--5 { --ss-plan-color: var(--ss-plan-vip); }
 .ss-plan--cliente, .ss-plan--6 { --ss-plan-color: var(--ss-plan-cliente); }
 
+/* Item removível de uma lista (ex.: cidades da região) */
+.ss-chips { display: flex; flex-wrap: wrap; gap: var(--ss-space-2); margin: 0; padding: 0; list-style: none; }
+.ss-chip {
+    display: inline-flex; align-items: center; gap: 2px;
+    min-height: 32px; padding: 0 4px 0 12px;
+    font-size: var(--ss-text-sm); color: var(--ss-text-2);
+    background: var(--ss-surface-2);
+    border: 1px solid var(--ss-border-strong);
+    border-radius: var(--ss-radius-pill);
+}
+.ss-chip-remove {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; padding: 0;
+    font-size: 16px; line-height: 1;
+    color: var(--ss-text-muted);
+    background: transparent; border: 0; border-radius: 50%;
+    transition: color var(--ss-transition), background-color var(--ss-transition);
+}
+.ss-chip-remove:hover, .ss-chip-remove:focus { color: var(--ss-danger-fg); background: var(--ss-danger-bg); }
+@media (max-width: 767px) {
+    .ss-chip { min-height: 40px; }
+    .ss-chip-remove { width: 32px; height: 32px; }
+}
+
 /* =========================================================================
    8. ALERTAS E NOTAS
    ========================================================================= */
@@ -851,6 +875,9 @@ input[type="file"]::file-selector-button {
 .ss-card--flush > .table, .ss-card--flush .ss-table-wrap { margin: 0; }
 .ss-card + .ss-card { margin-top: var(--ss-space-4); }
 .ss-stack > .ss-card + .ss-card, .ss-stack-lg > .ss-card + .ss-card, .ss-grid-auto > .ss-card + .ss-card, .ss-split > .ss-card + .ss-card { margin-top: 0; }
+/* Cards em grade com a mesma altura e o rodapé alinhado embaixo */
+.ss-grid-auto > .ss-card { display: flex; flex-direction: column; }
+.ss-grid-auto > .ss-card > .ss-card-body { flex: 1 1 auto; }
 
 /* Card que é link inteiro */
 a.ss-card, .ss-card--link { display: block; color: inherit; transition: border-color var(--ss-transition), box-shadow var(--ss-transition); }
@@ -1012,6 +1039,8 @@ a.ss-cell-title:hover { color: var(--ss-link); }
 @media (max-width: 767px) {
     .ss-table--stack thead { display: none; }
     .ss-table--stack, .ss-table--stack tbody, .ss-table--stack tr, .ss-table--stack td { display: block; width: 100%; }
+    /* O DataTables grava a largura no style da tabela (width: 0 quando há coluna ss-hide-xs) */
+    .ss-table--stack.dataTable { width: 100% !important; }
     .ss-table--stack > tbody > tr {
         display: flex; flex-direction: column;
         padding: var(--ss-space-3) var(--ss-space-4);

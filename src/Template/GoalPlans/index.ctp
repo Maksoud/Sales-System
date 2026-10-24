@@ -2,61 +2,114 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2018-2019
  */
 
 /* File: src/Template/GoalPlans/index.ctp */
+
+//Dev e Admin não são planos de venda
+$planos = array_filter($data, function ($plano) { return !in_array($plano->id, [1, 2]); });
+$total = count($planos);
 ?>
 
-<div class="container-fluid noPadding">
+<div class="ss-container ss-page">
+    <div class="ss-layout">
 
-    <?= $this->element('navbar-side-system') ?>
-    
-    <div class="col-xs-12 col-sm-9 col-md-10">
-        <div class="no-padding-lat">
-            <div class="pull-right"><?= $this->Html->link(__(' Incluir'), ['controller' => 'GoalPlans', 'action' => 'add'], ['class' => 'btn btn-primary fa fa-plus-circle btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => __('Novo Plano')]) ?></div>
-            <h3 class="page-header top-20"><?= __('Planos') ?></h3>
-        </div>
-        
-        <?= $this->element('msg-alert') ?>
-        
-        <div class="scrolling bottom-40 col-xs-12 box-panel bg-white">
-            <table class="table table-striped box" id="adjustable">
-                <thead>
-                    <tr>
-                        <th class="text-nowrap width-50"><?= __('#') ?></th>
-                        <th class="text-nowrap col-xs-1"><?= __('Data de Cadastro') ?></th>
-                        <th class="text-nowrap col-xs-1"><?= __('Descrição') ?></th>
-                        <th class="text-nowrap col-xs-1"><?= __('Taxa Plano') ?></th>
-                        <th class="text-nowrap"><?= __('Produto') ?></th>
-                        <th class="text-nowrap col-xs-1"><?= __('Qtd.Produto') ?></th>
-                        <th class="text-nowrap col-xs-1"><?= __('Meta de Vendas') ?></th>
-                        <th class="text-center col-xs-1"><?= __('Ações') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($data as $plano): ?>
-                        <?php if (in_array($plano->id, [1, 2])) continue; //Dev e Admin não são planos de venda ?>
-                        <?php $produto = $plano->produtos_id ? \App\Lib\DemoData::produto($plano->produtos_id) : null; ?>
-                        <tr>
-                            <td><?= str_pad($plano->id, 6, '0', STR_PAD_LEFT) ?></td>
-                            <td data-order="<?= $plano->created->format('Ymd') ?>"><?= $this->MyHtml->date($plano->created) ?></td>
-                            <td><span class="plano<?= $plano->id ?> text-nowrap"><label class="fa"></label> <?= h($plano->title) ?></span></td>
-                            <td data-order="<?= $plano->taxa ?>"><?= $plano->taxa > 0 ? $this->Number->currency($plano->taxa, 'BRL') : __('Sem taxa') ?></td>
-                            <td><?= $produto ? $this->Html->link(h($produto->title), ['controller' => 'Products', 'action' => 'view', $produto->id], ['class' => 'btn_modal', 'data-title' => __('Visualizar Produto')]) : '-' ?></td>
-                            <td><?= $plano->qtprodutos ? $this->Number->format($plano->qtprodutos) : '-' ?></td>
-                            <td>-</td>
-                            <td class="col-xs-1">
-                                <?= $this->Html->link(('<i class="fa fa-eye"></i> '.__('Ver/Editar')), ['controller' => 'GoalPlans', 'action' => 'edit', $plano->id], ['class' => 'top-5 btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Dados do Cadastro'), 'title' => __('Visualizar / Editar'), 'aria-hidden' => true, 'escape' => false]) ?>
-                                <div class="clearfix"></div>
-                                <?= $this->Form->postLink(('<i class="fa fa-trash"></i> '.__('Apagar')), ['controller' => 'GoalPlans', 'action' => 'delete', $plano->id], ['confirm' => __('Você tem certeza que deseja excluir o registro?'), 'class' => 'top-5 btn btn-danger btn-block', 'title' => __('Excluir'), 'aria-hidden' => true, 'escape' => false]) ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <?= $this->element('navbar-side-system') ?>
+
+        <div>
+            <header class="ss-page-header">
+                <div class="ss-page-header-main">
+                    <ol class="ss-breadcrumb">
+                        <li><?= __('Sistema') ?></li>
+                        <li><?= __('Planos') ?></li>
+                    </ol>
+                    <h1 class="ss-page-title"><?= __('Planos') ?></h1>
+                    <p class="ss-page-subtitle"><?= __n('{0} plano cadastrado', '{0} planos cadastrados', $total, $total) ?></p>
+                </div>
+                <div class="ss-page-actions">
+                    <?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> ' . __('Novo plano'), ['action' => 'add'],
+                            ['class' => 'btn btn-primary btn_modal', 'data-title' => __('Novo plano'),
+                             'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                </div>
+            </header>
+
+            <?= $this->element('msg-alert') ?>
+
+            <?php if ($total): ?>
+            <div class="ss-grid-auto">
+                <?php foreach ($planos as $plano): ?>
+                    <?php $produto = $plano->produtos_id && isset($produtos[$plano->produtos_id]) ? $produtos[$plano->produtos_id] : null; ?>
+                    <section class="ss-card">
+                        <header class="ss-card-header">
+                            <div>
+                                <h2 class="ss-card-title"><?= h($plano->title) ?></h2>
+                                <p class="ss-card-subtitle">
+                                    <span class="ss-id">#<?= str_pad($plano->id, 6, '0', STR_PAD_LEFT) ?></span>
+                                </p>
+                            </div>
+                            <span class="ss-plan ss-plan--<?= (int)$plano->id ?>"><?= h($plano->slug) ?></span>
+                        </header>
+                        <div class="ss-card-body">
+                            <dl class="ss-dl ss-dl--grid">
+                                <div>
+                                    <dt><?= __('Taxa de inscrição') ?></dt>
+                                    <dd>
+                                        <?php if ($plano->taxa > 0): ?>
+                                            <span class="ss-money"><?= $this->Number->currency($plano->taxa, 'BRL') ?></span>
+                                        <?php else: ?>
+                                            <span class="ss-muted"><?= __('Sem taxa') ?></span>
+                                        <?php endif; ?>
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt><?= __('Bonificação') ?></dt>
+                                    <dd>
+                                        <?php if ($produto): ?>
+                                            <span class="ss-num"><?= $this->Number->format($plano->qtprodutos ?: 1) ?></span> ×
+                                            <?= $this->Html->link(h($produto->title), ['controller' => 'Products', 'action' => 'view', $produto->id],
+                                                    ['class' => 'btn_modal', 'data-title' => __('Produto'),
+                                                     'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                                        <?php else: ?>
+                                            <span class="ss-muted">—</span>
+                                        <?php endif; ?>
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt><?= __('Meta mínima de vendas') ?></dt>
+                                    <dd><span class="ss-muted">—</span></dd>
+                                </div>
+                                <div>
+                                    <dt><?= __('Cadastro') ?></dt>
+                                    <dd><?= $this->MyHtml->date($plano->created) ?></dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <footer class="ss-card-footer ss-spread">
+                            <?= $this->Html->link('<i class="fa fa-pencil" aria-hidden="true"></i> ' . __('Editar'),
+                                    ['action' => 'edit', $plano->id],
+                                    ['class' => 'btn btn-sm ss-btn-ghost btn_modal', 'data-title' => __('Editar plano'),
+                                     'aria-label' => __('Editar {0}', $plano->title),
+                                     'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                            <?= $this->Form->postLink('<i class="fa fa-trash-o" aria-hidden="true"></i>',
+                                    ['action' => 'delete', $plano->id],
+                                    ['confirm' => __('Excluir o plano {0}? Esta ação não pode ser desfeita.', $plano->title),
+                                     'class' => 'btn btn-sm ss-btn-danger-soft ss-btn-icon', 'title' => __('Excluir'),
+                                     'aria-label' => __('Excluir {0}', $plano->title), 'escape' => false]) ?>
+                        </footer>
+                    </section>
+                <?php endforeach; ?>
+            </div>
+            <?php else: ?>
+            <section class="ss-card">
+                <div class="ss-empty">
+                    <div class="ss-empty-icon"><i class="fa fa-server" aria-hidden="true"></i></div>
+                    <p class="ss-empty-title"><?= __('Nenhum plano cadastrado') ?></p>
+                    <p class="ss-empty-text"><?= __('Cadastre o primeiro plano de venda.') ?></p>
+                </div>
+            </section>
+            <?php endif; ?>
         </div>
     </div>
-    
 </div>

@@ -46,7 +46,19 @@ class RegionsController extends AppController
         /*******/
         
         //Enquanto a consulta ao banco estiver desativada, usa os dados de demonstração
-        $data = DemoData::regioes();
+        $data = DemoData::filtrar(DemoData::regioes(), $this->request->getQueryParams(), [
+            'title' => function ($regiao, $valor) {
+                return mb_stripos($regiao->title . ' ' . $regiao->uf . ' ' . implode(' ', $regiao->cidades), $valor) !== false;
+            },
+        ]);
+
+        //Associado responsável pelas regiões exclusivas
+        $responsaveis = [];
+        foreach ($data as $regiao) {
+            if ($regiao->usuarios_id) {
+                $responsaveis[$regiao->id] = DemoData::usuario($regiao->usuarios_id);
+            }
+        }
 
         //Data query object
         /*
@@ -59,7 +71,7 @@ class RegionsController extends AppController
         /*******/
 
         //Send object data to view
-        $this->set(compact('data'));
+        $this->set(compact('data', 'responsaveis'));
         $this->set('_serialize', ['data']);
     }
 
@@ -96,9 +108,14 @@ class RegionsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Região cadastrada.'));
             
         }//if ($this->request->is('post'))
+
+        //Send object data to view
+        $regiao = null;
+        $this->set(compact('regiao'));
+        $this->render('form');
     }
 
     public function edit($id)
@@ -134,16 +151,18 @@ class RegionsController extends AppController
             /*******/
             
             //Sem banco de dados: a gravação é apenas simulada
-            return $this->simularGravacao();
+            return $this->simularGravacao(__('Região atualizada.'));
             
         }//if ($this->request->is(['patch', 'post', 'put']))
 
         /*******/
 
         //Send object data to view
-        $data = null;
-        $this->set(compact('data'));
-        $this->set('_serialize', ['data']);
+        $regioes = DemoData::regioes();
+        $regiao = isset($regioes[$id]) ? $regioes[$id] : reset($regioes);
+        $responsavel = $regiao->usuarios_id ? DemoData::usuario($regiao->usuarios_id) : null;
+        $this->set(compact('regiao', 'responsavel'));
+        $this->render('form');
     }
 
     public function delete($id)
@@ -176,6 +195,6 @@ class RegionsController extends AppController
         Log::write('debug', 'RegionsController->delete: '.json_encode($data->errors()));
         */  
         //Sem banco de dados: a exclusão é apenas simulada
-        return $this->simularGravacao(__('Registro excluído'));
+        return $this->simularGravacao(__('Região excluída.'));
     }
 }

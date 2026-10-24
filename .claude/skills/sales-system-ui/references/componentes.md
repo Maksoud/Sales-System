@@ -82,6 +82,25 @@ celular: `btn-block` só dentro de modal/rodapé; na página use `ss-page-action
 `label` e `ss-badge` são equivalentes; nas telas novas prefira `label label-*` porque é o que os
 helpers geram. Não coloque ícone dentro de badge de status.
 
+**Itens removíveis** (`ss-chips`/`ss-chip`): valores que a pessoa adiciona e tira de uma lista
+dentro do formulário (cidades da região). Cada item leva o campo oculto que é enviado; o botão usa
+o `data-dismiss="alert"` do Bootstrap com `data-target`, que remove o item (e o campo) sem JS próprio.
+
+```php
+<ul class="ss-chips" aria-label="<?= __('Cidades da região') ?>">
+    <li id="cidade<?= $i ?>" class="ss-chip">
+        <input type="hidden" name="cidade[]" value="<?= h($cidade) ?>">
+        <?= h($cidade) ?>
+        <button type="button" class="ss-chip-remove" data-dismiss="alert" data-target="#cidade<?= $i ?>"
+                title="<?= __('Remover') ?>" aria-label="<?= __('Remover {0}', $cidade) ?>">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+</ul>
+```
+
+Não use para status nem para categorias (são badges); o chip é só para escolhas que se removem.
+
 ## Alertas e flash
 (seção 8)
 

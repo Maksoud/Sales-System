@@ -909,7 +909,7 @@ class DemoData
         $avisos = [
             ['Bem-vindo ao novo painel Reiniciando',
              '<p>O painel foi totalmente renovado. Agora você acompanha <strong>pedidos, faturas, comissões e metas</strong> em um só lugar, de qualquer dispositivo.</p><p>Use o menu <em>Financeiro</em> para consultar seu extrato e solicitar saques.</p>',
-             null, 45, null, 'banners/a7027869-f6a7-4e88-9142-a193855ea53d-bemvindo.jpg'],
+             null, 45, null, null],
             ['Atualização da tabela de preços',
              '<p>A partir do dia 1º os refis e peças de reposição tiveram reajuste médio de 4,5%. O mineralizador mantém o preço atual.</p>',
              null, 62, null, null],

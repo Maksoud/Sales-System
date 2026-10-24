@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales-System · Guia visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<!-- Mesma ordem do Element/head.ctp: legado primeiro, tema por último -->
+<link rel="stylesheet" href="../../../../webroot/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../../webroot/css/dashboard2.css">
+<link rel="stylesheet" href="../../../../webroot/css/reiniciando.css">
+<link rel="stylesheet" href="../../../../webroot/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../../webroot/css/ss-theme.css">
+<style>
+/* Só para o guia */
+.sg-section { scroll-margin-top: 16px; }
+.sg-h { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ss-text-muted); margin: 40px 0 12px; }
+.sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.sg-swatch { border: 1px solid var(--ss-border); border-radius: var(--ss-radius); overflow: hidden; background: #fff; font-size: 12px; }
+.sg-swatch i { display: block; height: 44px; }
+.sg-swatch span { display: block; padding: 6px 8px; }
+.sg-swatch code { color: var(--ss-text-muted); background: none; padding: 0; font-size: 11px; }
+.sg-modal .modal-dialog { margin: 0; width: auto; max-width: 880px; }
+.sg-modal .modal-content { min-height: 0; }
+.sg-toc { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<!-- ============ CABEÇALHO ============ -->
+<header class="ss-topbar">
+    <div class="ss-container ss-topbar-inner">
+        <button type="button" class="ss-icon-btn ss-nav-toggle navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-sg" aria-label="Abrir menu"><i class="fa fa-bars" aria-hidden="true"></i></button>
+        <a class="ss-logo" href="#"><img src="../../../../webroot/img/Reiniciando.png" alt="Reiniciando"></a>
+        <div class="ss-topbar-actions">
+            <a href="#" class="ss-icon-btn has-alert" title="Avisos" aria-label="3 avisos"><i class="fa fa-bell-o" aria-hidden="true"></i><span class="ss-count ss-count--alert">3</span></a>
+            <div class="dropdown">
+                <a href="#" class="ss-user dropdown-toggle" data-toggle="dropdown">
+                    <span class="ss-avatar">RM</span>
+                    <span class="ss-user-text"><span class="ss-user-name">Renée Maksoud</span><span class="ss-user-plan"><span class="ss-plan ss-plan--4">Master</span></span></span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="ss-dropdown-info">Sessão expira em <strong>28:41</strong></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Meus dados</a></li>
+                    <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i> Alterar minha senha</a></li>
+                    <li><a href="#"><i class="fa fa-university" aria-hidden="true"></i> Dados bancários</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<nav class="navbar ss-navbar" aria-label="Menu principal">
+    <div class="ss-container">
+        <div class="collapse navbar-collapse" id="menu-sg">
+            <ul class="nav navbar-nav">
+                <li><a href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i> Início</a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Minha rede <span class="caret"></span></a>
+                    <ul class="dropdown-menu"><li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Visualizar</a></li><li role="separator" class="divider"></li><li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i> Cadastrar associado</a></li></ul></li>
+                <li class="dropdown active"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i> Pedidos <span class="caret"></span></a>
+                    <ul class="dropdown-menu"><li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i> Loja</a></li><li class="active"><a href="#"><i class="fa fa-file-text-o" aria-hidden="true"></i> Meus pedidos</a></li></ul></li>
+                <li><a href="#"><i class="fa fa-usd fa-fw" aria-hidden="true"></i> Financeiro <span class="caret"></span></a></li>
+                <li><a href="#"><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Relatórios</a></li>
+            </ul>
+            <div class="navbar-right tipo-acesso">
+                <span class="tipo-acesso-rotulo">Ver como</span>
+                <div class="tipo-acesso-opcoes">
+                    <a class="tipo-acesso-opcao" href="#"><i class="fa fa-shield"></i> Admin</a>
+                    <a class="tipo-acesso-opcao ativo" href="#"><i class="fa fa-trophy"></i> Master</a>
+                    <a class="tipo-acesso-opcao" href="#"><i class="fa fa-user"></i> Cliente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main id="conteudo">
+<div class="ss-container"><div class="ss-flash">
+    <div class="alert alert-success" role="status"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button><i class="fa fa-check-circle" aria-hidden="true"></i> Produto salvo. (demonstração: nenhum dado foi alterado)</div>
+</div></div>
+
+<div class="ss-container ss-page">
+
+    <header class="ss-page-header">
+        <div class="ss-page-header-main">
+            <ol class="ss-breadcrumb"><li><a href="#">Sales-System</a></li><li>Guia visual</li></ol>
+            <h1 class="ss-page-title">Guia visual</h1>
+            <p class="ss-page-subtitle">Referência viva do <code>ss-theme.css</code>. Mude a largura da janela para ver o comportamento no celular.</p>
+        </div>
+        <div class="ss-page-actions">
+            <a class="btn btn-default" href="#"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+            <a class="btn btn-primary" href="#"><i class="fa fa-plus" aria-hidden="true"></i> Novo produto</a>
+        </div>
+    </header>
+
+    <nav class="sg-toc">
+        <a href="#cores">Cores</a><a href="#tipografia">Tipografia</a><a href="#botoes">Botões</a><a href="#badges">Badges</a>
+        <a href="#alertas">Alertas</a><a href="#metricas">Métricas</a><a href="#listagem">Listagem</a><a href="#view">Visualização</a>
+        <a href="#form">Formulário</a><a href="#mensagens">Mensagens</a>
+    </nav>
+
+    <!-- ============ CORES ============ -->
+    <h2 class="sg-h sg-section" id="cores">Cores</h2>
+    <div class="sg-swatches">
+        <div class="sg-swatch"><i style="background:var(--ss-primary-50)"></i><span>primary-50<br><code>#effaf7</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-100)"></i><span>primary-100<br><code>#d3efe7</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-200)"></i><span>primary-200<br><code>#a6dccd</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-500)"></i><span>primary-500<br><code>#179a80</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-600)"></i><span>primary-600<br><code>#0f7f6a</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-700)"></i><span>primary-700<br><code>#0c6656</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-primary-800)"></i><span>primary-800<br><code>#0a5146</code></span></div>
+    </div>
+    <div class="sg-swatches" style="margin-top:8px">
+        <div class="sg-swatch"><i style="background:var(--ss-gray-25)"></i><span>surface-2<br><code>#f8faf9</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-50)"></i><span>bg<br><code>#f2f5f4</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-100)"></i><span>border<br><code>#e6ebea</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-200)"></i><span>border-strong<br><code>#d5dcda</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-500)"></i><span>text-muted<br><code>#66756f</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-700)"></i><span>text-2<br><code>#36413e</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-gray-900)"></i><span>text<br><code>#17201d</code></span></div>
+    </div>
+    <div class="sg-swatches" style="margin-top:8px">
+        <div class="sg-swatch"><i style="background:var(--ss-success-bg);border-bottom:4px solid var(--ss-success-fg)"></i><span>success<br><code>#1a7f37</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-warning-bg);border-bottom:4px solid var(--ss-warning-solid)"></i><span>warning<br><code>#8f5300</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-danger-bg);border-bottom:4px solid var(--ss-danger-solid)"></i><span>danger<br><code>#b42318</code></span></div>
+        <div class="sg-swatch"><i style="background:var(--ss-info-bg);border-bottom:4px solid var(--ss-info-solid)"></i><span>info<br><code>#175cd3</code></span></div>
+    </div>
+    <div class="ss-cluster" style="margin-top:12px">
+        <span class="ss-plan ss-plan--1">Dev</span><span class="ss-plan ss-plan--2">Admin</span><span class="ss-plan ss-plan--3">Super Master</span>
+        <span class="ss-plan ss-plan--4">Master</span><span class="ss-plan ss-plan--5">VIP</span><span class="ss-plan ss-plan--6">Cliente</span>
+    </div>
+
+    <!-- ============ TIPOGRAFIA ============ -->
+    <h2 class="sg-h sg-section" id="tipografia">Tipografia · Inter</h2>
+    <div class="ss-card"><div class="ss-card-body ss-stack-sm">
+        <div style="font-size:var(--ss-text-xl);font-weight:600">Título de página 22px</div>
+        <div style="font-size:var(--ss-text-lg);font-weight:600">Título de registro 18px</div>
+        <div style="font-size:var(--ss-text-md);font-weight:600">Título de card e modal 16px</div>
+        <div>Texto padrão 14px. Valores em tabela usam números tabulares: <span class="ss-money">R$ 1.234,56</span> · <span class="ss-id">#000123</span> · <a href="#">link de texto</a> · <a class="ss-link-external" href="#">link externo</a></div>
+        <div class="ss-text-sm ss-muted">Texto secundário 13px, rótulos e metadados.</div>
+        <div class="ss-text-xs ss-muted">Ajuda e legendas 12px.</div>
+    </div></div>
+
+    <!-- ============ BOTÕES ============ -->
+    <h2 class="sg-h sg-section" id="botoes">Botões</h2>
+    <div class="ss-card"><div class="ss-card-body ss-stack">
+        <div class="ss-cluster">
+            <button class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Primário</button>
+            <button class="btn btn-default">Secundário</button>
+            <button class="btn ss-btn-ghost"><i class="fa fa-pencil" aria-hidden="true"></i> Discreto</button>
+            <button class="btn btn-link">Link</button>
+            <button class="btn ss-btn-danger-soft"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
+            <button class="btn btn-danger">Confirmar exclusão</button>
+            <button class="btn btn-primary" disabled>Salvando...</button>
+        </div>
+        <div class="ss-cluster">
+            <button class="btn btn-sm btn-primary">Pequeno</button>
+            <button class="btn btn-sm btn-default">Pequeno</button>
+            <button class="btn btn-sm ss-btn-ghost ss-btn-icon" title="Ver" aria-label="Ver"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-sm ss-btn-ghost ss-btn-icon" title="Editar" aria-label="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+            <button class="btn btn-sm ss-btn-danger-soft ss-btn-icon" title="Excluir" aria-label="Excluir"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            <div class="dropdown" style="display:inline-block">
+                <button type="button" class="btn btn-sm ss-btn-ghost ss-btn-icon dropdown-toggle" data-toggle="dropdown" title="Mais ações" aria-label="Mais ações"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Pedido #000123</li>
+                    <li><a href="#"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a></li>
+                    <li><a href="#"><i class="fa fa-truck" aria-hidden="true"></i> Informar envio</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="ss-danger-item"><a href="#"><i class="fa fa-ban" aria-hidden="true"></i> Cancelar pedido</a></li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+
+    <!-- ============ BADGES ============ -->
+    <h2 class="sg-h sg-section" id="badges">Badges de status</h2>
+    <div class="ss-card"><div class="ss-card-body ss-stack-sm">
+        <div class="ss-cluster">
+            <span class="label label-success">Finalizada</span>
+            <span class="label label-warning">Pendente</span>
+            <span class="label label-primary">Em preparação</span>
+            <span class="label label-info">Calculando frete</span>
+            <span class="label label-danger">Vencida</span>
+            <span class="label label-default">Cancelada</span>
+        </div>
+        <div class="ss-cluster">
+            <span class="label label-success ss-badge--dot">Ativo</span>
+            <span class="label label-warning ss-badge--dot">Pendente</span>
+            <span class="label label-default ss-badge--dot">Inativo</span>
+            <span class="ss-count">12</span><span class="ss-count ss-count--primary">4</span><span class="ss-count ss-count--alert">3</span>
+        </div>
+    </div></div>
+
+    <!-- ============ ALERTAS ============ -->
+    <h2 class="sg-h sg-section" id="alertas">Alertas, notas e faixas</h2>
+    <div class="ss-stack">
+        <div class="ss-banner"><i class="fa fa-clock-o" aria-hidden="true"></i> Aguardando confirmação de pagamento</div>
+        <div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Fechar"><span aria-hidden="true">&times;</span></button><i class="fa fa-times-circle" aria-hidden="true"></i> Não foi possível salvar. Confira os campos destacados.</div>
+        <div class="alert alert-warning" role="status"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Registro excluído.</div>
+        <div class="ss-alert" role="status">
+            <i class="fa fa-info-circle ss-alert-icon" aria-hidden="true"></i>
+            <div class="ss-alert-body"><p class="ss-alert-title">Frete e impostos em cálculo</p><p>O total aparece aqui assim que o cálculo terminar. Você recebe um aviso no sino.</p></div>
+            <button type="button" class="ss-alert-close" aria-label="Fechar">&times;</button>
+        </div>
+        <div class="ss-alert ss-alert--success"><i class="fa fa-check-circle ss-alert-icon" aria-hidden="true"></i><div class="ss-alert-body">Saque solicitado. O pagamento cai em até 2 dias úteis.</div></div>
+        <div class="ss-alert ss-alert--danger"><i class="fa fa-times-circle ss-alert-icon" aria-hidden="true"></i><div class="ss-alert-body"><p class="ss-alert-title">2 faturas vencidas</p><p>Regularize para não perder as comissões do mês. <a href="#">Ver faturas</a></p></div></div>
+        <div class="ss-note"><span class="ss-note-title">Legenda</span><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Produto que gera comissões na rede</div>
+    </div>
+
+    <!-- ============ MÉTRICAS E ATALHOS ============ -->
+    <h2 class="sg-h sg-section" id="metricas">Métricas e atalhos</h2>
+    <div class="ss-grid-stats">
+        <a class="ss-stat" href="#"><span class="ss-stat-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span><span class="ss-stat-label">Pedidos aguardando</span><span class="ss-stat-value">14</span><span class="ss-stat-meta">3 desde ontem</span></a>
+        <a class="ss-stat ss-tone-info" href="#"><span class="ss-stat-icon"><i class="fa fa-money" aria-hidden="true"></i></span><span class="ss-stat-label">Saques a pagar</span><span class="ss-stat-value">6 <small>R$ 4.320,00</small></span></a>
+        <a class="ss-stat ss-tone-danger" href="#"><span class="ss-stat-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span><span class="ss-stat-label">Faturas vencidas</span><span class="ss-stat-value">2</span></a>
+        <div class="ss-stat ss-tone-success"><span class="ss-stat-icon"><i class="fa fa-line-chart" aria-hidden="true"></i></span><span class="ss-stat-label">Recebido no mês</span><span class="ss-stat-value">R$ 28.940,50</span><span class="ss-stat-meta">+12% sobre setembro</span></div>
+    </div>
+    <section class="ss-card" style="margin-top:16px">
+        <header class="ss-card-header"><h2 class="ss-card-title">Acesso rápido</h2></header>
+        <div class="ss-card-body ss-grid-auto">
+            <a class="ss-shortcut" href="#"><span class="ss-shortcut-icon"><i class="fa fa-user-plus" aria-hidden="true"></i></span><span><span class="ss-shortcut-title">Cadastrar associado</span><span class="ss-shortcut-desc">Cadastrar um novo associado na sua rede</span></span></a>
+            <a class="ss-shortcut" href="#"><span class="ss-shortcut-icon"><i class="fa fa-cart-plus" aria-hidden="true"></i></span><span><span class="ss-shortcut-title">Loja</span><span class="ss-shortcut-desc">Fazer um novo pedido</span></span></a>
+            <a class="ss-shortcut ss-tone-info" href="#"><span class="ss-shortcut-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span><span><span class="ss-shortcut-title">Meu extrato</span><span class="ss-shortcut-desc">Comissões, pedidos, taxas e saques</span></span></a>
+            <span class="ss-shortcut is-soon"><span class="ss-shortcut-icon"><i class="fa fa-bullseye" aria-hidden="true"></i></span><span><span class="ss-shortcut-title">Metas <span class="label label-default">Em breve</span></span><span class="ss-shortcut-desc">Acompanhamento de metas</span></span></span>
+        </div>
+    </section>
+
+    <!-- ============ LISTAGEM ============ -->
+    <h2 class="sg-h sg-section" id="listagem">Listagem (index) com navegação lateral</h2>
+    <div class="ss-layout">
+        <nav class="ss-subnav" aria-label="Sistema">
+            <p class="ss-subnav-title">Sistema</p>
+            <ul class="ss-subnav-list">
+                <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Usuários</a></li>
+                <li><a href="#" class="is-active"><i class="fa fa-cube" aria-hidden="true"></i> Produtos <span class="ss-count">8</span></a></li>
+                <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i> Regiões</a></li>
+                <li><a href="#"><i class="fa fa-bullseye" aria-hidden="true"></i> Metas</a></li>
+                <li><a href="#"><i class="fa fa-handshake-o" aria-hidden="true"></i> Comissões</a></li>
+            </ul>
+        </nav>
+        <div class="ss-stack">
+            <nav class="ss-segmented" aria-label="Filtrar por status">
+                <a href="#" class="is-active"><i class="fa fa-list" aria-hidden="true"></i> Todos</a>
+                <a href="#">Ativos <span class="ss-count">6</span></a>
+                <a href="#">Inativos <span class="ss-count">2</span></a>
+            </nav>
+            <section class="ss-card ss-card--flush">
+                <div class="ss-card-header">
+                    <button type="button" class="btn btn-default ss-filters-toggle" data-toggle="collapse" data-target="#filtros"><i class="fa fa-sliders" aria-hidden="true"></i> Filtros</button>
+                    <div id="filtros" class="ss-filters-panel collapse">
+                        <form class="ss-filters">
+                            <div class="form-group ss-filters-grow"><label class="sr-only" for="f1">Buscar</label><input id="f1" class="form-control" placeholder="Buscar por nome ou descrição"></div>
+                            <div class="form-group"><label class="sr-only" for="f2">Status</label><select id="f2" class="form-control"><option>Todos os status</option><option>Ativo</option></select></div>
+                            <div class="ss-filters-actions"><a href="#" class="btn btn-link">Limpar</a><button type="button" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="ss-table-wrap">
+                <table class="table ss-table ss-table--stack">
+                    <thead><tr><th class="ss-col-id">Código</th><th>Produto</th><th class="ss-num">Preço</th><th class="ss-num">Vendidos</th><th>Cadastro</th><th>Status</th><th class="ss-actions"><span class="sr-only">Ações</span></th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="ss-col-id" data-label="Código"><span class="ss-id">#000012</span></td>
+                            <td class="ss-cell-primary"><div class="ss-cell-media"><span class="ss-thumb" aria-hidden="true"></span><div><a href="#" class="ss-cell-title">Kit Mineral Essencial</a><span class="ss-cell-sub"><i class="fa fa-sitemap" title="Gera comissões" aria-hidden="true"></i> 30 cápsulas · uso diário</span></div></div></td>
+                            <td class="ss-num" data-label="Preço">R$ 189,90</td>
+                            <td class="ss-num" data-label="Vendidos">1.204</td>
+                            <td data-label="Cadastro">12/03/26</td>
+                            <td data-label="Status"><span class="label label-success ss-badge--dot">Ativo</span></td>
+                            <td class="ss-actions"><button class="btn btn-sm ss-btn-ghost ss-btn-icon" title="Editar" aria-label="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-sm ss-btn-danger-soft ss-btn-icon" title="Excluir" aria-label="Excluir"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td class="ss-col-id" data-label="Código"><span class="ss-id">#000009</span></td>
+                            <td class="ss-cell-primary"><div class="ss-cell-media"><span class="ss-thumb" aria-hidden="true"></span><div><a href="#" class="ss-cell-title">Óleo Corporal Revitalizante</a><span class="ss-cell-sub">120 ml</span></div></div></td>
+                            <td class="ss-num" data-label="Preço">R$ 74,50</td>
+                            <td class="ss-num" data-label="Vendidos">318</td>
+                            <td data-label="Cadastro">02/01/26</td>
+                            <td data-label="Status"><span class="label label-default ss-badge--dot">Inativo</span></td>
+                            <td class="ss-actions"><button class="btn btn-sm ss-btn-ghost ss-btn-icon" title="Editar" aria-label="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></button><button class="btn btn-sm ss-btn-danger-soft ss-btn-icon" title="Excluir" aria-label="Excluir"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="ss-table-footer">
+                    <span class="ss-pagination-info">1–2 de 8</span>
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i><span class="sr-only">Anterior</span></a></li>
+                        <li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i><span class="sr-only">Próxima</span></a></li>
+                    </ul>
+                </div>
+            </section>
+            <section class="ss-card"><div class="ss-empty">
+                <div class="ss-empty-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+                <p class="ss-empty-title">Nenhum pedido encontrado</p>
+                <p class="ss-empty-text">Ajuste os filtros ou faça um novo pedido na loja.</p>
+                <a href="#" class="btn btn-default">Ir para a loja</a>
+            </div></section>
+        </div>
+    </div>
+
+    <!-- ============ VIEW ============ -->
+    <h2 class="sg-h sg-section" id="view">Visualização em modal</h2>
+    <div class="sg-modal"><div class="modal-dialog modal-lg"><div class="modal-content">
+        <div class="modal-header"><h4 class="modal-title">Detalhes do pedido</h4><button type="button" class="close" aria-label="Fechar"><span aria-hidden="true">&times;</span></button></div>
+        <div class="modal-body">
+            <div class="ss-record-header">
+                <div>
+                    <h3 class="ss-record-title">Pedido <span class="ss-id">#000123</span> <span class="label label-primary">Em preparação para envio</span></h3>
+                    <div class="ss-record-meta"><span>Feito em 20/10/2026 14:32</span><span>Normal</span></div>
+                </div>
+                <div class="ss-cluster"><a href="#" class="btn btn-sm btn-default"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <section class="ss-section">
+                        <h4 class="ss-section-title">Itens</h4>
+                        <div class="ss-table-wrap"><table class="table ss-table ss-table--stack">
+                            <thead><tr><th>Produto</th><th class="ss-num">Preço</th><th class="ss-num">Qtd.</th><th class="ss-num">Total</th></tr></thead>
+                            <tbody>
+                                <tr><td class="ss-cell-primary"><span class="ss-cell-title">Kit Mineral Essencial</span><span class="ss-cell-sub">30 cápsulas</span></td><td class="ss-num" data-label="Preço">R$ 189,90</td><td class="ss-num" data-label="Qtd.">2</td><td class="ss-num" data-label="Total">R$ 379,80</td></tr>
+                                <tr><td class="ss-cell-primary"><span class="ss-cell-title">Óleo Corporal</span><span class="ss-cell-sub">120 ml</span></td><td class="ss-num" data-label="Preço">R$ 74,50</td><td class="ss-num" data-label="Qtd.">1</td><td class="ss-num" data-label="Total">R$ 74,50</td></tr>
+                            </tbody>
+                        </table></div>
+                        <ul class="ss-totals ss-totals--end">
+                            <li><span>Subtotal</span><span>R$ 454,30</span></li>
+                            <li><span>Frete</span><span>R$ 32,00</span></li>
+                            <li class="is-total"><span>Total</span><span>R$ 486,30</span></li>
+                        </ul>
+                    </section>
+                    <section class="ss-section">
+                        <h4 class="ss-section-title">Pagamento</h4>
+                        <dl class="ss-dl"><dt>Forma</dt><dd>Cartão de crédito</dd><dt>Parcelas</dt><dd>3x de R$ 162,10</dd><dt>Fatura</dt><dd><a href="#">#004512</a> <span class="label label-success">Finalizada</span></dd></dl>
+                    </section>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <section class="ss-section">
+                        <h4 class="ss-section-title">Andamento</h4>
+                        <ol class="ss-steps">
+                            <li class="is-done"><span class="ss-steps-title">Frete e impostos calculados</span></li>
+                            <li class="is-done"><span class="ss-steps-title">Pagamento confirmado</span><span class="ss-steps-date">21/10/2026</span></li>
+                            <li class="is-current"><span class="ss-steps-title">Em preparação para envio</span><span class="ss-steps-date">desde 22/10/2026</span></li>
+                            <li><span class="ss-steps-title">Aguardando entrega</span></li>
+                            <li><span class="ss-steps-title">Concluído</span></li>
+                        </ol>
+                    </section>
+                    <section class="ss-section">
+                        <h4 class="ss-section-title">Destinatário</h4>
+                        <address class="ss-address"><strong>Maria Souza</strong> <span class="ss-muted">(msouza)</span><br>Rua das Flores, 120 · ap. 31<br>Centro · Belo Horizonte/MG<br><i class="fa fa-phone" aria-hidden="true"></i> (31) 99999-0000</address>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div></div></div>
+
+    <!-- ============ FORM ============ -->
+    <h2 class="sg-h sg-section" id="form">Formulário em modal</h2>
+    <div class="sg-modal"><div class="modal-dialog modal-lg"><div class="modal-content">
+        <div class="modal-header"><h4 class="modal-title">Editar produto</h4><button type="button" class="close" aria-label="Fechar"><span aria-hidden="true">&times;</span></button></div>
+        <div class="modal-body">
+            <ol class="ss-stepper"><li class="is-done"><span>Identificação</span></li><li class="is-current"><span>Venda</span></li><li><span>Imagem</span></li></ol>
+            <section class="ss-form-section">
+                <h4 class="ss-form-section-title">Identificação</h4>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 form-group"><label for="p1" class="ss-required">Nome</label><input id="p1" class="form-control" value="Kit Mineral Essencial"><span class="help-block">Aparece na loja e nas faturas.</span></div>
+                    <div class="col-xs-12 col-sm-4 form-group"><label for="p2">Status</label><select id="p2" class="form-control"><option>Ativo</option><option>Inativo</option></select></div>
+                    <div class="col-xs-12 form-group"><label for="p3">Descrição <span class="ss-optional">(opcional)</span></label><textarea id="p3" class="form-control" rows="2"></textarea></div>
+                </div>
+            </section>
+            <section class="ss-form-section">
+                <h4 class="ss-form-section-title">Venda</h4>
+                <p class="ss-form-section-desc">Preço e posição do produto na loja.</p>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-4 form-group has-error"><label for="p4" class="ss-required">Preço</label><div class="input-group"><span class="input-group-addon">R$</span><input id="p4" class="form-control valuemask" value=""></div><span class="ss-error">Informe o preço.</span></div>
+                    <div class="col-xs-6 col-sm-4 form-group"><label for="p5">Vencimento</label><div class="input-group"><input id="p5" class="form-control" placeholder="dd/mm/aaaa"><span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span></div></div>
+                    <div class="col-xs-12 col-sm-4 form-group"><label for="p6">Ordem na loja</label><input id="p6" type="number" class="form-control" value="3"></div>
+                    <div class="col-xs-12"><div class="checkbox"><label><input type="checkbox" checked> Gera comissões para a rede</label></div></div>
+                </div>
+            </section>
+            <section class="ss-form-section">
+                <h4 class="ss-form-section-title">Plano</h4>
+                <ul class="ss-choices">
+                    <li><label class="ss-choice"><input type="radio" name="plano"><span class="ss-choice-card"><i class="fa fa-user" aria-hidden="true"></i><span class="ss-choice-title">Cliente</span><span class="ss-choice-desc">R$ 0,00</span></span></label></li>
+                    <li><label class="ss-choice"><input type="radio" name="plano" checked><span class="ss-choice-card"><i class="fa fa-certificate" aria-hidden="true"></i><span class="ss-choice-title">VIP</span><span class="ss-choice-desc">R$ 150,00</span></span></label></li>
+                    <li><label class="ss-choice"><input type="radio" name="plano"><span class="ss-choice-card"><i class="fa fa-trophy" aria-hidden="true"></i><span class="ss-choice-title">Master</span><span class="ss-choice-desc">R$ 450,00</span></span></label></li>
+                </ul>
+            </section>
+            <section class="ss-form-section">
+                <h4 class="ss-form-section-title">Imagem</h4>
+                <div class="ss-cell-media"><span class="ss-thumb ss-thumb--lg" aria-hidden="true"></span><div class="form-group ss-mb-0 ss-grow"><input type="file"><span class="help-block">JPG ou PNG, até 2 MB.</span></div></div>
+            </section>
+        </div>
+        <div class="modal-footer">
+            <button class="btn ss-btn-danger-soft ss-footer-start"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
+            <button class="btn btn-default">Cancelar</button>
+            <button class="btn btn-primary">Salvar</button>
+        </div>
+    </div></div></div>
+
+    <!-- ============ MENSAGENS ============ -->
+    <h2 class="sg-h sg-section" id="mensagens">Mensagens e avisos</h2>
+    <section class="ss-card"><div class="ss-card-body">
+        <ul class="ss-messages">
+            <li class="ss-message is-unread">
+                <span class="ss-message-icon"><i class="fa fa-bell-o" aria-hidden="true"></i></span>
+                <div class="ss-message-body">
+                    <div class="ss-message-head"><h3 class="ss-message-title">Nova campanha de novembro</h3><span class="ss-message-meta">Administração · 23/10/2026</span></div>
+                    <p class="ss-message-text">Pedidos acima de R$ 500,00 ganham frete grátis até o dia 30.</p>
+                    <div class="ss-message-actions"><button class="btn btn-sm btn-default"><i class="fa fa-check" aria-hidden="true"></i> Marcar como lido</button></div>
+                </div>
+            </li>
+            <li class="ss-message ss-message--warning">
+                <span class="ss-message-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                <div class="ss-message-body">
+                    <div class="ss-message-head"><h3 class="ss-message-title">Atualize seus dados bancários</h3><span class="ss-message-meta">Financeiro · 18/10/2026</span></div>
+                    <p class="ss-message-text">Sem os dados bancários, os saques ficam retidos.</p>
+                </div>
+            </li>
+        </ul>
+    </div></section>
+
+</div>
+</main>
+
+<footer class="ss-footer">
+    <div class="ss-container ss-spread">
+        <span>© 2026 Reiniciando</span>
+        <a href="#" title="Make2"><img src="../../../../webroot/img/logo-make2.png" alt="Desenvolvido por Make2"></a>
+    </div>
+</footer>
+
+<script src="../../../../webroot/js/jquery.min.js"></script>
+<script src="../../../../webroot/js/bootstrap.min.js"></script>
+</body>
+</html>

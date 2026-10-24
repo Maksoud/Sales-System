@@ -169,6 +169,19 @@ tmp/, logs/           Cache, sessões e logs (conteúdo ignorado pelo Git)
 
 ---
 
+## Identidade visual
+
+O padrão visual do painel (cores, fontes, componentes e os modelos de listagem, visualização e
+formulário) está na skill do Claude Code em `.claude/skills/sales-system-ui/`, versionada com o
+projeto. O CSS fica em `webroot/css/ss-theme.css` e o guia visual em
+`.claude/skills/sales-system-ui/preview/styleguide.html` (abra por um servidor local).
+
+Para migrar uma parte do sistema, peça ao Claude Code algo como
+"use a skill sales-system-ui para atualizar o visual de Produtos". O andamento fica registrado em
+`.claude/skills/sales-system-ui/references/progresso.md`.
+
+---
+
 ## Por que o vendor/ está no Git
 
 O projeto usa CakePHP 3.4, anterior ao PHP 8. Alguns arquivos em `vendor/cakephp/cakephp/`

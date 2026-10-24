@@ -11,34 +11,44 @@
 /**
  * Pessoa na árvore da Minha Rede e, recursivamente, seus indicados.
  * Variáveis: $usuario, $nivel (0 = raiz). Só o primeiro nível abaixo da raiz começa aberto.
+ * Quem tem indicados é um link (.rede-pessoa) que abre/fecha a lista; quem não tem é só um card.
  */
 use App\Lib\DemoData;
 
 $filhos = DemoData::filhos($usuario->id);
+$aberto = $nivel < 1;
+
+ob_start();
 ?>
+    <?= $this->Html->image('usuarios/' . $usuario->foto, ['class' => 'ss-avatar ss-avatar--sm', 'alt' => '']) ?>
+    <span class="ss-net-node-body">
+        <span class="ss-net-node-name"><?= h($usuario->nome) ?></span>
+        <span class="ss-net-node-login"><?= h($usuario->login) ?></span>
+        <span class="ss-net-node-meta">
+            <?= $this->Usuarios->plano($usuario) ?>
+            <?php if ($usuario->status != 'A'): ?>
+                <?= $this->Usuarios->statusLabel($usuario->status) ?>
+            <?php endif; ?>
+            <?php if ($filhos): ?>
+                <span title="<?= __('Indicados diretos') ?>">
+                    <i class="fa fa-sitemap" aria-hidden="true"></i> <?= count($filhos) ?>
+                    <span class="sr-only"><?= __('indicados diretos') ?></span>
+                </span>
+            <?php endif; ?>
+        </span>
+    </span>
+<?php $card = ob_get_clean(); ?>
 
 <li>
-    <a href="#" class="rede-pessoa" data-id="<?= $usuario->id ?>" title="<?= $filhos ? __('Clique para abrir/fechar os indicados') : __('Ninguém abaixo') ?>">
-        <?= $this->Html->image('usuarios/' . $usuario->foto, ['class' => 'img-circle', 'style' => 'height: 40px; width: 40px;', 'alt' => '']) ?>
-        <div>
-            <?= h($usuario->nome) ?>
-            <div class="clearfix"></div>
-            <small><?= $this->Usuarios->plano($usuario) ?></small>
-            <?php if ($filhos): ?>
-                <div class="clearfix"></div>
-                <small class="text-cinza"><i class="fa fa-sitemap" aria-hidden="true"></i> <?= count($filhos) ?></small>
-            <?php endif; ?>
-            <?php if ($usuario->status != 'A'): ?>
-                <div class="clearfix"></div>
-                <small class="label label-<?= $usuario->status == 'P' ? 'danger' : 'default' ?>"><?= mb_strtoupper($this->Usuarios->status($usuario->status)) ?></small>
-            <?php endif; ?>
-        </div>
-    </a>
     <?php if ($filhos): ?>
-        <ul <?= $nivel >= 1 ? 'style="display:none"' : '' ?>>
+        <a href="#" class="rede-pessoa ss-net-node" data-id="<?= $usuario->id ?>" role="button"
+           aria-expanded="<?= $aberto ? 'true' : 'false' ?>" title="<?= __('Abrir ou fechar os indicados') ?>"><?= $card ?></a>
+        <ul <?= $aberto ? '' : 'style="display:none"' ?>>
             <?php foreach ($filhos as $filho): ?>
                 <?= $this->element('network-node', ['usuario' => $filho, 'nivel' => $nivel + 1]) ?>
             <?php endforeach; ?>
         </ul>
+    <?php else: ?>
+        <span class="ss-net-node" data-id="<?= $usuario->id ?>"><?= $card ?></span>
     <?php endif; ?>
 </li>

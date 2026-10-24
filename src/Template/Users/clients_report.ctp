@@ -13,6 +13,6 @@ $this->layout = 'ajax';
 echo $this->element('report-form', [
     'url'     => ['controller' => 'Reports', 'action' => 'clients'],
     'selects' => [
-        'patrocinador_id' => [__('Associado responsável'), $patrocinadores],
+        'patrocinador_id' => [__('Associado responsável'), $patrocinadores, __('Todos os associados')],
     ],
 ]);

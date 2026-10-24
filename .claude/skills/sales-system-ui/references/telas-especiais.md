@@ -194,11 +194,33 @@ Feitos para imprimir em A4; a tela é a prévia.
 
 ## Minha rede (`Users/network.ctp`, `Element/network-node.ctp`)
 
-- Topo: `ss-alert` com a instrução + contagem em `ss-count`.
-- Nós: card pequeno com `ss-avatar--sm`, nome (`ss-text-sm`, 600), login em `ss-muted`,
-  `ss-plan` e o badge de status só quando não for "Ativo".
-- Contagem de indicados com `fa-sitemap` em `ss-muted`.
+- Topo: `ss-alert` com a instrução + contagem em `ss-count` (corpo `ss-spread`). Rede vazia:
+  `ss-empty` no lugar do alerta e da árvore.
+- Nós (`ss-net-node`, seção 17): `ss-avatar--sm`, nome (`ss-net-node-name`), login
+  (`ss-net-node-login`) e a linha `ss-net-node-meta` com `ss-plan`, o badge de status só quando
+  não for "Ativo" e a contagem de indicados (`fa-sitemap`).
+- Quem tem indicados é `<a href="#" class="rede-pessoa ss-net-node" role="button" aria-expanded>`
+  (o script de `network.ctp` alterna a lista e o `aria-expanded`); fechado fica com borda
+  tracejada. Quem não tem indicados é `<span class="ss-net-node">`, sem clique.
 - O tema já troca o hover vermelho pela primária. A área rola na horizontal no celular.
+- Não use `user-profile` no contêiner: a regra antiga do `dashboard2.css` força a foto a 40px.
+
+```php
+<li>
+    <a href="#" class="rede-pessoa ss-net-node" data-id="12" role="button" aria-expanded="true">
+        <img src="…" class="ss-avatar ss-avatar--sm" alt="">
+        <span class="ss-net-node-body">
+            <span class="ss-net-node-name">Beatriz Cardoso</span>
+            <span class="ss-net-node-login">beatrizcardoso</span>
+            <span class="ss-net-node-meta">
+                <span class="ss-plan ss-plan--4">Master</span>
+                <span title="Indicados diretos"><i class="fa fa-sitemap" aria-hidden="true"></i> 2</span>
+            </span>
+        </span>
+    </a>
+    <ul>…filhos…</ul>
+</li>
+```
 
 ## Loja (`Orders/store.ctp`)
 

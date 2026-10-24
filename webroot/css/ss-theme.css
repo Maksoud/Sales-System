@@ -1601,6 +1601,29 @@ a.list-group-item:hover, a.list-group-item:focus { background: var(--ss-surface-
 }
 .minha-rede li a:hover + ul li::after, .minha-rede li a:hover + ul li::before,
 .minha-rede li a:hover + ul::before, .minha-rede li a:hover + ul ul::before { border-color: var(--ss-primary-500); }
+.minha-rede { padding-bottom: var(--ss-space-2); -webkit-overflow-scrolling: touch; }
+/* Card da pessoa: link (.rede-pessoa) quando tem indicados, span quando não tem */
+.minha-rede .ss-net-node {
+    position: relative; top: 1px;
+    display: inline-flex; align-items: center; gap: var(--ss-space-2);
+    padding: 8px 12px;
+    text-align: left; text-decoration: none; white-space: nowrap;
+    background: var(--ss-surface);
+    border: 1px solid var(--ss-border-strong);
+    border-radius: var(--ss-radius-lg);
+    box-shadow: var(--ss-shadow-sm);
+    color: var(--ss-text);
+    transition: background var(--ss-transition), border-color var(--ss-transition);
+}
+.minha-rede a.ss-net-node:focus-visible { outline: 0; box-shadow: var(--ss-focus); }
+.minha-rede a.ss-net-node[aria-expanded="false"] { border-style: dashed; }
+.ss-net-node-body { display: flex; flex-direction: column; gap: 1px; line-height: 1.25; }
+.ss-net-node-name { font-size: var(--ss-text-sm); font-weight: 600; }
+.ss-net-node-login { font-size: var(--ss-text-xs); color: var(--ss-text-muted); }
+.ss-net-node-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 3px;
+    font-size: var(--ss-text-xs); color: var(--ss-text-muted);
+}
 
 /* Produto da loja (Orders/store): card com imagem, preço e quantidade */
 .ss-product { display: flex; flex-direction: column; overflow: hidden; }

@@ -11,23 +11,32 @@
 $this->layout = 'ajax';
 ?>
 
-<div class="container-fluid">
-    <div class="alert alert-info">
-        <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
-        <?= __('Clique nas pessoas para abrir ou fechar os indicados abaixo delas.') ?>
-        <strong class="pull-right"><?= __('{0} pessoas na rede', $total) ?></strong>
+<?php if ($total): ?>
+    <div class="ss-alert" role="status">
+        <i class="fa fa-sitemap ss-alert-icon" aria-hidden="true"></i>
+        <div class="ss-alert-body ss-spread">
+            <span><?= __('Toque em uma pessoa para abrir ou fechar os indicados abaixo dela.') ?></span>
+            <span class="ss-nowrap"><span class="ss-count"><?= $this->Number->format($total) ?></span> <?= __n('pessoa na rede', 'pessoas na rede', $total) ?></span>
+        </div>
     </div>
 
-    <div class="minha-rede user-profile">
+    <div class="minha-rede">
         <ul>
             <?= $this->element('network-node', ['usuario' => $raiz, 'nivel' => 0]) ?>
         </ul>
     </div>
-</div>
 
-<script>
-    $('.minha-rede').on('click', '.rede-pessoa', function (e) {
-        e.preventDefault();
-        $(this).next('ul').toggle(200);
-    });
-</script>
+    <script>
+        $('.minha-rede').on('click', '.rede-pessoa', function (e) {
+            e.preventDefault();
+            var aberto = $(this).attr('aria-expanded') === 'true';
+            $(this).attr('aria-expanded', aberto ? 'false' : 'true').next('ul').toggle(150);
+        });
+    </script>
+<?php else: ?>
+    <div class="ss-empty">
+        <div class="ss-empty-icon"><i class="fa fa-sitemap" aria-hidden="true"></i></div>
+        <p class="ss-empty-title"><?= __('Ninguém na rede ainda') ?></p>
+        <p class="ss-empty-text"><?= __('Os associados cadastrados por você aparecem aqui.') ?></p>
+    </div>
+<?php endif; ?>

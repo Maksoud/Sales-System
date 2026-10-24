@@ -99,21 +99,28 @@ horizontal. Novo `FaturasHelper::situacao($fatura)`: "Em cálculo" (pedido em V)
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Users/index.ctp` | I | | Sistema > Usuários |
-| [ ] | `Users/view.ctp` | V | | |
-| [ ] | `Users/add.ctp` | F | | Cadastrar associado |
-| [ ] | `Users/profile.ctp` | F | | Meus dados |
-| [ ] | `Users/password.ctp` | F | | Modal sm |
-| [ ] | `Users/bank.ctp` | F | | Modal sm |
-| [ ] | `Users/change_plan.ctp` | F | | `ss-choices` |
-| [ ] | `Users/network.ctp` + `Element/network-node.ctp` | E | | Minha rede |
-| [ ] | `Users/report.ctp`, `Users/clients_report.ctp` | F | | |
+| [x] | `Users/index.ctp` | I | 2026-10-24 | Sistema > Usuários. `ss-layout` com `navbar-side-system` (Users saiu de `$legado`). De 9 para 7 colunas: Código, Usuário (avatar + nome, login · cidade/UF na linha de apoio), Plano, Patrocinador, Cadastro, Status, ações. Foto virou `ss-avatar--sm`; "Último acesso" foi para o cabeçalho da edição e para a view. Nome abre a edição; ações em ícones: Editar, Mudar plano (SM/Master/VIP) e Excluir (confirmação nova). Busca com "Todos os planos/status". **A lista passa a abrir ordenada pelo código** (antes pela data de cadastro), como as demais telas |
+| [x] | `Users/view.ctp` | V | 2026-10-24 | Modal (aberto por Pedidos e Financeiro). `ss-record-header` com avatar, status e plano; seções Documento, Contato (e-mail com `mailto`), Endereço à esquerda; Rede, Saldos (só SM/Master/VIP) e Acesso à direita. Sem caixas `bg-primary/info/warning` |
+| [x] | `Users/add.ctp` | F | 2026-10-24 | Modal lg. Aviso da taxa virou `ss-alert` no topo. Plano em `ss-choices` (com a taxa ou "Sem taxa de inscrição"; o 1º vem marcado, como o select antigo). Patrocinador: select para a gestão, `ss-dl` para o associado. Obrigatórios com `ss-required`, opcionais marcados. Ids dos radios: `planos_id_{id}` (o `name` continua `planos_id`) |
+| [x] | `Users/profile.ctp` | F | 2026-10-24 | Serve também `edit` (gestão). `ss-record-header` (status e último acesso só na edição); CPF/CNPJ e patrocinador saíram do campo somente leitura para `ss-dl`. "Gravar" → "Salvar"; Cancelar `type=button` |
+| [x] | `Users/password.ctp` | F | 2026-10-24 | Modal sm. Regra da senha virou `help-block` da nova senha; `autocomplete` current/new-password. "Alterar Senha" → "Alterar senha" |
+| [x] | `Users/bank.ctp` | F | 2026-10-24 | Modal sm. Titular e CPF/CNPJ em `ss-dl` no topo; PIX opcional; regra do CPF em `ss-help` |
+| [x] | `Users/change_plan.ctp` | F | 2026-10-24 | Modal sm. Associado e plano atual em `ss-dl`; planos em `ss-choices` com a taxa e "Plano atual" no card marcado |
+| [x] | `Users/network.ctp` + `Element/network-node.ctp` | E | 2026-10-24 | Novos estilos `ss-net-node` (seção 17). Alerta com `ss-count`; estado vazio quando a rede não tem ninguém. Nó com indicados é botão com `aria-expanded` (borda tracejada quando fechado); nó sem indicados não é mais clicável. Pendente em amarelo (antes vermelho, fora do mapa de status). Saiu a classe `user-profile` do contêiner |
+| [x] | `Users/report.ctp`, `Users/clients_report.ctp` | F | 2026-10-24 | Só os textos de "todos" dos selects. O visual vem de `Element/report-form.ctp` |
+
+Associados e rede verificado em 2026-10-24 no navegador (1280px e 375px), perfil Dev: lista,
+filtros, modal de edição, Mudar plano (salvar), Dados do associado (a partir de Pedidos), Minha
+rede (abrir/fechar nós) e Novo usuário, sem rolagem horizontal. Uma extensão de senhas do Chrome
+bloqueia capturas de tela com campo de senha aberto: Novo usuário foi conferido com o campo trocado
+para texto; Alterar senha, Dados bancários e Meus dados só foram conferidos pela resposta do servidor
+(sem erro), sem captura. Tema em `ss-theme.css?v=4`.
 
 ### Sistema
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (Regions, GoalPlans, SaleGoals, SaleCommissions, Users, Pages): **retire o controller da lista ao migrar a tela** |
+| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (Regions, GoalPlans, SaleGoals, SaleCommissions, Pages; Users saiu em 2026-10-24): **retire o controller da lista ao migrar a tela** |
 | [x] | `Products/index.ctp` | I | 2026-10-24 | Novo `ProdutosHelper` (`statusLista`, `statusLabel($status, $loja)`). Ações: editar + excluir (ícones). Marca de comissões vai na linha de apoio + legenda `ss-note`. Coluna de ações sem ordenação (`data-orderable="false"`) |
 | [x] | `Products/view.ctp` | V | 2026-10-24 | Modal (aberto a partir de Planos). Usa os textos da loja (Disponível / Fora de linha) |
 | [x] | `Products/form.ctp` | F | 2026-10-24 | Seções Identificação, Venda, Imagem. "Gravar" → Salvar/Cadastrar; Cancelar `type=button`; Excluir no rodapé (`postLink` com `block`). Sem `Form->error()`: o form usa `create(null)` e não há erro de campo para mostrar |
@@ -163,3 +170,4 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 | Data | Componente | Seção do CSS | Motivo |
 |---|---|---|---|
 | 2026-10-24 | `ss-product` (card de produto da loja) | 17. Peças do domínio | Loja precisava de imagem, preço, quantidade e subtotal por produto; nenhum card existente tinha campo de quantidade |
+| 2026-10-24 | `ss-net-node` (pessoa na árvore da rede) | 17. Peças do domínio | O nó antigo empilhava itens com `clearfix` e `style`; precisava de avatar, nome, login, plano, status e contagem num card só, e de um estado sem clique para quem não tem indicados |

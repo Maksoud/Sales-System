@@ -24,38 +24,53 @@ $selects = isset($selects) ? $selects : [];
 <?= $this->Form->create(null, ['type' => 'get', 'url' => $url, 'target' => '_blank']) ?>
 <?= $this->Html->script('maksoud-datepicker') ?>
 
-    <div class="container-fluid">
-        <?php if ($periodo): ?>
+    <?php if ($periodo): ?>
+        <section class="ss-form-section">
+            <h4 class="ss-form-section-title"><?= __('Período') ?></h4>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="data_inicio"><?= __('Data início') ?></label>
-                        <?= $this->Form->text('data_inicio', ['class' => 'form-control datepicker datemask', 'id' => 'data_inicio', 'value' => date('01/m/Y', strtotime('-2 months'))]) ?>
+                        <label for="data_inicio"><?= __('De') ?></label>
+                        <?= $this->Form->text('data_inicio', ['class' => 'form-control datepicker datemask', 'id' => 'data_inicio',
+                                'value' => date('01/m/Y', strtotime('-2 months')), 'autocomplete' => 'off', 'inputmode' => 'numeric']) ?>
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="data_final"><?= __('Data final') ?></label>
-                        <?= $this->Form->text('data_final', ['class' => 'form-control datepicker datemask', 'id' => 'data_final', 'value' => date('d/m/Y')]) ?>
+                        <label for="data_final"><?= __('Até') ?></label>
+                        <?= $this->Form->text('data_final', ['class' => 'form-control datepicker datemask', 'id' => 'data_final',
+                                'value' => date('d/m/Y'), 'autocomplete' => 'off', 'inputmode' => 'numeric']) ?>
                     </div>
                 </div>
             </div>
-        <?php endif; ?>
+        </section>
+    <?php endif; ?>
 
-        <?php foreach ($selects as $nome => $select): ?>
-            <div class="form-group">
-                <label for="filtro-<?= h($nome) ?>"><?= h($select[0]) ?></label>
-                <?= $this->Form->select($nome, $select[1], ['class' => 'form-control', 'id' => 'filtro-' . $nome, 'empty' => isset($select[2]) ? $select[2] : __('- todos -')]) ?>
-            </div>
-        <?php endforeach; ?>
+    <?php if ($selects): ?>
+        <section class="ss-form-section">
+            <?php if ($periodo): ?>
+                <h4 class="ss-form-section-title"><?= __('Filtros') ?></h4>
+            <?php endif; ?>
+            <?php foreach ($selects as $nome => $select): ?>
+                <div class="form-group">
+                    <label for="filtro-<?= h($nome) ?>"><?= h($select[0]) ?></label>
+                    <?= $this->Form->select($nome, $select[1], ['class' => 'form-control', 'id' => 'filtro-' . $nome,
+                            'empty' => isset($select[2]) ? $select[2] : __('Todos')]) ?>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
 
-        <small class="text-cinza"><i class="fa fa-external-link" aria-hidden="true"></i> <?= __('O relatório abre em uma nova aba, pronto para impressão.') ?></small>
-    </div>
+    <p class="ss-help ss-mb-0">
+        <i class="fa fa-external-link" aria-hidden="true"></i>
+        <?= __('O relatório abre em uma nova aba, pronto para imprimir.') ?>
+    </p>
 
 </div> <!-- Encerra o corpo do modal para iniciar o rodapé -->
 
 <div class="modal-footer">
-    <?= $this->Form->button(__('Cancelar'), ['type' => 'reset', 'class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
-    <?= $this->Form->button(__('Gerar Relatório'), ['type' => 'submit', 'class' => 'btn btn-primary']) ?>
+    <?= $this->Form->button(__('Cancelar'), ['type' => 'button', 'class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
+    <?= $this->Form->button('<i class="fa fa-file-text-o" aria-hidden="true"></i> ' . __('Gerar relatório'),
+            ['type' => 'submit', 'class' => 'btn btn-primary', 'escapeTitle' => false]) ?>
     <?= $this->Form->end() ?>
 </div>

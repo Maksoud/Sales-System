@@ -9,57 +9,96 @@
 /* File: src/Template/Reports/associates.ctp */
 
 $porPlano = [];
+$totais = ['A' => 0, 'P' => 0, 'I' => 0, 'C' => 0];
 foreach ($associados as $associado) {
     $plano = $associado->plano->title;
     if (!isset($porPlano[$plano])) $porPlano[$plano] = ['A' => 0, 'P' => 0, 'I' => 0, 'C' => 0];
     $porPlano[$plano][$associado->status]++;
+    $totais[$associado->status]++;
 }
+$vazio = '<span class="ss-muted">—</span>';
 ?>
 
-<div class="container">
-    <?= $this->element('report-header', ['titulo' => __('Relatório de Associados'), 'periodo' => $periodo]) ?>
+<?= $this->element('report-header', ['titulo' => __('Relatório de associados'), 'periodo' => $periodo]) ?>
 
-    <?php if (!$associados): ?>
-        <div class="alert alert-info"><?= __('Nenhum associado encontrado com os filtros informados.') ?></div>
-    <?php else: ?>
-        <table class="table table-bordered">
-            <thead><tr class="bg-gray"><th><?= __('Plano') ?></th><th class="text-center"><?= __('Ativos') ?></th><th class="text-center"><?= __('Pendentes') ?></th><th class="text-center"><?= __('Inativos') ?></th><th class="text-center"><?= __('Total') ?></th></tr></thead>
-            <tbody>
-                <?php foreach ($porPlano as $plano => $linha): ?>
-                    <tr><td><?= h($plano) ?></td><td class="text-center"><?= $linha['A'] ?></td><td class="text-center"><?= $linha['P'] ?></td><td class="text-center"><?= $linha['I'] ?></td><th class="text-center"><?= array_sum($linha) ?></th></tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr class="bg-gray">
-                    <th class="text-center">#</th>
-                    <th><?= __('Cadastro') ?></th>
-                    <th><?= __('Nome') ?></th>
-                    <th><?= __('Login') ?></th>
-                    <th><?= __('Plano') ?></th>
-                    <th><?= __('Patrocinador') ?></th>
-                    <th><?= __('Cidade/UF') ?></th>
-                    <th><?= __('Telefone') ?></th>
-                    <th><?= __('Status') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $i = 1; foreach ($associados as $associado): ?>
+<?php if (!$associados): ?>
+    <div class="ss-empty">
+        <div class="ss-empty-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+        <p class="ss-empty-title"><?= __('Nenhum associado encontrado') ?></p>
+        <p class="ss-empty-text"><?= __('Ajuste o período ou os filtros e gere o relatório de novo.') ?></p>
+    </div>
+<?php else: ?>
+    <section class="ss-report-section">
+        <h2 class="ss-section-title"><?= __('Resumo por plano') ?></h2>
+        <div class="ss-table-wrap">
+            <table class="table ss-table">
+                <thead>
                     <tr>
-                        <th class="text-center"><?= $i++ ?></th>
-                        <td class="text-nowrap"><?= $associado->created->format('d/m/Y') ?></td>
-                        <td><?= h($associado->nome) ?></td>
-                        <td><?= h($associado->login) ?></td>
-                        <td><?= h($associado->plano->title) ?></td>
-                        <td><?= $associado->Patrocinador ? h($associado->Patrocinador->nome) : '-' ?></td>
-                        <td><?= h($associado->cidade) ?>/<?= h($associado->estado) ?></td>
-                        <td class="text-nowrap"><?= h($associado->telefone) ?></td>
-                        <td><?= $this->Usuarios->status($associado->status) ?></td>
+                        <th scope="col"><?= __('Plano') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Ativos') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Pendentes') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Inativos') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Total') ?></th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-</div>
+                </thead>
+                <tbody>
+                    <?php foreach ($porPlano as $plano => $linha): ?>
+                        <tr>
+                            <td><?= h($plano) ?></td>
+                            <td class="ss-num"><?= $this->Number->format($linha['A']) ?></td>
+                            <td class="ss-num"><?= $this->Number->format($linha['P']) ?></td>
+                            <td class="ss-num"><?= $this->Number->format($linha['I']) ?></td>
+                            <td class="ss-num"><strong><?= $this->Number->format(array_sum($linha)) ?></strong></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><?= __('Total') ?></td>
+                        <td class="ss-num"><?= $this->Number->format($totais['A']) ?></td>
+                        <td class="ss-num"><?= $this->Number->format($totais['P']) ?></td>
+                        <td class="ss-num"><?= $this->Number->format($totais['I']) ?></td>
+                        <td class="ss-num"><?= $this->Number->format(count($associados)) ?></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
+
+    <section class="ss-report-section">
+        <h2 class="ss-section-title"><?= __('Associados') ?> <span class="ss-count"><?= count($associados) ?></span></h2>
+        <div class="ss-table-wrap">
+            <table class="table ss-table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="ss-col-id"><?= __('Código') ?></th>
+                        <th scope="col"><?= __('Associado') ?></th>
+                        <th scope="col"><?= __('Plano') ?></th>
+                        <th scope="col"><?= __('Patrocinador') ?></th>
+                        <th scope="col"><?= __('Cidade/UF') ?></th>
+                        <th scope="col"><?= __('Telefone') ?></th>
+                        <th scope="col"><?= __('Cadastro') ?></th>
+                        <th scope="col"><?= __('Status') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($associados as $associado): ?>
+                        <tr>
+                            <td class="ss-col-id"><span class="ss-id">#<?= str_pad($associado->id, 6, '0', STR_PAD_LEFT) ?></span></td>
+                            <td>
+                                <span class="ss-cell-title"><?= h($associado->nome) ?></span>
+                                <span class="ss-cell-sub"><?= h($associado->login) ?></span>
+                            </td>
+                            <td><?= h($associado->plano->title) ?></td>
+                            <td><?= $associado->Patrocinador ? h($associado->Patrocinador->nome) : $vazio ?></td>
+                            <td><?= h($associado->cidade) ?>/<?= h($associado->estado) ?></td>
+                            <td class="ss-nowrap"><?= $associado->telefone ? h($associado->telefone) : $vazio ?></td>
+                            <td class="ss-nowrap"><?= $associado->created->format('d/m/Y') ?></td>
+                            <td><?= $this->Usuarios->statusLabel($associado->status) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+<?php endif; ?>

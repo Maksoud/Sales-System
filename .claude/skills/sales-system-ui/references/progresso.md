@@ -16,7 +16,8 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 | [x] | `Element/footer.ctp` | 2026-10-24 | Selo Make2 deixou de ser fixo; scripts na mesma ordem |
 | [x] | `Element/paginator-footer.ctp` + `paginator-footer-jquery.ctp` | 2026-10-24 | `paginator-footer` ainda não é usado por nenhuma tela; o `-jquery` é só um comentário, ficou como estava |
 | [x] | Helpers: `FaturasHelper`, `PedidosHelper` (`statusLabel`, `etapas`), `UsuariosHelper` | 2026-10-24 | Cancelado em cinza; `Faturas::statusLabel($status, $vencimento)` mostra "Vencida" (passar o vencimento em `invoice-table.ctp` na migração do Financeiro); `etapas()` gera `ss-steps`; `Usuarios::plano()` gera `ss-plan`. Textos de `status()` não mudaram |
-| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp`, `Layout/relatorio.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer); serve o login sem outra mudança. Restante fica para erros e relatórios |
+| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer); serve o login sem outra mudança. `error` fica para as páginas de erro |
+| [x] | `Layout/relatorio.ctp` | 2026-10-24 | Migrado com os relatórios (ver abaixo). Saiu o `<style>` inline |
 
 Verificado em 2026-10-24 no navegador em 1280px e 375px: perfis Dev e Super Master, menu ativo,
 menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, sem rolagem horizontal.
@@ -168,17 +169,30 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Element/report-header.ctp`, `Element/report-form.ctp` | E | | Fazer antes dos relatórios |
-| [ ] | `Reports/orders.ctp` | R | | |
-| [ ] | `Reports/invoices.ctp` | R | | |
-| [ ] | `Reports/goals.ctp` | R | | |
-| [ ] | `Reports/commissions.ctp` | R | | |
-| [ ] | `Reports/associates.ctp` | R | | |
-| [ ] | `Reports/clients.ctp` | R | | |
-| [ ] | `Reports/payments.ctp` | R | | |
-| [ ] | `Reports/balances.ctp` | R | | |
-| [ ] | `Reports/registrations.ctp` | R | | |
-| [ ] | `Reports/taxes.ctp` | R | | |
+| [x] | `Layout/relatorio.ctp` | E | 2026-10-24 | `ss-report-page` + `ss-container ss-page` com a folha `article.ss-report`; barra do bloco `report-toolbar` acima da folha; rodapé `hidden-print`. `Highcharts.setOptions` lê os tokens com a nova função `ssCor()` (cores, fonte, eixos, legenda), sem título interno nem créditos, `.`/`,` nos números e textos de exportação em português (corrigidos "Feb"/"Maio" dos meses curtos) |
+| [x] | `Element/report-header.ctp`, `Element/report-form.ctp` | E | 2026-10-24 | Header: barra "Gerado por {nome} ({login}) · {plano} · em {data}" + Imprimir (`hidden-print`, via `$this->start('report-toolbar')`); cabeçalho da folha com logo 36px, título, "Período: X a Y" e **"Emitido em" novo, que sai na impressão**. Form: seções Período (De/Até) e Filtros (`ss-form-section`), datas com `autocomplete=off`; `ss-help` da nova aba; Cancelar `type=button` (era `reset`); "Gerar Relatório" → "Gerar relatório" com ícone. Ids, `name`s, `target=_blank`, `.datepicker .datemask` mantidos |
+| [x] | `Reports/orders.ctp` | R | 2026-10-24 | Resumo por status (na ordem do fluxo, badges) + rosca; lista de 7 colunas: plano e tipo (se não Normal) na linha de apoio do associado; frete zerado vira —; `<tfoot>` com total do frete e do valor |
+| [x] | `Reports/invoices.ctp` | R | 2026-10-24 | Resumo por tipo ganhou linha de total. Lista de 10 para 7 colunas: tipo e data de cadastro na linha de apoio, parcela abaixo da forma de pagamento; status por `Faturas::situacao()` (passa a mostrar Vencida, Em cálculo, Bloqueada) |
+| [x] | `Reports/goals.ctp` | R | 2026-10-24 | Frase única dividida em Meta (com ícone do tipo) e Prêmio; barra `progress-bar` com `style` virou `ss-progress` em `ss-report-progress` (verde ao atingir); título com a contagem de metas atingidas |
+| [x] | `Reports/commissions.ctp` | R | 2026-10-24 | Resumo + rosca (tooltip em R$ 1.234,56). Lista de 10 para 7 colunas: plano sob o beneficiário, percentual sob o tipo, fatura de origem sob o associado de origem. Novo `ComissoesHelper::statusLabel()` (Liberada verde / Bloqueada azul, como `situacao()`) |
+| [x] | `Reports/associates.ctp` | R | 2026-10-24 | Resumo por plano ganhou linha de total; lista com Código, login sob o nome, status por `Usuarios::statusLabel()`, telefone vazio vira — |
+| [x] | `Reports/clients.ctp` | R | 2026-10-24 | Cidade/UF e "desde" sob o nome, e-mail sob o telefone; `<tfoot>` com total de pedidos e do valor |
+| [x] | `Reports/payments.ctp` | R | 2026-10-24 | Os três `panel` viraram `ss-stat` (Pagos, Aguardando pagamento, Cancelados, com a quantidade). Novo `FaturasHelper::saqueLabel()` (Pago / Aguardando pagamento / Cancelado). Agência e conta em `ss-mono`; `<tfoot>` com o valor total |
+| [x] | `Reports/balances.ctp` | R | 2026-10-24 | Totais também em 3 `ss-stat` no topo; coluna Código; `<tfoot>` |
+| [x] | `Reports/registrations.ctp` | R | 2026-10-24 | Colunas empilhadas com a cor de cada plano (`--ss-plan-*`); `<tfoot>` com o total por plano (antes só das taxas) |
+| [x] | `Reports/taxes.ctp` | R | 2026-10-24 | Aviso de referência em `ss-note`; alíquota pelo `toPercentage`; "Não" em `ss-muted` |
+
+Relatórios verificados em 2026-10-24 no navegador (1280px; 375px num iframe), perfil Dev: os 10
+relatórios com e sem resultado (estado vazio), gráficos (rosca, colunas por plano), modal de filtros
+a partir de Pedidos (calendário, envio por GET para nova aba), sem rolagem horizontal da página (no
+celular as tabelas rolam dentro da caixa, como pede o guia). **A impressão não foi conferida numa
+impressora/PDF**: as regras `@media print` da seção 19 só foram revisadas no código. Mudanças comuns:
+- Sem a coluna de numeração (1, 2, 3...): a contagem vai no `ss-count` ao lado do título da seção.
+- Datas em `dd/mm/aaaa` (`->format('d/m/Y')`); `MyHtml->date()` mostra "Hoje"/"22 de Outubro de 2026".
+- Títulos com só a 1ª maiúscula ("Relatório de pedidos").
+- Os títulos dos modais ("Relatório de Pedidos", no `data-title` dos botões de cada módulo) ficaram
+  como estavam.
+Tema em `ss-theme.css?v=9`: nova seção 19 (Relatórios).
 
 ### E-mail
 
@@ -203,4 +217,5 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 | 2026-10-24 | `ss-net-node` (pessoa na árvore da rede) | 17. Peças do domínio | O nó antigo empilhava itens com `clearfix` e `style`; precisava de avatar, nome, login, plano, status e contagem num card só, e de um estado sem clique para quem não tem indicados |
 | 2026-10-24 | `ss-goals` / `ss-progress` (metas com barra de progresso) | 17. Peças do domínio | A barra do Bootstrap precisa de `style="width"`; o `<progress>` nativo recebe o valor sem estilo inline |
 | 2026-10-24 | `ss-chips` / `ss-chip` (itens removíveis) | 7. Badges e selos | Cidades da região: o antigo `alert alert-info pull-left` com × não removia nada; precisava de item compacto com campo oculto e botão de remover |
+| 2026-10-24 | `ss-report` (folha, cabeçalho, seções, resumo, gráfico, progresso) | 19. Relatórios | Os relatórios usavam `container`, `panel`, `bg-gray`, `font-*` e `style`; precisavam de folha para A4 com cabeçalho impresso, tabela + gráfico lado a lado e regras de impressão próprias |
 | 2026-10-24 | `ss-richtext` e `ss-figure` (texto com HTML e imagem do aviso) | 16. Mensagens, avisos e estado vazio | A mensagem do aviso vem com `<p>`/`<strong>`: `ss-message-text` usa `pre-line` e é um `<p>`, o que quebrava o espaçamento; a imagem precisava de borda e raio dos tokens |

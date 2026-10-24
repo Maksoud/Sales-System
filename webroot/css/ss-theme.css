@@ -14,6 +14,7 @@
  *   4. Cabeçalho pág.  10. Tabelas             16. Mensagens e avisos
  *   5. Botões          11. Visualização        17. Peças do domínio
  *   6. Formulários     12. Paginação           18. Utilitários, impressão
+ *                                             19. Relatórios
  */
 
 /* =========================================================================
@@ -1775,4 +1776,103 @@ a.list-group-item:hover, a.list-group-item:focus { background: var(--ss-surface-
     .table > tbody > tr > td { padding: 6px 8px; }
     .label, .ss-badge { border: 1px solid #999 !important; background: none !important; color: #000 !important; }
     a { color: #000; text-decoration: none; }
+}
+
+/* =========================================================================
+   19. RELATÓRIOS (layout "relatorio": a tela é a prévia da folha A4)
+   ========================================================================= */
+.ss-report-page { background: var(--ss-bg); }
+.ss-report-page .ss-page { max-width: 1120px; }
+
+/* Barra acima da folha: quem gerou + Imprimir (não imprime) */
+.ss-report-toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: var(--ss-space-3);
+    margin-bottom: var(--ss-space-4);
+}
+.ss-report-toolbar-info { margin: 0; }
+
+/* Folha */
+.ss-report {
+    padding: var(--ss-space-8);
+    background: var(--ss-surface);
+    border: 1px solid var(--ss-border);
+    border-radius: var(--ss-radius-lg);
+    box-shadow: var(--ss-shadow-sm);
+}
+
+/* Cabeçalho impresso: logo, título, período e data de emissão */
+.ss-report-header {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--ss-space-3) var(--ss-space-5);
+    padding-bottom: var(--ss-space-5);
+    margin-bottom: var(--ss-space-6);
+    border-bottom: 1px solid var(--ss-border);
+}
+body header.ss-report-header { background-color: transparent; }
+.ss-report-logo { display: block; height: 36px; width: auto; }
+.ss-report-heading { flex: 1 1 260px; min-width: 0; }
+.ss-report-title { margin: 0; font-size: var(--ss-text-lg); font-weight: 600; line-height: 1.3; color: var(--ss-text); }
+.ss-report-period { margin: 2px 0 0; font-size: var(--ss-text-sm); color: var(--ss-text-muted); }
+.ss-report-issued { margin: 0; font-size: var(--ss-text-xs); color: var(--ss-text-muted); white-space: nowrap; }
+
+/* Blocos do relatório */
+.ss-report-section + .ss-report-section { margin-top: var(--ss-space-8); }
+.ss-report-section > .ss-section-title { display: flex; align-items: center; gap: var(--ss-space-2); }
+
+/* Resumo: tabela + gráfico lado a lado */
+.ss-report-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--ss-space-6);
+    align-items: center;
+}
+.ss-report-chart { height: 260px; min-width: 0; }
+.ss-report-chart--lg { height: 320px; }
+.ss-report-section > .ss-report-chart + .ss-table-wrap { margin-top: var(--ss-space-5); }
+
+/* Tabelas: contorno fino e células mais compactas que nas listagens */
+.ss-report .ss-table-wrap { border: 1px solid var(--ss-border); border-radius: var(--ss-radius); }
+.ss-report .table > thead > tr > th { padding: 8px 12px; }
+.ss-report .table > tbody > tr > td, .ss-report .table > tbody > tr > th,
+.ss-report .table > tfoot > tr > td { padding: 8px 12px; font-size: var(--ss-text-sm); }
+.ss-report .table > tbody > tr:hover { background-color: transparent; }
+.ss-report .table > tfoot > tr > td { border-top: 1px solid var(--ss-border-strong); }
+.ss-report .ss-cell-sub { white-space: normal; }
+.ss-report .ss-progress { margin-top: 0; min-width: 120px; }
+.ss-report-progress { display: flex; align-items: center; gap: var(--ss-space-3); }
+.ss-report-progress > span { flex: 0 0 auto; font-size: var(--ss-text-xs); color: var(--ss-text-muted); font-variant-numeric: tabular-nums; }
+.ss-report-progress.is-done > span { color: var(--ss-success-fg); font-weight: 600; }
+.ss-report-progress.is-done .ss-progress::-webkit-progress-value { background: var(--ss-success-solid); }
+.ss-report-progress.is-done .ss-progress::-moz-progress-bar { background: var(--ss-success-solid); }
+
+.ss-report .ss-note { margin-bottom: var(--ss-space-5); }
+.ss-report .ss-grid-stats { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.ss-report .ss-stat { box-shadow: none; }
+
+@media (max-width: 767px) {
+    .ss-report { padding: var(--ss-space-4); }
+    .ss-report-header { gap: var(--ss-space-3); }
+    .ss-report-issued { width: 100%; }
+    .ss-report-summary { grid-template-columns: minmax(0, 1fr); gap: var(--ss-space-4); }
+    .ss-report-section + .ss-report-section { margin-top: var(--ss-space-6); }
+    .ss-report-toolbar > .btn { flex: 1 1 auto; }
+}
+
+@media print {
+    @page { size: A4; margin: 12mm; }
+    .ss-report-page, .ss-report-page .ss-page { background: var(--ss-surface) !important; padding: 0; max-width: none; }
+    .ss-report-page .ss-container { padding: 0; }
+    .ss-report { padding: 0; border: 0; border-radius: 0; box-shadow: none; }
+    .ss-report-header { margin-bottom: var(--ss-space-5); }
+    .ss-report-summary { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .ss-report-section { break-inside: auto; }
+    .ss-report-section > .ss-section-title, .ss-report-summary, .ss-report-chart { break-inside: avoid; break-after: auto; }
+    .ss-report .ss-table-wrap { overflow: visible; border-radius: 0; }
+    .ss-report .table > thead { display: table-header-group; }
+    .ss-report .table > tbody > tr { break-inside: avoid; }
+    .ss-report .table > tbody > tr > td, .ss-report .table > tfoot > tr > td { padding: 5px 8px; font-size: 11px; }
+    .ss-report .table > thead > tr > th { padding: 6px 8px; font-size: 10px; }
+    .ss-report .ss-count { border: 1px solid var(--ss-gray-400); background: none; color: var(--ss-text); }
+    .ss-report .highcharts-exporting-group { display: none; }
 }

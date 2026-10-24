@@ -8,80 +8,116 @@
 
 /* File: src/Template/Reports/orders.ctp */
 
-$porStatus = [];
-$soma = 0;
+//Resumo por status (na ordem do fluxo) e totais
+$porStatus = array_fill_keys(array_keys($this->Pedidos->statusLista()), ['qtd' => 0, 'valor' => 0]);
+$soma = $frete = 0;
 foreach ($pedidos as $pedido) {
-    $status = $this->Pedidos->status($pedido->status);
-    if (!isset($porStatus[$status])) $porStatus[$status] = ['qtd' => 0, 'valor' => 0];
-    $porStatus[$status]['qtd']++;
-    $porStatus[$status]['valor'] += $pedido->total;
-    $soma += $pedido->total;
+    $porStatus[$pedido->status]['qtd']++;
+    $porStatus[$pedido->status]['valor'] += $pedido->total;
+    $soma  += $pedido->total;
+    $frete += $pedido->valor_frete;
 }
+$porStatus = array_filter($porStatus, function ($linha) { return $linha['qtd'] > 0; });
+$vazio = '<span class="ss-muted">—</span>';
 ?>
 
-<div class="container">
-    <?= $this->element('report-header', ['titulo' => __('Relatório de Pedidos'), 'periodo' => $periodo]) ?>
+<?= $this->element('report-header', ['titulo' => __('Relatório de pedidos'), 'periodo' => $periodo]) ?>
 
-    <?php if (!$pedidos): ?>
-        <div class="alert alert-info"><?= __('Nenhum pedido encontrado com os filtros informados.') ?></div>
-    <?php else: ?>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <table class="table table-bordered">
-                    <thead><tr class="bg-gray"><th><?= __('Status') ?></th><th class="text-center"><?= __('Pedidos') ?></th><th class="text-right"><?= __('Valor') ?></th></tr></thead>
+<?php if (!$pedidos): ?>
+    <div class="ss-empty">
+        <div class="ss-empty-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+        <p class="ss-empty-title"><?= __('Nenhum pedido encontrado') ?></p>
+        <p class="ss-empty-text"><?= __('Ajuste o período ou os filtros e gere o relatório de novo.') ?></p>
+    </div>
+<?php else: ?>
+    <section class="ss-report-section">
+        <h2 class="ss-section-title"><?= __('Resumo por status') ?></h2>
+        <div class="ss-report-summary">
+            <div class="ss-table-wrap">
+                <table class="table ss-table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><?= __('Status') ?></th>
+                            <th scope="col" class="ss-num"><?= __('Pedidos') ?></th>
+                            <th scope="col" class="ss-num"><?= __('Valor') ?></th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <?php foreach ($porStatus as $status => $linha): ?>
-                            <tr><td><?= $status ?></td><td class="text-center"><?= $linha['qtd'] ?></td><td class="text-right"><?= $this->Number->currency($linha['valor'], 'BRL') ?></td></tr>
+                            <tr>
+                                <td><?= $this->Pedidos->statusLabel($status) ?></td>
+                                <td class="ss-num"><?= $this->Number->format($linha['qtd']) ?></td>
+                                <td class="ss-num"><?= $this->Number->currency($linha['valor'], 'BRL') ?></td>
+                            </tr>
                         <?php endforeach; ?>
-                        <tr><th><?= __('Total') ?></th><th class="text-center"><?= count($pedidos) ?></th><th class="text-right"><?= $this->Number->currency($soma, 'BRL') ?></th></tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><?= __('Total') ?></td>
+                            <td class="ss-num"><?= $this->Number->format(count($pedidos)) ?></td>
+                            <td class="ss-num"><?= $this->Number->currency($soma, 'BRL') ?></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <div id="grafico-status" style="height: 260px;"></div>
-            </div>
+            <div id="grafico-status" class="ss-report-chart" role="img" aria-label="<?= __('Gráfico de pedidos por status') ?>"></div>
         </div>
+    </section>
 
-        <table class="table table-bordered table-condensed">
-            <thead>
-                <tr class="bg-gray">
-                    <th class="text-center">#</th>
-                    <th><?= __('Pedido') ?></th>
-                    <th><?= __('Data') ?></th>
-                    <th><?= __('Associado') ?></th>
-                    <th><?= __('Plano') ?></th>
-                    <th><?= __('Tipo') ?></th>
-                    <th><?= __('Itens') ?></th>
-                    <th><?= __('Status') ?></th>
-                    <th class="text-right"><?= __('Frete') ?></th>
-                    <th class="text-right"><?= __('Total') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $i = 1; foreach ($pedidos as $pedido): ?>
+    <section class="ss-report-section">
+        <h2 class="ss-section-title"><?= __('Pedidos') ?> <span class="ss-count"><?= count($pedidos) ?></span></h2>
+        <div class="ss-table-wrap">
+            <table class="table ss-table">
+                <thead>
                     <tr>
-                        <th class="text-center"><?= $i++ ?></th>
-                        <td><?= str_pad($pedido->id, 6, '0', STR_PAD_LEFT) ?></td>
-                        <td class="text-nowrap"><?= $pedido->created->format('d/m/Y') ?></td>
-                        <td><?= h($pedido->usuario->nome) ?></td>
-                        <td><?= h($pedido->usuario->plano->title) ?></td>
-                        <td><?= $this->Pedidos->tipo($pedido->tipo) ?></td>
-                        <td><small><?php foreach ($pedido->pedidos_produtos as $item) echo $item->quantidade . 'x ' . h($item->produto->title) . '<br>'; ?></small></td>
-                        <td><?= $this->Pedidos->status($pedido->status) ?></td>
-                        <td class="text-right text-nowrap"><?= $this->Number->currency($pedido->valor_frete, 'BRL') ?></td>
-                        <td class="text-right text-nowrap"><?= $this->Number->currency($pedido->total, 'BRL') ?></td>
+                        <th scope="col" class="ss-col-id"><?= __('Pedido') ?></th>
+                        <th scope="col"><?= __('Data') ?></th>
+                        <th scope="col"><?= __('Associado') ?></th>
+                        <th scope="col"><?= __('Itens') ?></th>
+                        <th scope="col"><?= __('Status') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Frete') ?></th>
+                        <th scope="col" class="ss-num"><?= __('Total') ?></th>
                     </tr>
-                <?php endforeach; ?>
-                <tr><th colspan="10" class="text-right font-16"><?= __('Valor total:') ?> <?= $this->Number->currency($soma, 'BRL') ?></th></tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($pedidos as $pedido): ?>
+                        <tr>
+                            <td class="ss-col-id"><span class="ss-id">#<?= str_pad($pedido->id, 6, '0', STR_PAD_LEFT) ?></span></td>
+                            <td class="ss-nowrap"><?= $pedido->created->format('d/m/Y') ?></td>
+                            <td>
+                                <span class="ss-cell-title"><?= h($pedido->usuario->nome) ?></span>
+                                <span class="ss-cell-sub">
+                                    <?= h($pedido->usuario->plano->title) ?><?= $pedido->tipo != 'N' ? ' · ' . h($this->Pedidos->tipo($pedido->tipo)) : '' ?>
+                                </span>
+                            </td>
+                            <td class="ss-text-sm">
+                                <?php foreach ($pedido->pedidos_produtos as $item): ?>
+                                    <span class="ss-nowrap"><?= $this->Number->format($item->quantidade) ?> × <?= h($item->produto->title) ?></span><br>
+                                <?php endforeach; ?>
+                            </td>
+                            <td><?= $this->Pedidos->statusLabel($pedido->status) ?></td>
+                            <td class="ss-num"><?= $pedido->valor_frete ? $this->Number->currency($pedido->valor_frete, 'BRL') : $vazio ?></td>
+                            <td class="ss-num"><?= $this->Number->currency($pedido->total, 'BRL') ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5"><?= __('Total') ?></td>
+                        <td class="ss-num"><?= $this->Number->currency($frete, 'BRL') ?></td>
+                        <td class="ss-num"><?= $this->Number->currency($soma, 'BRL') ?></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </section>
 
-        <script>
-            Highcharts.chart('grafico-status', {
-                chart: { type: 'pie' }, title: { text: '<?= __('Pedidos por status') ?>' }, credits: { enabled: false },
-                tooltip: { pointFormat: '{point.y} pedido(s)' },
-                series: [{ name: 'Pedidos', data: <?= json_encode(array_map(function ($s, $l) { return ['name' => $s, 'y' => $l['qtd']]; }, array_keys($porStatus), $porStatus)) ?> }]
-            });
-        </script>
-    <?php endif; ?>
-</div>
+    <script>
+        Highcharts.chart('grafico-status', {
+            chart: { type: 'pie' },
+            tooltip: { pointFormat: '{point.y} <?= __('pedido(s)') ?>' },
+            plotOptions: { pie: { innerSize: '55%', dataLabels: { enabled: false }, showInLegend: true } },
+            series: [{ name: '<?= __('Pedidos') ?>', data: <?= json_encode(array_map(function ($s, $l) { return ['name' => $this->Pedidos->status($s), 'y' => $l['qtd']]; }, array_keys($porStatus), $porStatus)) ?> }]
+        });
+    </script>
+<?php endif; ?>

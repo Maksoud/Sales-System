@@ -101,7 +101,7 @@
     <nav class="sg-toc">
         <a href="#cores">Cores</a><a href="#tipografia">Tipografia</a><a href="#botoes">Botões</a><a href="#badges">Badges</a>
         <a href="#alertas">Alertas</a><a href="#metricas">Métricas</a><a href="#listagem">Listagem</a><a href="#view">Visualização</a>
-        <a href="#form">Formulário</a><a href="#loja">Loja</a><a href="#rede">Rede</a><a href="#mensagens">Mensagens</a>
+        <a href="#form">Formulário</a><a href="#loja">Loja</a><a href="#rede">Rede</a><a href="#mensagens">Mensagens</a><a href="#relatorio">Relatório</a>
     </nav>
 
     <!-- ============ CORES ============ -->
@@ -501,6 +501,35 @@
             </li>
         </ul>
     </div></section>
+
+    <h2 class="sg-h sg-section" id="relatorio">Relatório (folha para imprimir)</h2>
+    <div class="ss-report-toolbar">
+        <p class="ss-report-toolbar-info ss-muted ss-text-xs">Gerado por Renée Maksoud (renee) · Desenvolvedor · em 24/10/2026 14:32</p>
+        <button type="button" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
+    </div>
+    <article class="ss-report">
+        <header class="ss-report-header">
+            <img class="ss-report-logo" src="../../../../webroot/img/Reiniciando.png" alt="Reiniciando">
+            <div class="ss-report-heading">
+                <h1 class="ss-report-title">Relatório de pedidos</h1>
+                <p class="ss-report-period">Período: 01/08/2026 a 24/10/2026</p>
+            </div>
+            <p class="ss-report-issued">Emitido em 24/10/2026 14:32</p>
+        </header>
+        <section class="ss-report-section">
+            <h2 class="ss-section-title">Pedidos <span class="ss-count">2</span></h2>
+            <div class="ss-table-wrap">
+                <table class="table ss-table">
+                    <thead><tr><th class="ss-col-id">Pedido</th><th>Associado</th><th>Status</th><th class="ss-num">Total</th></tr></thead>
+                    <tbody>
+                        <tr><td class="ss-col-id"><span class="ss-id">#001082</span></td><td><span class="ss-cell-title">Marcelo Tavares</span><span class="ss-cell-sub">Master</span></td><td><span class="label label-warning">Aguardando pagamento</span></td><td class="ss-num">R$ 2.016,60</td></tr>
+                        <tr><td class="ss-col-id"><span class="ss-id">#001081</span></td><td><span class="ss-cell-title">Fernanda Rocha</span><span class="ss-cell-sub">Master</span></td><td><span class="label label-success">Concluído</span></td><td class="ss-num">R$ 2.449,00</td></tr>
+                    </tbody>
+                    <tfoot><tr><td colspan="3">Total</td><td class="ss-num">R$ 4.465,60</td></tr></tfoot>
+                </table>
+            </div>
+        </section>
+    </article>
 
 </div>
 </main>

@@ -8,7 +8,7 @@ está em `webroot/css/ss-theme.css` (o número da seção aparece entre parênte
 [Métricas](#métricas) · [Atalhos](#atalhos) · [Metas](#metas-progresso) · [Menus e dropdowns](#menus-e-dropdowns) ·
 [Controle segmentado](#controle-segmentado) · [Navegação lateral](#navegação-lateral) ·
 [Modal](#modal) · [Paginação](#paginação) · [Mensagens e avisos](#mensagens-e-avisos) ·
-[Estado vazio](#estado-vazio) · [Produto da loja](#produto-da-loja) · [Avatar](#avatar) · [Carregamento](#carregamento) ·
+[Estado vazio](#estado-vazio) · [Produto da loja](#produto-da-loja) · [Relatório](#relatório) · [Avatar](#avatar) · [Carregamento](#carregamento) ·
 [Utilitários de layout](#utilitários-de-layout)
 
 ---
@@ -476,6 +476,47 @@ em `maksoud-custom.js`: não remova.
     </div>
 </article>
 ```
+
+## Relatório
+(seção 19; regras da tela em [telas-especiais.md](telas-especiais.md#relatórios-reports-reportctp-layout-relatorio))
+
+Folha dos relatórios (`Reports/*`, layout `relatorio`). O layout já monta a página e a folha;
+o template só começa pelo `report-header` e empilha `ss-report-section`:
+
+```php
+<!-- Layout/relatorio.ctp (pronto, não repetir no template) -->
+<body class="ss-report-page">
+    <main class="ss-container ss-page">
+        <?= $this->fetch('report-toolbar') ?>   <!-- barra "Gerado por" + Imprimir, vem do report-header -->
+        <article class="ss-report"><?= $this->fetch('content') ?></article>
+    </main>
+</body>
+
+<!-- Template do relatório -->
+<?= $this->element('report-header', ['titulo' => __('Relatório de pedidos'), 'periodo' => $periodo]) ?>
+
+<section class="ss-report-section">
+    <h2 class="ss-section-title"><?= __('Resumo por status') ?></h2>
+    <div class="ss-report-summary">                     <!-- tabela + gráfico lado a lado -->
+        <div class="ss-table-wrap"><table class="table ss-table">…<tfoot>…</tfoot></table></div>
+        <div id="grafico-status" class="ss-report-chart" role="img" aria-label="…"></div>
+    </div>
+</section>
+
+<section class="ss-report-section">
+    <h2 class="ss-section-title"><?= __('Pedidos') ?> <span class="ss-count"><?= count($pedidos) ?></span></h2>
+    <div class="ss-table-wrap"><table class="table ss-table">…</table></div>
+</section>
+```
+
+- Lista vazia: `ss-empty` no lugar das seções.
+- Totais em `<tfoot>` com `<td>` (o tema pinta o fundo e põe a borda).
+- Indicadores: `ss-grid-stats` com `div.ss-stat` (na folha a grade se ajusta a 3 colunas).
+- Progresso em linha de tabela: `<div class="ss-report-progress [is-done]"><progress class="ss-progress">…</progress><span>3/10</span></div>`.
+- Gráfico: `ss-report-chart` (260px) ou `--lg` (320px). Cores, fonte e textos dos gráficos já vêm do
+  `Highcharts.setOptions` do layout, que lê os tokens com `ssCor('--ss-…')`; para uma série com cor
+  própria, use `ssCor()` (ex.: `ssCor('--ss-plan-vip')`), nunca hex.
+- Datas em `->format('d/m/Y')` (no papel, "Hoje"/"Ontem" do `MyHtml->date()` não serve).
 
 ## Avatar
 (seção 14)

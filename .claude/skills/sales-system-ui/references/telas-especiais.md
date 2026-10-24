@@ -190,16 +190,24 @@ de manutenção (`$liberado_temporariamente`) exibindo `ss-alert ss-alert--warni
 
 Feitos para imprimir em A4; a tela é a prévia.
 
-- `Element/report-header.ctp`: barra `hidden-print` com informações de quem gerou (`ss-muted
-  ss-text-xs`) e botão "Imprimir" (primário); cabeçalho impresso com logo (36px), título
-  (`--ss-text-lg`) e período em `ss-muted`.
+Markup completo em [componentes.md › Relatório](componentes.md#relatório).
+
+- `Layout/relatorio.ctp`: fundo cinza com a folha branca (`ss-report`) no centro (até 1120px);
+  rodapé `hidden-print`. Carrega o Highcharts e define as opções comuns (cores dos tokens via
+  `ssCor()`, fonte Inter, sem fundo, sem título interno, `.` de milhar e `,` decimal).
+- `Element/report-header.ctp`: põe no bloco `report-toolbar` a barra `hidden-print` com quem gerou
+  (`ss-muted ss-text-xs`) e "Imprimir" (primário); abre a folha com logo (36px), título
+  (`--ss-text-lg`), período e "Emitido em" (também impresso).
+- `Element/report-form.ctp` (modal sm dos `*/report.ctp`): seções Período (De/Até) e Filtros,
+  `ss-help` dizendo que abre em nova aba, rodapé Cancelar + "Gerar relatório".
 - Tabela `table ss-table` **sem** `--stack` (relatório é para papel), com rolagem
-  `ss-table-wrap` na tela.
-- Totais em `<tfoot>` ou `ss-totals`.
-- Gráficos (Highcharts) com as cores: série principal `#0f7f6a`, secundárias `#66756f`,
-  `#2e6fe0`, `#e09b00`; fonte Inter; sem fundo.
-- A impressão usa as regras `@media print` do tema (fundo branco, sem sombras, badges em contorno).
-- Remova o `text-transform: uppercase` de `.prt-report` ao migrar.
+  `ss-table-wrap` na tela. Sem coluna de numeração: a contagem vai no `ss-count` do título.
+- Totais em `<tfoot>`; status sempre pelo helper (badge em contorno na impressão).
+- Gráficos (Highcharts): série principal `--ss-primary-600`, depois `--ss-gray-500`,
+  `--ss-info-solid`, `--ss-warning-solid`; por plano, as cores `--ss-plan-*`. Pizza vira rosca
+  (`innerSize: '55%'`) com legenda e sem rótulos.
+- Impressão (A4, margem 12mm): folha sem borda nem sombra, cabeçalho da tabela repetido em cada
+  página, linha não quebra entre páginas, botão de exportar do gráfico some.
 
 ## Minha rede (`Users/network.ctp`, `Element/network-node.ctp`)
 

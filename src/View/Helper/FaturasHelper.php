@@ -67,6 +67,14 @@ class FaturasHelper extends Helper
         return $this->statusLabel($fatura->status, $fatura->vencimento);
     }
 
+    /** Status do saque como badge, com os textos do pagamento ao associado */
+    public function saqueLabel($status)
+    {
+        $lista = ['P' => ['warning', __('Aguardando pagamento')], 'F' => ['success', __('Pago')], 'C' => ['default', __('Cancelado')]];
+        $item  = isset($lista[$status]) ? $lista[$status] : ['default', $this->status($status)];
+        return '<span class="label label-' . $item[0] . '">' . h($item[1]) . '</span>';
+    }
+
     public function tipoLista()
     {
         return ['C' => 'Comissão', 'S' => 'Saque', 'P' => 'Pedido', 'T' => 'Taxa de Inscrição'];

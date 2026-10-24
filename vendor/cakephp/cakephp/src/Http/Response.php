@@ -1855,13 +1855,13 @@ class Response implements ResponseInterface
     {
         $etags = preg_split('/\s*,\s*/', (string)$request->header('If-None-Match'), 0, PREG_SPLIT_NO_EMPTY);
         $modifiedSince = $request->header('If-Modified-Since');
+        $checks = [];
         if ($responseTag = $this->etag()) {
-            $etagMatches = in_array('*', $etags) || in_array($responseTag, $etags);
+            $checks['etagMatches'] = in_array('*', $etags) || in_array($responseTag, $etags);
         }
         if ($modifiedSince) {
-            $timeMatches = strtotime($this->modified()) === strtotime($modifiedSince);
+            $checks['timeMatches'] = strtotime($this->modified()) === strtotime($modifiedSince);
         }
-        $checks = compact('etagMatches', 'timeMatches');
         if (empty($checks)) {
             return false;
         }

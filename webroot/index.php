@@ -24,6 +24,11 @@ if (php_sapi_name() === 'cli-server') {
         return false;
     }
 }
+// CakePHP 3.4 predates PHP 8: hide deprecation notices so they are not
+// printed before the headers (which breaks session start).
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+ini_set('display_startup_errors', '0');
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Application;

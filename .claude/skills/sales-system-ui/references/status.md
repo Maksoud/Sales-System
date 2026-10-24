@@ -28,6 +28,13 @@ Adicione `ss-badge--dot` quando o badge aparece sozinho numa coluna de status (f
 | F | Finalizada | `label-success` |
 | C | Cancelada | `label-default` |
 
+Na tabela e na view use `FaturasHelper::situacao($fatura)`, que também cobre dois casos de tipo:
+
+| Situação | Texto | Classe |
+|---|---|---|
+| Pedido de origem ainda em cálculo (V) | Em cálculo | `label-info` |
+| Comissão pendente (até a liberação) | Bloqueada | `label-primary` |
+
 ## Pedidos (`PedidosHelper`)
 
 | Código | Texto | Classe |

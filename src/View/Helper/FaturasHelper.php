@@ -50,6 +50,23 @@ class FaturasHelper extends Helper
         return '<span class="label label-' . $classe . '">' . h($this->status($status)) . '</span>';
     }
 
+    /**
+     * Situação da fatura como badge, considerando o tipo e o pedido de origem:
+     * pedido ainda em cálculo = "Em cálculo"; comissão pendente = "Bloqueada" (até a liberação);
+     * demais casos = statusLabel() com o vencimento.
+     */
+    public function situacao($fatura)
+    {
+        if ($fatura->status == 'P' && $fatura->pedido && $fatura->pedido->status == 'V') {
+            return '<span class="label label-info">' . __('Em cálculo') . '</span>';
+        }
+        if ($fatura->tipo == 'C' && $fatura->status == 'P') {
+            return '<span class="label label-primary" title="' . __('Liberada em {0}', $fatura->vencimento->format('d/m/Y')) . '">'
+                . __('Bloqueada') . '</span>';
+        }
+        return $this->statusLabel($fatura->status, $fatura->vencimento);
+    }
+
     public function tipoLista()
     {
         return ['C' => 'Comissão', 'S' => 'Saque', 'P' => 'Pedido', 'T' => 'Taxa de Inscrição'];

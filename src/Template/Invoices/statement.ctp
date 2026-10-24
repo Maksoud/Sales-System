@@ -7,65 +7,110 @@
  */
 
 /* File: src/Template/Invoices/statement.ctp */
+
+$temFiltro = $this->request->getQuery('iniciar_busca');
+$total     = count($faturas);
+$comSaldo  = !$gestao && $id_planos_usuario != 6;
 ?>
 
-<div class="container-fluid">
-    <div class="col-xs-12">
-        <div class="no-padding-lat">
-            <h3 class="page-header top-20">
-                <?= $gestao ? __('Extrato da Empresa') . ' <small>' . __('recebimentos e pagamentos confirmados') . '</small>' : __('Meu Extrato') ?>
-            </h3>
-        </div>
+<div class="ss-container ss-page">
+    <div class="ss-stack">
+        <header class="ss-page-header">
+            <div class="ss-page-header-main">
+                <h1 class="ss-page-title"><?= $gestao ? __('Extrato da empresa') : __('Meu extrato') ?></h1>
+                <p class="ss-page-subtitle">
+                    <?php if ($gestao): ?>
+                        <?= __('Recebimentos e pagamentos confirmados') ?> ·
+                    <?php endif; ?>
+                    <?= $temFiltro
+                        ? __n('{0} fatura encontrada', '{0} faturas encontradas', $total, $total)
+                        : __n('{0} fatura', '{0} faturas', $total, $total) ?>
+                </p>
+            </div>
+            <?php if ($comSaldo): ?>
+                <div class="ss-page-actions">
+                    <?= $this->Html->link('<i class="fa fa-money" aria-hidden="true"></i> ' . __('Solicitar saque'), ['action' => 'withdraw'],
+                            ['class' => 'btn btn-primary btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Solicitação de saque'),
+                             'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                </div>
+            <?php endif; ?>
+        </header>
 
         <?= $this->element('msg-alert') ?>
 
-        <?php if (!$gestao && $id_planos_usuario != 6): ?>
-            <div class="row bottom-10">
-                <div class="col-xs-6 col-sm-3">
-                    <div class="box-panel bg-white bottom-10">
-                        <span class="label label-success text-uppercase"><?= __('Disponível') ?></span>
-                        <h3 class="text-verde top-5 bottom-0"><?= $this->Number->currency($saldos['disponivel'], 'BRL') ?></h3>
-                    </div>
+        <?php if ($comSaldo): ?>
+            <div class="ss-grid-stats">
+                <div class="ss-stat ss-tone-success">
+                    <span class="ss-stat-icon"><i class="fa fa-check-circle" aria-hidden="true"></i></span>
+                    <span class="ss-stat-label"><?= __('Disponível') ?></span>
+                    <span class="ss-stat-value"><?= $this->Number->currency($saldos['disponivel'], 'BRL') ?></span>
+                    <span class="ss-stat-meta"><?= __('Pode ser sacado') ?></span>
                 </div>
-                <div class="col-xs-6 col-sm-3">
-                    <div class="box-panel bg-white bottom-10">
-                        <span class="label label-primary text-uppercase"><?= __('Bloqueado') ?></span>
-                        <small class="text-cinza"><em><?= __('a receber') ?></em></small>
-                        <h3 class="top-5 bottom-0"><?= $this->Number->currency($saldos['bloqueado'], 'BRL') ?></h3>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-3 top-10">
-                    <?= $this->Html->link('<i class="fa fa-btc" aria-hidden="true"></i> ' . __('Solicitar') . ' <strong>' . __('Saque') . '</strong>', ['action' => 'withdraw'], ['class' => 'btn btn-default btn-lg btn-block text-uppercase btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Solicitação de Saque'), 'escape' => false]) ?>
+                <div class="ss-stat ss-tone-info">
+                    <span class="ss-stat-icon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                    <span class="ss-stat-label"><?= __('Bloqueado') ?></span>
+                    <span class="ss-stat-value"><?= $this->Number->currency($saldos['bloqueado'], 'BRL') ?></span>
+                    <span class="ss-stat-meta"><?= __('A receber') ?></span>
                 </div>
             </div>
-        <?php endif; ?>
-
-        <?php if ($gestao): ?>
+        <?php elseif ($gestao): ?>
             <?= $this->element('invoice-summary', ['resumo' => $resumo]) ?>
         <?php endif; ?>
 
-        <div class="row form-busca bottom-10">
-            <div class="col-xs-12">
-                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline']) ?>
-                    <?= $this->Form->text('id', ['class' => 'form-control', 'placeholder' => __('Nº da fatura'), 'value' => $this->request->getQuery('id'), 'style' => 'width:110px']) ?>
-                    <?= $this->MyForm->select_ultimos_anos('ano', ['class' => 'form-control', 'empty' => __('- ano -'), 'value' => $this->request->getQuery('ano')], 2018) ?>
-                    <?= $this->MyForm->select_meses('mes', ['class' => 'form-control', 'empty' => __('- mês -'), 'value' => $this->request->getQuery('mes')]) ?>
-                    <?= $this->Form->select('tipo', $this->Faturas->tipoLista(), ['class' => 'form-control', 'empty' => __('- tipo -'), 'value' => $this->request->getQuery('tipo')]) ?>
-                    <?= $this->Form->select('status', $this->Faturas->statusLista(), ['class' => 'form-control', 'empty' => __('- status -'), 'value' => $this->request->getQuery('status')]) ?>
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?></button>
-                    <input type="hidden" name="iniciar_busca" value="true">
-                    <?= $this->Html->link('<i class="fa fa-list" aria-hidden="true"></i> ' . __('Listar Todos'), ['action' => 'statement'], ['class' => 'btn btn-default', 'id' => 'btn-resetar-form', 'style' => 'display:none;', 'escape' => false]) ?>
-                <?= $this->Form->end() ?>
+        <section class="ss-card ss-card--flush">
+            <div class="ss-card-header">
+                <button type="button" class="btn btn-default ss-filters-toggle" data-toggle="collapse"
+                        data-target="#filtros" aria-expanded="false" aria-controls="filtros">
+                    <i class="fa fa-sliders" aria-hidden="true"></i> <?= __('Filtros') ?>
+                    <?php if ($temFiltro): ?><span class="ss-filters-count">!</span><?php endif; ?>
+                </button>
+                <div id="filtros" class="ss-filters-panel collapse">
+                    <?= $this->Form->create(null, ['type' => 'get', 'class' => 'ss-filters']) ?>
+                        <div class="form-group">
+                            <label for="f-id" class="sr-only"><?= __('Nº da fatura') ?></label>
+                            <?= $this->Form->text('id', ['id' => 'f-id', 'class' => 'form-control', 'inputmode' => 'numeric',
+                                    'placeholder' => __('Nº da fatura'), 'value' => $this->request->getQuery('id')]) ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-ano" class="sr-only"><?= __('Ano') ?></label>
+                            <?= $this->MyForm->select_ultimos_anos('ano', ['id' => 'f-ano', 'class' => 'form-control',
+                                    'empty' => __('Qualquer ano'), 'value' => $this->request->getQuery('ano')], 2018) ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-mes" class="sr-only"><?= __('Mês') ?></label>
+                            <?= $this->MyForm->select_meses('mes', ['id' => 'f-mes', 'class' => 'form-control',
+                                    'empty' => __('Qualquer mês'), 'value' => $this->request->getQuery('mes')]) ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-tipo" class="sr-only"><?= __('Tipo') ?></label>
+                            <?= $this->Form->select('tipo', $this->Faturas->tipoLista(), ['id' => 'f-tipo', 'class' => 'form-control',
+                                    'empty' => __('Todos os tipos'), 'value' => $this->request->getQuery('tipo')]) ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-status" class="sr-only"><?= __('Status') ?></label>
+                            <?= $this->Form->select('status', $this->Faturas->statusLista(), ['id' => 'f-status', 'class' => 'form-control',
+                                    'empty' => __('Todos os status'), 'value' => $this->request->getQuery('status')]) ?>
+                        </div>
+                        <input type="hidden" name="iniciar_busca" value="true">
+                        <div class="ss-filters-actions">
+                            <?= $this->Html->link(__('Limpar'), ['action' => 'statement'],
+                                    ['class' => 'btn btn-link', 'id' => 'btn-resetar-form', 'style' => 'display:none;']) ?>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?>
+                            </button>
+                        </div>
+                    <?= $this->Form->end() ?>
+                </div>
             </div>
-        </div>
 
-        <?= $this->element('invoice-table', ['faturas' => $faturas, 'gerenciar' => false, 'mostrarUsuario' => $gestao]) ?>
+            <?= $this->element('invoice-table', ['faturas' => $faturas, 'gerenciar' => false, 'mostrarUsuario' => $gestao]) ?>
+        </section>
 
-        <?php if (!$gestao && $id_planos_usuario != 6): ?>
-            <p class="bottom-40 text-cinza small">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
+        <?php if ($comSaldo): ?>
+            <div class="ss-note">
+                <span class="ss-note-title"><?= __('Como funciona o saldo') ?></span>
                 <?= __('Comissões ficam bloqueadas por 30 dias após o pagamento da fatura de origem e depois passam para o saldo disponível.') ?>
-            </p>
+            </div>
         <?php endif; ?>
     </div>
 </div>

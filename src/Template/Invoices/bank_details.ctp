@@ -11,22 +11,44 @@
 $this->layout = 'ajax';
 ?>
 
-<div class="container-fluid">
-    <div class="text-center">
-        <small><?= __('Fatura') ?> <?= str_pad($fatura->id, 6, '0', STR_PAD_LEFT) ?> - <?= $this->Faturas->tipo($fatura->tipo) ?></small>
-        <h3 class="top-5"><?= $this->Number->currency($fatura->total, 'BRL') ?></h3>
-        <small><?= __('vencimento em') ?> <?= $this->MyHtml->date($fatura->vencimento) ?></small>
+<div class="ss-record-header">
+    <div>
+        <h3 class="ss-record-title">
+            <?= __('Fatura') ?> <span class="ss-id">#<?= str_pad($fatura->id, 6, '0', STR_PAD_LEFT) ?></span>
+        </h3>
+        <div class="ss-record-meta">
+            <span><?= h($this->Faturas->tipo($fatura->tipo)) ?></span>
+            <span><?= __('Vence em {0}', $this->MyHtml->date($fatura->vencimento)) ?></span>
+        </div>
     </div>
-    <hr>
-    <p><strong><?= __('Transferência, depósito ou PIX para:') ?></strong></p>
-    <p>
-        <?= __('Reiniciando Sistemas Ltda.') ?><br>
-        <?= __('CNPJ') ?> 00.000.000/0001-00<br>
-        <?= __('Banco') ?> 341 - Itaú Unibanco<br>
-        <?= __('Agência') ?> 0000 - <?= __('Conta corrente') ?> 00000-0<br>
-        <?= __('PIX (CNPJ)') ?> 00.000.000/0001-00
-    </p>
-    <div class="alert alert-info">
-        <small><?= __('Após o pagamento, envie o comprovante para financeiro@exemplo.com.br informando o número da fatura.') ?></small>
+</div>
+
+<ul class="ss-totals ss-mb-4">
+    <li class="is-total"><span><?= __('Valor a pagar') ?></span><span><?= $this->Number->currency($fatura->total, 'BRL') ?></span></li>
+</ul>
+
+<section class="ss-section">
+    <h4 class="ss-section-title"><?= __('Transferência, depósito ou PIX') ?></h4>
+    <dl class="ss-dl">
+        <dt><?= __('Favorecido') ?></dt>
+        <dd><?= __('Reiniciando Sistemas Ltda.') ?></dd>
+        <dt><?= __('CNPJ') ?></dt>
+        <dd><span class="ss-mono">00.000.000/0001-00</span></dd>
+        <dt><?= __('Banco') ?></dt>
+        <dd>341 · Itaú Unibanco</dd>
+        <dt><?= __('Agência') ?></dt>
+        <dd><span class="ss-mono">0000</span></dd>
+        <dt><?= __('Conta corrente') ?></dt>
+        <dd><span class="ss-mono">00000-0</span></dd>
+        <dt><?= __('PIX (CNPJ)') ?></dt>
+        <dd><span class="ss-mono">00.000.000/0001-00</span></dd>
+    </dl>
+</section>
+
+<div class="ss-alert ss-mb-0" role="status">
+    <i class="fa fa-info-circle ss-alert-icon" aria-hidden="true"></i>
+    <div class="ss-alert-body">
+        <?= __('Após o pagamento, envie o comprovante para {0} informando o número da fatura.',
+                '<a href="mailto:financeiro@exemplo.com.br">financeiro@exemplo.com.br</a>') ?>
     </div>
 </div>

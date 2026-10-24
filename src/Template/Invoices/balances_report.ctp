@@ -14,7 +14,7 @@ echo $this->element('report-form', [
     'url'     => ['controller' => 'Reports', 'action' => 'balances'],
     'periodo' => false,
     'selects' => [
-        'planos_id' => [__('Plano'), $planos],
-        'saldo'     => [__('Saldo'), ['disponivel' => __('Somente com saldo disponível'), 'bloqueado' => __('Somente com saldo bloqueado')]],
+        'planos_id' => [__('Plano'), $planos, __('Todos os planos')],
+        'saldo'     => [__('Saldo'), ['disponivel' => __('Somente com saldo disponível'), 'bloqueado' => __('Somente com saldo bloqueado')], __('Qualquer saldo')],
     ],
 ]);

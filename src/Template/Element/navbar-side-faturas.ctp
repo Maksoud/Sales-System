@@ -2,29 +2,43 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2018-2019
  */
 
-$comissoes = $saques = $pedidos = $taxas = 'list-group-item ';
-if ($this->request->url == 'Faturas?comissoes') $comissoes .= 'active';
-if ($this->request->url == 'Faturas?saques')    $saques    .= 'active';
-if ($this->request->url == 'Faturas?pedidos')   $pedidos   .= 'active';
-if ($this->request->url == 'Faturas?taxas')     $taxas     .= 'active';
+/* File: src/Template/Element/navbar-side-faturas.ctp */
+
+/**
+ * Filtro por tipo de fatura no Extrato geral (Invoices/index).
+ * Cada link mantém os demais filtros da busca e troca só o tipo.
+ */
+
+//tipo => [ícone, rótulo]
+$itens = [
+    ''  => ['fa-list',         __('Todas')],
+    'S' => ['fa-money',        __('Saques')],
+    'T' => ['fa-ticket',       __('Taxas de inscrição')],
+    'P' => ['fa-shopping-cart', __('Pedidos')],
+    'C' => ['fa-handshake-o',  __('Comissões')],
+];
+$query = $this->request->getQueryParams();
+$atual = isset($query['tipo']) ? (string)$query['tipo'] : '';
+unset($query['tipo'], $query['iniciar_busca']);
+$query = array_filter($query, 'strlen');
 ?>
 
-<div class="col-sm-3 col-md-2 sidebar">
-    <div class="row">
-        <div class="list-group">
-            <li class="list-group-item list-group-item-info">Filtros</li>
-            <?= $this->Html->link(('<i class="fa fa-clock-o fa-fw" aria-hidden="true"></i> Pendentes'), ['controller' => 'Faturas', 'action' => 'index', 'comissoes'], ['class' => $comissoes, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-usd fa-fw" aria-hidden="true"></i> Saques'), ['controller' => 'Faturas', 'action' => 'index', 'saques'], ['class' => $saques, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-cart-arrow-down fa-fw" aria-hidden="true"></i> Pedidos'), ['controller' => 'Faturas', 'action' => 'index', 'pedidos'], ['class' => $pedidos, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-street-view fa-fw" aria-hidden="true"></i> Taxas de Entrada'), ['controller' => 'Faturas', 'action' => 'index', 'taxas'], ['class' => $taxas, 'escape' => false]); ?>
-        </div>
-    </div>
-        
-    <div id="footer_hora" class="pull-bottom-time text-nowrap">
-        <h4><?= date('d/m/Y ') ?><span id="timer"><?= date('H:i:s') ?></span></h4>
-    </div>
-</div>
+<nav class="ss-subnav" aria-label="<?= __('Filtrar faturas por tipo') ?>">
+    <p class="ss-subnav-title"><?= __('Tipo') ?></p>
+    <ul class="ss-subnav-list">
+        <?php foreach ($itens as $tipo => $item): ?>
+            <?php
+            $filtros = $tipo === '' ? $query : $query + ['tipo' => $tipo];
+            if ($filtros) $filtros['iniciar_busca'] = 'true';
+            $ativo = $atual === (string)$tipo;
+            ?>
+            <li><?= $this->Html->link('<i class="fa ' . $item[0] . '" aria-hidden="true"></i> ' . $item[1],
+                    ['controller' => 'Invoices', 'action' => 'index', '?' => $filtros],
+                    ['class' => $ativo ? 'is-active' : '', 'escape' => false] + ($ativo ? ['aria-current' => 'page'] : [])) ?></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>

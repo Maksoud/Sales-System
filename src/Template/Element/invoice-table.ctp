@@ -10,98 +10,144 @@
 
 /**
  * Tabela de faturas usada no Extrato Geral (gestão) e no Meu Extrato.
+ * Fica dentro de um ss-card--flush; com a lista vazia, mostra o ss-empty.
  *
  * Variáveis:
- *   $faturas     Lista de faturas
- *   $gerenciar   true = mostra associado e as ações de baixa/cancelamento (gestão)
- *   $mostrarUsuario Exibe a coluna do associado (padrão: igual a $gerenciar)
+ *   $faturas        Lista de faturas
+ *   $gerenciar      true = ações de baixa/cancelamento (gestão)
+ *   $mostrarUsuario Identifica a linha pelo associado (padrão: igual a $gerenciar)
  */
 $mostrarUsuario = isset($mostrarUsuario) ? $mostrarUsuario : $gerenciar;
+$vazio = '<span class="ss-muted">—</span>';
+$numero = function ($id) { return str_pad($id, 6, '0', STR_PAD_LEFT); };
+$abrirFatura = ['class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Detalhes da fatura'),
+                'data-loading-text' => __('Carregando...')];
 ?>
 
-<div class="scrolling bottom-40 box-panel bg-white">
-    <table class="table table-striped box" id="adjustable">
+<?php if (count($faturas)): ?>
+<div class="ss-table-wrap">
+    <table class="table ss-table ss-table--stack" id="adjustable">
         <thead>
             <tr>
-                <th class="text-nowrap"><?= __('#') ?></th>
-                <th class="text-nowrap"><?= __('Cadastro') ?></th>
-                <?php if ($mostrarUsuario): ?>
-                    <th class="text-nowrap"><?= __('Associado') ?></th>
-                <?php endif; ?>
-                <th class="text-nowrap"><?= __('Tipo') ?></th>
-                <th class="text-center"><?= __('Origem') ?></th>
-                <th class="text-center"><?= __('Pedido') ?></th>
-                <th class="text-nowrap"><?= __('Forma Pgto') ?></th>
-                <th class="text-nowrap"><?= __('Vencimento') ?></th>
-                <th class="text-nowrap"><?= __('Valor') ?></th>
-                <th class="text-nowrap"><?= __('Status') ?></th>
-                <th class="text-center"><?= __('Ações') ?></th>
+                <th class="ss-col-id"><?= __('Código') ?></th>
+                <th><?= $mostrarUsuario ? __('Associado') : __('Fatura') ?></th>
+                <th><?= __('Pagamento') ?></th>
+                <th><?= __('Vencimento') ?></th>
+                <th class="ss-num"><?= __('Valor') ?></th>
+                <th><?= __('Status') ?></th>
+                <th class="ss-actions" data-orderable="false"><span class="sr-only"><?= __('Ações') ?></span></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($faturas as $fatura): ?>
-                <?php
-                    $numero  = str_pad($fatura->id, 6, '0', STR_PAD_LEFT);
-                    $vencida = $this->Faturas->vencida($fatura);
-                    //Saques e comissões são saídas da empresa / entradas do associado
-                    $sinal   = '';
-                    if (!$gerenciar && $fatura->tipo == 'S') $sinal = '- ';
-                    if (!$gerenciar && $fatura->tipo == 'C') $sinal = '+ ';
-                ?>
-                <tr>
-                    <td><?= $numero ?></td>
-                    <td data-order="<?= $fatura->created->format('YmdHi') ?>"><?= $this->MyHtml->date($fatura->created) ?></td>
-                    <?php if ($mostrarUsuario): ?>
-                        <td>
-                            <?= $this->Html->link(h($fatura->usuario->nome), ['controller' => 'Users', 'action' => 'view', $fatura->usuario->id], ['class' => 'btn_modal', 'data-title' => __('Dados do Associado')]) ?>
-                            <br><small><?= $this->Usuarios->plano($fatura->usuario) ?></small>
-                        </td>
-                    <?php endif; ?>
-                    <td>
-                        <?= $this->Faturas->tipo($fatura->tipo) ?>
-                        <?php if ($fatura->comissao): ?>
-                            <br><small class="text-cinza"><?= $this->Comissoes->tipo($fatura->comissao->tipo) ?> (<?= $fatura->comissao->porcentagem ?>%)</small>
-                        <?php endif; ?>
-                    </td>
-                    <td class="text-center"><?= $fatura->ParentFaturas ? $this->Html->link(str_pad($fatura->ParentFaturas->id, 6, '0', STR_PAD_LEFT), ['controller' => 'Invoices', 'action' => 'view', $fatura->ParentFaturas->id], ['class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Detalhes da Fatura')]) : '-' ?></td>
-                    <td class="text-center"><?= $fatura->pedido ? $this->Html->link(str_pad($fatura->pedido->id, 6, '0', STR_PAD_LEFT), ['controller' => 'Orders', 'action' => 'view', $fatura->pedido->id], ['class' => 'btn_modal', 'data-title' => __('Detalhes do Pedido #') . str_pad($fatura->pedido->id, 6, '0', STR_PAD_LEFT)]) : '-' ?></td>
-                    <td>
-                        <?= $fatura->tipo == 'C' ? '<small class="text-cinza">' . __('Crédito em saldo') . '</small>' : $this->Faturas->forma_pagamento($fatura->forma_pagamento) ?>
-                        <?= $fatura->qt_parcelas > 1 ? '<small>(' . $fatura->parcela_atual . '/' . $fatura->qt_parcelas . ')</small>' : '' ?>
-                    </td>
-                    <td data-order="<?= $fatura->vencimento->format('Ymd') ?>">
-                        <span class="<?= $fatura->status != 'P' ? 'text-cinza' : ($vencida ? 'text-danger' : 'text-info') ?>">
-                            <?= $this->MyHtml->tinyDate($fatura->vencimento) ?>
-                        </span>
-                        <?php if ($vencida): ?>
-                            <br><small class="label label-danger"><?= __('vencida') ?></small>
-                        <?php endif; ?>
-                    </td>
-                    <td class="text-nowrap" data-order="<?= $fatura->total ?>"><?= $sinal . $this->Number->currency($fatura->total, 'BRL') ?></td>
-                    <td>
-                        <?php if ($fatura->pedido && $fatura->pedido->status == 'V'): ?>
-                            <span class="label label-default"><?= __('Calculando...') ?></span>
-                        <?php elseif ($fatura->tipo == 'C' && $fatura->status == 'P'): ?>
-                            <span class="label label-primary" title="<?= __('Liberada em') ?> <?= $fatura->vencimento->format('d/m/Y') ?>"><?= __('Bloqueada') ?></span>
-                        <?php else: ?>
-                            <?= $this->Faturas->statusLabel($fatura->status) ?>
-                        <?php endif; ?>
-                        <?php if ($fatura->boleto): ?>
-                            <i class="fa fa-barcode" aria-hidden="true" title="<?= __('Boleto emitido') ?>"></i>
-                        <?php endif; ?>
-                    </td>
-                    <td class="col-xs-1">
-                        <?= $this->Html->link('<i class="fa fa-eye"></i> ' . __('Visualizar'), ['controller' => 'Invoices', 'action' => 'view', $fatura->id], ['class' => 'btn btn-default btn-block btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Detalhes da Fatura'), 'escape' => false]) ?>
+        <?php foreach ($faturas as $fatura): ?>
+            <?php
+            $id = $numero($fatura->id);
+            $emCalculo = $fatura->pedido && $fatura->pedido->status == 'V';
 
-                        <?php if ($gerenciar && $fatura->status == 'P' && in_array($fatura->tipo, ['T', 'P', 'S'])): ?>
-                            <?= $this->Form->postLink('<i class="fa fa-check"></i> ' . ($fatura->tipo == 'S' ? __('Pagar Saque') : __('Baixar')), ['controller' => 'Invoices', 'action' => 'settle', $fatura->id], ['confirm' => __('Confirmar o pagamento da fatura {0}?', $numero), 'class' => 'top-5 btn btn-primary btn-block', 'escape' => false]) ?>
-                            <?= $this->Form->postLink('<i class="fa fa-ban"></i> ' . __('Cancelar'), ['controller' => 'Invoices', 'action' => 'cancel', $fatura->id], ['confirm' => __('Tem certeza que deseja cancelar a fatura {0}?', $numero), 'class' => 'top-5 btn btn-danger btn-block', 'escape' => false]) ?>
-                        <?php elseif (!$gerenciar && $fatura->status == 'P' && in_array($fatura->tipo, ['T', 'P']) && !($fatura->pedido && $fatura->pedido->status == 'V')): ?>
-                            <?= $this->Html->link('<i class="fa fa-usd"></i> ' . __('Pagar agora'), ['controller' => 'Invoices', 'action' => 'bankDetails', $fatura->id], ['class' => 'top-5 btn btn-warning btn-block btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Dados para Pagamento'), 'escape' => false]) ?>
+            //Saques e comissões são saídas da empresa / entradas do associado
+            $sinal = $classe = '';
+            if (!$gerenciar && $fatura->tipo == 'S') { $sinal = '− '; $classe = ' ss-neg'; }
+            if (!$gerenciar && $fatura->tipo == 'C') { $sinal = '+ '; $classe = ' ss-pos'; }
+
+            //Linha de apoio: tipo, detalhe da comissão e documento de referência
+            $apoio = [];
+            //Em faturas de pedido, o link "Pedido #..." já diz o tipo
+            if ($mostrarUsuario && !($fatura->tipo == 'P' && $fatura->pedido)) $apoio[] = h($this->Faturas->tipo($fatura->tipo));
+            if ($fatura->comissao) {
+                $apoio[] = h($this->Comissoes->tipo($fatura->comissao->tipo)) . ' (' . h($fatura->comissao->porcentagem) . '%)';
+            }
+            //Comissões apontam para a fatura de origem; as demais, para o pedido
+            if ($fatura->ParentFaturas) {
+                $apoio[] = $this->Html->link(__('Origem #{0}', $numero($fatura->ParentFaturas->id)),
+                        ['controller' => 'Invoices', 'action' => 'view', $fatura->ParentFaturas->id], $abrirFatura);
+            } elseif ($fatura->pedido) {
+                $apoio[] = $this->Html->link(__('Pedido #{0}', $numero($fatura->pedido->id)),
+                        ['controller' => 'Orders', 'action' => 'view', $fatura->pedido->id],
+                        ['class' => 'btn_modal', 'data-title' => __('Pedido #{0}', $numero($fatura->pedido->id)),
+                         'data-loading-text' => __('Carregando...')]);
+            }
+            ?>
+            <tr>
+                <td class="ss-col-id" data-label="<?= __('Código') ?>" data-order="<?= $fatura->id ?>">
+                    <span class="ss-id">#<?= $id ?></span>
+                </td>
+                <td class="ss-cell-primary">
+                    <?= $this->Html->link($mostrarUsuario ? h($fatura->usuario->nome) : h($this->Faturas->tipo($fatura->tipo)),
+                            ['controller' => 'Invoices', 'action' => 'view', $fatura->id],
+                            ['class' => 'ss-cell-title btn_modal', 'escape' => false] + $abrirFatura) ?>
+                    <?php if ($mostrarUsuario || $apoio): ?>
+                        <span class="ss-cell-sub">
+                            <?php if ($mostrarUsuario): ?><?= $this->Usuarios->plano($fatura->usuario) ?> <?php endif; ?>
+                            <?= implode(' · ', $apoio) ?>
+                        </span>
+                    <?php endif; ?>
+                </td>
+                <td data-label="<?= __('Pagamento') ?>">
+                    <?php if ($fatura->tipo == 'C'): ?>
+                        <span class="ss-muted"><?= __('Crédito em saldo') ?></span>
+                    <?php elseif ($fatura->forma_pagamento): ?>
+                        <?= h($this->Faturas->forma_pagamento($fatura->forma_pagamento)) ?>
+                        <?php if ($fatura->qt_parcelas > 1): ?>
+                            <span class="ss-muted">(<?= $fatura->parcela_atual ?>/<?= $fatura->qt_parcelas ?>)</span>
                         <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+                    <?php else: ?>
+                        <?= $vazio ?>
+                    <?php endif; ?>
+                </td>
+                <td data-label="<?= __('Vencimento') ?>" data-order="<?= $fatura->vencimento->format('Ymd') ?>">
+                    <span class="<?= $fatura->status != 'P' ? 'ss-muted' : '' ?>"><?= $this->MyHtml->tinyDate($fatura->vencimento) ?></span>
+                </td>
+                <td class="ss-num" data-label="<?= __('Valor') ?>" data-order="<?= $emCalculo ? -1 : $fatura->total ?>">
+                    <?php if ($emCalculo): ?>
+                        <span class="ss-muted"><?= __('Em cálculo') ?></span>
+                    <?php else: ?>
+                        <span class="ss-money<?= $classe ?>"><?= $sinal . $this->Number->currency($fatura->total, 'BRL') ?></span>
+                    <?php endif; ?>
+                </td>
+                <td data-label="<?= __('Status') ?>">
+                    <?= $this->Faturas->situacao($fatura) ?>
+                    <?php if ($fatura->boleto): ?>
+                        <i class="fa fa-barcode ss-muted" aria-hidden="true" title="<?= __('Boleto emitido') ?>"></i>
+                        <span class="sr-only"><?= __('Boleto emitido') ?></span>
+                    <?php endif; ?>
+                </td>
+                <td class="ss-actions">
+                    <?php if ($gerenciar && $fatura->status == 'P' && in_array($fatura->tipo, ['T', 'P', 'S'])): ?>
+                        <?= $this->Form->postLink('<i class="fa fa-check" aria-hidden="true"></i> ' . ($fatura->tipo == 'S' ? __('Pagar saque') : __('Baixar')),
+                                ['controller' => 'Invoices', 'action' => 'settle', $fatura->id],
+                                ['confirm' => __('Confirmar o pagamento da fatura #{0}?', $id),
+                                 'class' => 'btn btn-sm ss-btn-ghost', 'escape' => false]) ?>
+                    <?php elseif (!$gerenciar && $fatura->status == 'P' && in_array($fatura->tipo, ['T', 'P']) && !$emCalculo): ?>
+                        <?= $this->Html->link('<i class="fa fa-university" aria-hidden="true"></i> ' . __('Pagar agora'),
+                                ['controller' => 'Invoices', 'action' => 'bankDetails', $fatura->id],
+                                ['class' => 'btn btn-sm ss-btn-ghost btn_modal', 'data-tamanho' => 'sm',
+                                 'data-title' => __('Dados para pagamento'), 'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                    <?php endif; ?>
+                    <?php if ($mostrarUsuario): ?>
+                        <?= $this->Html->link('<i class="fa fa-user" aria-hidden="true"></i>',
+                                ['controller' => 'Users', 'action' => 'view', $fatura->usuario->id],
+                                ['class' => 'btn btn-sm ss-btn-ghost ss-btn-icon btn_modal', 'title' => __('Dados do associado'),
+                                 'aria-label' => __('Dados de {0}', $fatura->usuario->nome), 'data-title' => __('Dados do associado'),
+                                 'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                    <?php endif; ?>
+                    <?php if ($gerenciar && $fatura->status == 'P' && in_array($fatura->tipo, ['T', 'P', 'S'])): ?>
+                        <?= $this->Form->postLink('<i class="fa fa-ban" aria-hidden="true"></i>',
+                                ['controller' => 'Invoices', 'action' => 'cancel', $fatura->id],
+                                ['confirm' => __('Cancelar a fatura #{0}? Esta ação não pode ser desfeita.', $id),
+                                 'class' => 'btn btn-sm ss-btn-danger-soft ss-btn-icon', 'title' => __('Cancelar fatura'),
+                                 'aria-label' => __('Cancelar fatura #{0}', $id), 'escape' => false]) ?>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+<?php else: ?>
+<div class="ss-empty">
+    <div class="ss-empty-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
+    <p class="ss-empty-title"><?= __('Nenhuma fatura encontrada') ?></p>
+    <p class="ss-empty-text"><?= __('Ajuste os filtros ou escolha outro tipo ou status.') ?></p>
+    <?= $this->Html->link(__('Limpar filtros'), ['action' => $this->request->getParam('action')], ['class' => 'btn btn-default']) ?>
+</div>
+<?php endif; ?>

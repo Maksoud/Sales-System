@@ -69,15 +69,21 @@ horizontal. `PedidosHelper::total()` mostra "Em cálculo" (em `ss-muted`) no lug
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Invoices/index.ctp` | I | | Extrato geral, saques, taxas, faturas |
-| [ ] | `Invoices/statement.ctp` | I | | Meu extrato |
-| [ ] | `Invoices/view.ctp` | V | | |
-| [ ] | `Invoices/withdraw.ctp` | F | | Solicitar saque (modal sm) |
-| [ ] | `Invoices/bank_details.ctp` | V | | |
-| [ ] | `Invoices/report.ctp`, `payments_report.ctp`, `balances_report.ctp` | F | | |
-| [ ] | `Element/invoice-summary.ctp` | E | | Vira `ss-grid-stats` |
-| [ ] | `Element/invoice-table.ctp` | E | | |
-| [ ] | `Element/navbar-side-faturas.ctp` | E | | |
+| [x] | `Invoices/index.ctp` | I | 2026-10-24 | Extrato geral. `ss-layout` com `navbar-side-faturas` (tipo), métricas, `ss-segmented` de status acima do card. Tipo e status saíram do formulário de busca (vão como campos ocultos para não se perderem); com 6 campos, a busca usa labels visíveis. Título em minúsculas ("Solicitações de saque", "Extrato geral"). Regra dos 30 dias em `ss-help` abaixo do card |
+| [x] | `Invoices/statement.ctp` | I | 2026-10-24 | Associado: "Solicitar saque" vira a ação primária do cabeçalho (`fa-money`) e os saldos viram 2 `ss-stat` (Disponível, Bloqueado). Gestão: `invoice-summary`. Regra do saldo em `ss-note`. Cliente (plano 6) sem saldos nem botão, como antes |
+| [x] | `Invoices/view.ctp` | V | 2026-10-24 | Modal sm. `ss-record-header` + seções Valores, Referência e Observações. Boleto emitido vira `ss-alert`. Badge pelo novo `Faturas::situacao()`: a fatura paga mostra "Finalizado" (antes "Paga"/"Liberada") |
+| [x] | `Invoices/withdraw.ctp` | F | 2026-10-24 | Modal sm. Saldos em `ss-dl`, aviso `ss-alert--warning` quando o disponível < R$ 50 (o botão continua desabilitado), conta de depósito em `ss-dl`. Gestão ganhou `.modal-footer` (Fechar + Ver solicitações de saque). "Cancelar" `type=button` |
+| [x] | `Invoices/bank_details.ctp` | V | 2026-10-24 | Modal sm. Valor em `ss-totals`, dados bancários em `ss-dl` com `ss-mono`, e-mail do financeiro virou link `mailto` |
+| [x] | `Invoices/report.ctp`, `payments_report.ctp`, `balances_report.ctp` | F | 2026-10-24 | Só os textos de "todos" dos selects (como em Pedidos). O visual vem de `Element/report-form.ctp` |
+| [x] | `Element/invoice-summary.ctp` | E | 2026-10-24 | `ss-grid-stats` com 4 `a.ss-stat` (Faturas listadas, Pendentes, Finalizadas, Canceladas); cada uma filtra a lista pelo status mantendo os demais filtros |
+| [x] | `Element/invoice-table.ctp` | E | 2026-10-24 | De 11 para 7 colunas: Código, Associado/Fatura, Pagamento, Vencimento, Valor, Status, ações. Tipo, comissão e referência (Origem #… para comissões, Pedido #… para as demais) foram para a linha de apoio; a data de cadastro saiu (está na view). Nome/tipo abre a fatura; "Visualizar" saiu. Ações: Baixar/Pagar saque (ghost) + ícones Associado e Cancelar (gestão), ou "Pagar agora" (associado). Créditos/débitos com `ss-pos`/`ss-neg` e sinal. Estado vazio `ss-empty` |
+| [x] | `Element/navbar-side-faturas.ctp` | E | 2026-10-24 | `ss-subnav` de tipo: Todas, Saques, Taxas de inscrição, Pedidos, Comissões. Antes não era usado e apontava para o controller `Faturas`, que não existe; agora fica em `Invoices/index` e mantém os outros filtros ao trocar o tipo |
+
+Financeiro verificado em 2026-10-24 no navegador (1280px e 375px), perfis Dev, Master e Cliente:
+navegação por tipo, filtro de status, métricas, busca, estado vazio, modal da fatura, saque
+(associado e gestão), dados para pagamento, Meu extrato, Extrato da empresa, sem rolagem
+horizontal. Novo `FaturasHelper::situacao($fatura)`: "Em cálculo" (pedido em V), "Bloqueada"
+(comissão pendente) ou `statusLabel($status, $vencimento)`, que já mostra "Vencida".
 
 ### Avisos (`NoticesController`)
 

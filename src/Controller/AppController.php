@@ -127,6 +127,7 @@ class AppController extends Controller
         //Define alguns valores para view
         $this->set('id_planos_usuario', $planos_id);
         $this->set('planos_usuario', $this->GETplanoText($planos_id));
+        $this->set('lista_planos', $this->planos());
     }
     
     public function beforeRender(Event $event)

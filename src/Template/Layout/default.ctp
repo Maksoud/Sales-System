@@ -174,16 +174,31 @@
                                         
                                 ?>
                                 </ul>
-                            </div>
 
-                            <div class="font-9 pull-right" style="padding-top:25px;margin-top:-73px;margin-right:-12px;opacity:0.7;">
-                                <?php $style = 'border-radius:50%;background-color:#337ab7;color:white;padding:6px;width:43px;text-align:center;float:left;margin-right:4px;'; ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 1'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 1], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 2'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 2], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 3'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 3], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 4'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 4], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 5'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 5], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
-                                <?= $this->Html->link(('<i class="fa fa-star" aria-hidden="true"></i> Tipo 6'), ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', 6], ['escape' => false, 'style' => $style, 'data-loading-text' => 'Carregando...']) ?>
+                                <?php //Seletor do tipo de acesso: simula o painel como cada perfil ?>
+                                <?php if (!empty($lista_planos)): ?>
+                                    <?php
+                                        $icones_planos = ['Dev' => 'fa-code', 'Admin' => 'fa-shield', 'SM' => 'fa-diamond',
+                                                          'Master' => 'fa-trophy', 'VIP' => 'fa-certificate', 'Cliente' => 'fa-user'];
+                                    ?>
+                                    <div class="navbar-right tipo-acesso" role="group" aria-label="<?= __('Ver o painel como') ?>">
+                                        <span class="tipo-acesso-rotulo"><?= __('Ver como') ?></span>
+                                        <div class="tipo-acesso-opcoes">
+                                            <?php foreach ($lista_planos as $id_plano => $plano):
+                                                list($slug_plano, $nome_plano) = $plano;
+                                                $ativo = ((int)$id_plano === (int)$id_planos_usuario);
+                                                $icone = isset($icones_planos[$slug_plano]) ? $icones_planos[$slug_plano] : 'fa-circle-o';
+                                                echo $this->Html->link(
+                                                    '<i class="fa ' . $icone . '" aria-hidden="true"></i> ' . h($slug_plano),
+                                                    ['controller' => 'Pages', 'action' => 'changeTypeOfAccess', $id_plano],
+                                                    ['escape' => false, 'title' => $nome_plano,
+                                                     'class' => 'tipo-acesso-opcao' . ($ativo ? ' ativo' : ''),
+                                                     'aria-current' => $ativo ? 'true' : 'false']
+                                                );
+                                            endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </nav>
                     </div>

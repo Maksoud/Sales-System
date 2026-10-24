@@ -17,6 +17,22 @@
         $class_item_coluna = 'top-20 col-xs-6 xs-center';
     endif;
 
+    //Atalho do dashboard. Com $url vira link; com $url = null (módulo ainda
+    //não implementado) vira um bloco desabilitado com o selo "Em breve".
+    $atalho = function ($icone, $titulo, $descricao, $url = null, array $options = []) {
+        $classe = isset($options['class']) ? $options['class'] : 'item';
+        $html   = '<i class="fa ' . $icone . '" aria-hidden="true"></i><h4>' . h($titulo);
+
+        if ($url === null) {
+            $classe = trim(preg_replace('/btn_modal/', '', $classe));
+            $html  .= ' <small class="label label-default">' . __('Em breve') . '</small></h4><p>' . h($descricao) . '</p>';
+            return '<span class="' . $classe . ' item-em-breve" title="' . __('Em breve') . '">' . $html . '</span>';
+        }
+
+        $html .= '</h4><p>' . h($descricao) . '</p>';
+        return $this->Html->link($html, $url, ['escape' => false] + $options);
+    };
+
 ?>
 
 <div class="container-fluid top-20 bottom-10 aSemUnderline">
@@ -50,49 +66,49 @@
                     
                     <?php if ($status_usuario != 'P' && $tipo_plano != 'Cliente') { ?>
                     <div class="<?= $class_item_coluna ?>">
-                        <?= $this->Html->link(('<i class="fa fa-user-plus" aria-hidden="true"></i><h4>Cadastrar Associado</h4><p>Cadastrar um novo associado</p>'), ['controller' => 'Pages', 'action' => 'add'], ['class' => 'item item-vermelho btn_modal', 'data-loading-text' => 'Carregando...', 'data-title' => 'Novo Associado', 'escape' => false]) ?>
+                        <?= $atalho('fa-user-plus', 'Cadastrar Associado', 'Cadastrar um novo associado', null, ['class' => 'item item-vermelho']) ?>
                     </div>
                     <?php } ?>
                     
                     <?php if ($tipo_plano != 'Admin' && $tipo_plano != 'Dev') { ?>
                     <div class="<?= $class_item_coluna ?>">
-                        <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i><h4>Meu Extrato</h4><p>Suas comissões, pedidos, taxas, saques e etc.</p>'), ['controller' => 'Pages', 'action' => 'meu_extrato'], ['class' => 'item item-azul', 'escape' => false]) ?>
+                        <?= $atalho('fa-usd', 'Meu Extrato', 'Suas comissões, pedidos, taxas, saques e etc.', null, ['class' => 'item item-azul']) ?>
                     </div>
                     <?php } ?>
                     
                     <?php if ($status_usuario != 'P') { ?>
                     <div class="<?= $class_item_coluna ?>">
-                        <?= $this->Html->link(('<i class="fa fa-cart-plus" aria-hidden="true"></i><h4>Loja</h4><p>Fazer um novo pedido na loja</p>'), ['controller' => 'Pages', 'action' => 'loja'], ['class' => 'item item-azul', 'escape' => false]) ?>
+                        <?= $atalho('fa-cart-plus', 'Loja', 'Fazer um novo pedido na loja', null, ['class' => 'item item-azul']) ?>
                     </div>
                     <?php }//if ($status_usuario != 'P') ?>
                     
                     <?php if ($tipo_plano != 'Admin' && $tipo_plano != 'Dev'): ?>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i><h4>Meus Pedidos</h4><p>Lista todos pedidos feitos na loja</p>'), ['controller' => 'Pages', 'action' => 'meu-pedido'], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-file-text-o', 'Meus Pedidos', 'Lista todos pedidos feitos na loja', null, ['class' => 'item item-verde']) ?>
                         </div>
                     <?php endif; ?>
                     
                     <?php if ($tipo_plano == 'Admin' || $tipo_plano == 'Dev'): ?>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-shopping-cart" aria-hidden="true"></i><h4>Pedidos da Loja</h4><p>Lista os pedidos da loja</p>'), ['controller' => 'Pages', 'action' => 'index'], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-shopping-cart', 'Pedidos da Loja', 'Lista os pedidos da loja', null, ['class' => 'item item-verde']) ?>
                         </div>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i><h4>Solicitações de Saques</h4><p>Lista as faturas de solicitações de saques</p>'), ['controller' => 'Pages', 'action' => 'index', '?' => ['tipo' => 'S', 'status' => 'P']], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-btc', 'Solicitações de Saques', 'Lista as faturas de solicitações de saques', null, ['class' => 'item item-verde']) ?>
                         </div>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-line-chart" aria-hidden="true"></i><h4>Taxas de Inscrições</h4><p>Lista as faturas de taxas de inscrições</p>'), ['controller' => 'Pages', 'action' => 'index', '?' => ['tipo' => 'T', 'status' => 'P']], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-line-chart', 'Taxas de Inscrições', 'Lista as faturas de taxas de inscrições', null, ['class' => 'item item-verde']) ?>
                         </div>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i><h4>Fatura de Pedidos</h4><p>Lista as faturas de pedidos</p>'), ['controller' => 'Pages', 'action' => 'index', '?' => ['tipo' => 'P', 'status' => 'P']], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-file-text-o', 'Fatura de Pedidos', 'Lista as faturas de pedidos', null, ['class' => 'item item-verde']) ?>
                         </div>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-usd" aria-hidden="true"></i><h4>Fatura de Comissões</h4><p>Lista as faturas de comissões</p>'), ['controller' => 'Pages', 'action' => 'index', '?' => ['tipo' => 'C', 'status' => 'P']], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-usd', 'Fatura de Comissões', 'Lista as faturas de comissões', null, ['class' => 'item item-verde']) ?>
                         </div>
                     <?php endif; ?>
                     
                     <?php if ($tipo_plano != 'VIP' && $tipo_plano != 'Cliente'): ?>
                         <div class="<?= $class_item_coluna ?>">
-                            <?= $this->Html->link(('<i class="fa fa-bell" aria-hidden="true"></i><h4>Avisos</h4><p>Envio de avisos para seus associados</p>'), ['controller' => 'Pages', 'action' => 'index'], ['class' => 'item item-verde', 'escape' => false]) ?>
+                            <?= $atalho('fa-bell', 'Avisos', 'Envio de avisos para seus associados', null, ['class' => 'item item-verde']) ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -118,9 +134,10 @@
                                 <div class="clearfix"></div>
                                 <h3 class="top-0"><?= $this->Number->currency($saldo_bloqueado, 'BRL') ?></h3>
                             </div>
-                            <?php if ($status_usuario != 'P') { ?>xs
+                            <?php if ($status_usuario != 'P') { ?>
                                 <div class="top-20 bottom-10 col-xs-12 col-md-offset-2 col-md-8">
-                                    <?= $this->Html->link(('<i class="fa fa-btc" aria-hidden="true"></i> Solicitar <strong>Saque</strong>'), ['controller' => 'Pages', 'action' => 'saque'], ['class' => 'btn btn-default btn-lg btn-block text-uppercase btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Solicitar Saque', 'escape' => false]) ?>
+                                    <?php //Solicitação de saque ainda não implementada ?>
+                                    <button type="button" class="btn btn-default btn-lg btn-block text-uppercase" disabled title="<?= __('Em breve') ?>"><i class="fa fa-btc" aria-hidden="true"></i> Solicitar <strong>Saque</strong></button>
                                 </div>
                             <?php }//if ($status_usuario != 'P') ?>
                         </div>
@@ -208,27 +225,27 @@
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-file-text-o" aria-hidden="true"></i><h4>Pedidos</h4><p>Relatório de Pedidos dos Associados</p>'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Pedidos']) ?>
+                            <?= $atalho('fa-file-text-o', 'Pedidos', 'Relatório de Pedidos dos Associados', null, ['class' => 'item item-verde']) ?>
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-handshake-o" aria-hidden="true"></i><h4>Comissões</h4><p>Relatório de Comissões de vendas e indicações</p>'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comssões']) ?>
+                            <?= $atalho('fa-handshake-o', 'Comissões', 'Relatório de Comissões de vendas e indicações', ['controller' => 'SaleCommissions', 'action' => 'report'], ['class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Comissões']) ?>
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i><h4>Associados</h4><p>Relatório de Associados</p>'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Associados']) ?>
+                            <?= $atalho('fa-users fa-fw', 'Associados', 'Relatório de Associados', null, ['class' => 'item item-verde']) ?>
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-usd fa-fw" aria-hidden="true"></i><h4>Faturas</h4><p>Relatório de Faturas de Pedidos, Inscrições e Saques</p>'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Faturas']) ?>
+                            <?= $atalho('fa-usd fa-fw', 'Faturas', 'Relatório de Faturas de Pedidos, Inscrições e Saques', null, ['class' => 'item item-verde']) ?>
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-star fa-fw" aria-hidden="true"></i><h4>Metas</h4><p>Relatório de Associados e Metas</p>'), ['controller' => 'Pages', 'action' => 'relatorio'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
+                            <?= $atalho('fa-star fa-fw', 'Metas', 'Relatório de Associados e Metas', ['controller' => 'SaleGoals', 'action' => 'index'], ['class' => 'item item-verde']) ?>
                         </div>
                         
                         <div class="top-20 col-xs-6 col-sm-4 xs-center">
-                            <?= $this->Html->link(('<i class="fa fa-btc fa-fw" aria-hidden="true"></i><h4>Pagamentos</h4><p>Relatório de Pagamentos de Comissões</p>'), ['controller' => 'Pages', 'action' => 'relatorio_pagamentos'], ['escape' => false, 'class' => 'item item-verde btn_modal', 'data-tamanho' => 'sm', 'data-loading-text' => 'Carregando...', 'data-title' => 'Relatório de Metas']) ?>
+                            <?= $atalho('fa-btc fa-fw', 'Pagamentos', 'Relatório de Pagamentos de Comissões', null, ['class' => 'item item-verde']) ?>
                         </div>
                         
                     </div>

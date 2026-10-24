@@ -256,3 +256,14 @@ Markup completo em [componentes.md › Relatório](componentes.md#relatório).
 `ss-empty` centralizado num `ss-container--narrow`, com ícone (`fa-compass` para 404,
 `fa-exclamation-triangle` para 500), título simples ("Página não encontrada"), uma frase e o
 botão "Voltar ao início".
+
+Como ficou (2026-10-24): `Layout/error.ctp` tem o próprio `<head>` (o `ErrorController` padrão não
+passa pelo `AppController`) com o mesmo `ss-theme.css?v=` de `head.ctp`: **suba os dois juntos**.
+`error400.ctp` escolhe o texto pelo `$code`: 404 (`fa-compass`), 401/403 "Acesso negado" (`fa-lock`)
+e os demais 4xx "Não foi possível abrir a página". Com debug ligado continua o `dev_error` do Cake.
+
+## E-mail (`Layout/Email/html/default.ctp`)
+
+Única exceção à regra "só tokens": clientes de e-mail não leem `<link>` nem variáveis CSS. Use
+tabelas (`role="presentation"`, até 600px) e estilo inline com os valores dos tokens, anotados no
+topo do layout. Imagens e links com URL completa (`$this->Url->build('/img/…', true)`).

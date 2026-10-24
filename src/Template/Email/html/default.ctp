@@ -1,22 +1,17 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Developed by:
+ *     Renée Maksoud
  *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * All rights reserved - 2018-2019
  */
-?>
-<?php
+
+/* File: src/Template/Email/html/default.ctp */
+
+//Uma linha do texto = um parágrafo. O conteúdo é montado pelo código e pode trazer HTML,
+//por isso não passa por h() (igual ao template padrão do Cake). Estilo inline: ver o layout.
 $content = explode("\n", $content);
 
 foreach ($content as $line):
-    echo '<p> ' . $line . "</p>\n";
+    echo '<p style="margin:0 0 12px;">' . $line . "</p>\n";
 endforeach;
-?>

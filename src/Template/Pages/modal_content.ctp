@@ -2,53 +2,44 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2015-2019
  */
 
-/* File: src/Template/Pages/modal-content.ctp */
+/* File: src/Template/Pages/modal_content.ctp */
+
+//Modelo de conteúdo de modal (PagesController::modalContent). Os dois botões só fecham o modal.
+$this->layout = 'ajax';
 ?>
 
-<?php $this->layout = 'ajax'; ?>
 <?= $this->Form->create('form', ['type' => 'file']) ?>
 
-<?php 
-    $single = 'col-xs-12';
-    $double = 'col-xs-12 col-sm-6';
-    $label  = 'control-label text-nowrap';
-    $input  = 'form-control form-group';
-?>
+    <div id="ajax-retorno"></div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div id="ajax-retorno" class="col-xs-12"></div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                <label for="title" class="ss-required"><?= __('Título') ?></label>
+                <?= $this->Form->text('title', ['class' => 'form-control focus', 'id' => 'title', 'required' => true,
+                        'aria-describedby' => 'title-help']) ?>
+                <span class="help-block" id="title-help"><?= __('Linha principal da apresentação do produto.') ?></span>
+            </div>
+            <div class="form-group">
+                <label for="imagem"><?= __('Imagem') ?> <span class="ss-optional">(<?= __('opcional') ?>)</span></label>
+                <?= $this->Form->file('imagem', ['id' => 'imagem', 'accept' => 'image/*', 'aria-describedby' => 'imagem-help']) ?>
+                <span class="help-block" id="imagem-help"><?= __('Imagem do produto.') ?></span>
+            </div>
         </div>
-        
-        <div class="bottom-20 row">
-            <div class="col-xs-12 col-sm-6">
-                <label class="<?= $label ?>">
-                    <?= __('Título') ?> <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Linha principal da apresentação do produto"></i>
-                </label>
-                <?= $this->Form->control('title', ['label' => false, 'class' => $input . ' focus', 'required' => true]) ?>
-                
-                <label class="<?= $label ?>">
-                    <?= __('Imagem') ?> <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Selecione uma imagem produto"></i>
-                </label>
-                <?= $this->Form->file('imagem', ['label' => false, 'class' => $input, 'placeholder' => 'Selecione a imagem', 'type' => 'image']) ?>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <label class="<?= $label ?>">
-                    <?= __('Descrição') ?> <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="Descrição do produto"></i>
-                </label>
-                <?= $this->Form->textarea('descricao', ['label' => false, 'class' => $input, 'rows' => '5', 'required' => true]) ?>
-            </div>
-            
+        <div class="col-xs-12 col-sm-6 form-group">
+            <label for="descricao" class="ss-required"><?= __('Descrição') ?></label>
+            <?= $this->Form->textarea('descricao', ['class' => 'form-control', 'id' => 'descricao', 'rows' => 5, 'required' => true]) ?>
         </div>
     </div>
-</div> <!-- É para encerrar o corpo do modal e poder iniciar o rodape do modal aqui -->
+
+</div> <!-- Encerra o corpo do modal para iniciar o rodapé -->
 
 <div class="modal-footer">
-    <?= $this->Form->button(__('Gravar'), ['type' => 'cancel', 'class' => 'btn btn-primary scroll-modal', 'data-dismiss' => 'modal', 'div' => false]) ?>
-    <?= $this->Form->button(__('Cancelar'), ['type' => 'cancel', 'class' => 'btn btn-default', 'data-dismiss' => 'modal', 'div' => false]) ?>
+    <?= $this->Form->button(__('Cancelar'), ['type' => 'button', 'class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
+    <?= $this->Form->button(__('Salvar'), ['type' => 'button', 'class' => 'btn btn-primary', 'data-dismiss' => 'modal']) ?>
     <?= $this->Form->end() ?>
 </div>

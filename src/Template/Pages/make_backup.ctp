@@ -2,86 +2,71 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2018-2019
  */
+
+/* File: src/Template/Pages/make_backup.ctp */
+
+//Gerar backup (modal)
+$this->layout = 'ajax';
+
+$cadastros = [
+    'planos'     => __('Planos'),
+    'regioes'    => __('Regiões'),
+    'produtos'   => __('Produtos'),
+    'associados' => __('Associados'),
+    'metas'      => __('Metas'),
+    'comissoes'  => __('Comissões'),
+    'pedidos'    => __('Pedidos'),
+];
+$formatos = [
+    'csv' => [__('CSV'), __('Abre em planilhas.'), 'fa-file-excel-o'],
+    'sql' => [__('SQL'), __('Restaura no banco de dados.'), 'fa-database'],
+];
 ?>
 
-<!-- Backup -->
-<?php $this->layout = 'ajax'; ?>
 <?= $this->Form->create('Backup', ['type' => 'file']) ?>
 
-<?php 
-    $double = 'col-xs-6 no-padding-lat width-155';
-    $label  = 'control-label text-nowrap';
-    $input  = 'form-control form-group width-x317';
-    $input_double = 'form-control form-group double-input';
-?>
-
-    <div class="container-fluid">
-        <div class="col-xs-12 main">
-            <h4 class="text-center"><?= h('CADASTROS') ?></h4>
+    <section class="ss-form-section">
+        <h4 class="ss-form-section-title"><?= __('Cadastros') ?></h4>
+        <p class="ss-form-section-desc"><?= __('Marque o que entra no arquivo.') ?></p>
+        <div class="row">
+            <?php foreach (array_chunk($cadastros, 4, true) as $coluna): ?>
             <div class="col-xs-12 col-sm-6">
-                <div class="well">
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('planos', ['hiddenField' => false])?>
-                        <strong><label>Planos</label></strong>
-                    </div>
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('regioes', ['hiddenField' => false])?>
-                        <strong><label>Regiões</label></strong>
-                    </div>
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('produtos', ['hiddenField' => false])?>
-                        <strong><label>Produtos</label></strong>
-                    </div>
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('associados', ['hiddenField' => false])?>
-                        <strong><label>Associados</label></strong>
-                    </div>
+                <?php foreach ($coluna as $campo => $rotulo): ?>
+                <div class="checkbox">
+                    <label><?= $this->Form->checkbox($campo, ['hiddenField' => false]) ?> <?= $rotulo ?></label>
                 </div>
+                <?php endforeach; ?>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <div class="well">
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('metas', ['hiddenField' => false])?>
-                        <strong><label>Metas</label></strong>
-                    </div>
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('comissoes', ['hiddenField' => false])?>
-                        <strong><label>Comissões</label></strong>
-                    </div>
-                    <div class="form-group">
-                        <?= $this->Form->checkbox('pedidos', ['hiddenField' => false])?>
-                        <strong><label>Pedidos</label></strong>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12">
-                <hr>
-            </div>
-            <div class="col-xs-12">
-                <h4 class="text-center"><?= h('TIPO DE ARQUIVO EXPORTADO') ?></h4>
-                <div class="well">
-                    <div class="form-group text-center">
-                        <div class="radio-inline btn btn-link">
-                            <?= $this->Form->radio('radio', ['sql' => 'SQL', 
-                                                             'csv' => 'CSV'
-                                                            ], 
-                                                            ['legend'  => false, 
-                                                             'default' => 'csv', 
-                                                             'label'   => ['class' => 'radio-inline btn']
-                                                            ]) ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-    </div>
-</div> <!-- É para encerrar o corpo do modal e poder iniciar o rodape do modal aqui -->
+    </section>
+
+    <section class="ss-form-section">
+        <h4 class="ss-form-section-title"><?= __('Formato do arquivo') ?></h4>
+        <ul class="ss-choices" role="radiogroup" aria-label="<?= __('Formato do arquivo') ?>">
+            <?php foreach ($formatos as $valor => $formato): ?>
+            <li>
+                <label class="ss-choice">
+                    <input type="radio" name="radio" value="<?= $valor ?>" id="radio-<?= $valor ?>" <?= $valor === 'csv' ? 'checked' : '' ?>>
+                    <span class="ss-choice-card">
+                        <i class="fa <?= $formato[2] ?>" aria-hidden="true"></i>
+                        <span class="ss-choice-title"><?= $formato[0] ?></span>
+                        <span class="ss-choice-desc"><?= $formato[1] ?></span>
+                    </span>
+                </label>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+
+</div> <!-- Encerra o corpo do modal para iniciar o rodapé -->
 
 <div class="modal-footer">
-    <?= $this->Form->button('Cancelar', ['type' => 'cancel', 'class' => 'btn btn-default', 'data-dismiss' => 'modal', 'div' => false]) ?>
-    <?= $this->Form->button('Gerar', ['type' => 'submit', 'class' => 'btn btn-primary', 'div' => false]) ?>
+    <?= $this->Form->button(__('Cancelar'), ['type' => 'button', 'class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
+    <?= $this->Form->button('<i class="fa fa-download" aria-hidden="true"></i> ' . __('Gerar backup'),
+            ['type' => 'submit', 'class' => 'btn btn-primary', 'data-loading-text' => __('Gerando...')]) ?>
     <?= $this->Form->end() ?>
 </div>

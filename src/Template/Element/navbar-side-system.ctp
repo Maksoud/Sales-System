@@ -18,23 +18,8 @@ $itens = [
     'Users'           => ['fa-users',       __('Usuários')],
 ];
 $atual = $this->request->getParam('controller');
-
-//Telas que ainda usam o layout antigo (coluna .sidebar + col-sm-9).
-//Retire o controller daqui ao migrar a tela para o ss-layout; quando esvaziar, apague o bloco antigo.
-$legado = ['Pages'];
 ?>
 
-<?php if (in_array($atual, $legado)): ?>
-<div class="hidden-xs col-sm-3 col-md-2 sidebar">
-    <div class="row">
-        <div class="list-group">
-            <?php foreach ($itens as $controller => $item): ?>
-                <?= $this->Html->link('<i class="fa ' . $item[0] . ' fa-fw" aria-hidden="true"></i> ' . $item[1], ['controller' => $controller, 'action' => 'index'], ['class' => 'list-group-item' . ($atual == $controller ? ' active' : ''), 'escape' => false]) ?>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
-<?php else: ?>
 <nav class="ss-subnav" aria-label="<?= __('Sistema') ?>">
     <p class="ss-subnav-title"><?= __('Sistema') ?></p>
     <ul class="ss-subnav-list">
@@ -46,4 +31,3 @@ $legado = ['Pages'];
         <?php endforeach; ?>
     </ul>
 </nav>
-<?php endif; ?>

@@ -16,7 +16,7 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 | [x] | `Element/footer.ctp` | 2026-10-24 | Selo Make2 deixou de ser fixo; scripts na mesma ordem |
 | [x] | `Element/paginator-footer.ctp` + `paginator-footer-jquery.ctp` | 2026-10-24 | `paginator-footer` ainda não é usado por nenhuma tela; o `-jquery` é só um comentário, ficou como estava |
 | [x] | Helpers: `FaturasHelper`, `PedidosHelper` (`statusLabel`, `etapas`), `UsuariosHelper` | 2026-10-24 | Cancelado em cinza; `Faturas::statusLabel($status, $vencimento)` mostra "Vencida" (passar o vencimento em `invoice-table.ctp` na migração do Financeiro); `etapas()` gera `ss-steps`; `Usuarios::plano()` gera `ss-plan`. Textos de `status()` não mudaram |
-| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer); serve o login sem outra mudança. `error` fica para as páginas de erro |
+| [x] | `Layout/layout-clean.ctp`, `Layout/error.ctp` | 2026-10-24 | `layout-clean`: `lang="pt-BR"` e conteúdo em `<main id="conteudo">`; o login não mudou. `error`: `ss-topbar` só com o logo, `ss-container--narrow ss-page` com um `ss-card` e rodapé `ss-footer` sem scripts. Tem o próprio `<head>` (Bootstrap, Font Awesome, Inter, `ss-theme.css`): o `ErrorController` padrão do Cake não passa pelo `AppController`, então não há `$title` nem os helpers do projeto. **Ao subir o `?v=` do tema em `head.ctp`, suba também aqui.** Saíram `base.css`/`cake.css` e o link "Back" |
 | [x] | `Layout/relatorio.ctp` | 2026-10-24 | Migrado com os relatórios (ver abaixo). Saiu o `<style>` inline |
 
 Verificado em 2026-10-24 no navegador em 1280px e 375px: perfis Dev e Super Master, menu ativo,
@@ -43,9 +43,14 @@ Ajustes no tema feitos na migração de Pedidos (2026-10-24, `ss-theme.css?v=3` 
 |---|---|---|---|---|
 | [x] | `Pages/home.ctp` | E | 2026-10-24 | Dashboard. Faixa `ss-banner` (pendente), "Olá, {primeiro nome}" + selo do plano. Gestão: 4 `a.ss-stat` (Pedidos aguardando, Saques a pagar, Faturas vencidas, Recebido no mês) + cards Acesso rápido e Relatórios em `ss-shortcut`, todos na primária. Associado: "Solicitar saque" vira a ação primária do cabeçalho; saldos viram 2 `a.ss-stat` (levam a Meu extrato); `ss-split` com Acesso rápido e Minhas metas (novo `ss-goals`/`ss-progress`, sem `style="width"`; estado vazio `ss-empty`). Cliente: só Acesso rápido. Textos com só a 1ª maiúscula; ícones `fa-btc`→`fa-money`, Taxas `fa-ticket`, Comissões `fa-handshake-o`, Metas `fa-bullseye`, Avisos `fa-bell-o`. Selo "Debug mode" virou `ss-note`. **Avisos recentes e resumo da rede ficaram de fora**: o controller não envia esses dados |
 | [x] | `Pages/login.ctp` | E | 2026-10-24 | `ss-auth` com labels visíveis, sem ícones nos campos nem fundo; `#form_entrar`, `.focus` no login, `autocomplete` username/current-password, `required`. Manutenção (`$liberado_temporariamente`) mostra `ss-alert--warning` no lugar do form; `?admin` lido por `getQuery` (antes `$_GET` com `=` no lugar de `==`, mesmo efeito). Saiu o `login.css` (o arquivo não existe) e o bloco comentado de "recuperar senha" |
-| [ ] | `Pages/modal_content.ctp` | E | | |
-| [ ] | `Pages/list_backup.ctp`, `Pages/make_backup.ctp` | I/E | | |
-| [ ] | `Error/error400.ctp`, `Error/error500.ctp` | E | | |
+| [x] | `Pages/modal_content.ctp` | E | 2026-10-24 | Modelo de conteúdo de modal (nenhuma tela o abre). Labels visíveis com `ss-required`/`ss-optional`, tooltips viraram `help-block`, `.focus` no título. Os dois botões continuam só fechando o modal: "Gravar" → "Salvar", ambos `type=button` (antes `type=cancel`, inválido) e sem a classe `scroll-modal` |
+| [x] | `Pages/list_backup.ctp`, `Pages/make_backup.ctp` | I/F | 2026-10-24 | **Telas órfãs:** não há action no `PagesController` (nem `download`/`delete`) e `display` exige permissão, então foram conferidas renderizando o template pela linha de comando com dados de exemplo e injetando o HTML no painel. Lista: `ss-layout` com `navbar-side-system`, 5 colunas (seleção, Arquivo em `ss-mono`, Criação, Tamanho `ss-num`, ações Baixar/Excluir em ícones); a coluna `#` saiu; "Excluir selecionados" no cabeçalho do card; `ss-empty` quando `$backups` não vem (antes dava aviso de variável indefinida). Os `postLink` usam `block` e saem depois do `Form->end()` (o truque do `postLink('')` vazio saiu). Ids `#select_all` e `listRecord_*` mantidos. Gerar backup (modal): seções Cadastros (checkboxes, mesmos `name`) e Formato do arquivo em `ss-choices` (`name="radio"`, ids `radio-csv`/`radio-sql`, CSV marcado). Saíram `well`, `width-*`, títulos em caixa alta |
+| [x] | `Error/error400.ctp`, `Error/error500.ctp` | E | 2026-10-24 | Fora do debug: `ss-empty` com ícone, título, uma frase e "Voltar ao início". 4xx pelo `$code`: 404 "Página não encontrada" (`fa-compass`, mostra o endereço em `ss-mono`), 401/403 "Acesso negado" (`fa-lock`), demais "Não foi possível abrir a página". 500: "Algo deu errado" (`fa-exclamation-triangle`), sem a mensagem técnica. Em debug nada mudou (layout `dev_error`) |
+
+Páginas de erro, modelo de modal, backups e login (layout `layout-clean`) verificados em 2026-10-24
+no navegador em 1280px, perfil Dev: 404 com debug desligado (`DEBUG=false`), modal de modelo pelo
+`#modal_item` (foco no título, rodapé), lista e modal de backup com o HTML renderizado. O 500 não
+foi provocado (usa o mesmo layout do 404) e o 375px não foi conferido nessas telas.
 
 Início e acesso verificado em 2026-10-24 no navegador (1280px; 375px num iframe), perfis Dev,
 Master e Cliente: métricas, atalhos (abrir relatório em modal), metas, Solicitar saque, login,
@@ -133,7 +138,7 @@ para texto; Alterar senha, Dados bancários e Meus dados só foram conferidos pe
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (hoje só Pages; Users, Regions, GoalPlans, SaleGoals e SaleCommissions saíram em 2026-10-24): **retire o controller da lista ao migrar a tela** |
+| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. A lista `$legado` e a barra antiga (`.sidebar` + `list-group`) foram apagadas com a migração dos backups (Pages era o último). Backups não ganhou item no menu: não há action para a lista |
 | [x] | `Products/index.ctp` | I | 2026-10-24 | Novo `ProdutosHelper` (`statusLista`, `statusLabel($status, $loja)`). Ações: editar + excluir (ícones). Marca de comissões vai na linha de apoio + legenda `ss-note`. Coluna de ações sem ordenação (`data-orderable="false"`) |
 | [x] | `Products/view.ctp` | V | 2026-10-24 | Modal (aberto a partir de Planos). Usa os textos da loja (Disponível / Fora de linha) |
 | [x] | `Products/form.ctp` | F | 2026-10-24 | Seções Identificação, Venda, Imagem. "Gravar" → Salvar/Cadastrar; Cancelar `type=button`; Excluir no rodapé (`postLink` com `block`). Sem `Form->error()`: o form usa `create(null)` e não há erro de campo para mostrar |
@@ -198,7 +203,7 @@ Tema em `ss-theme.css?v=9`: nova seção 19 (Relatórios).
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Layout/Email/html/default.ctp`, `Email/html/default.ctp` | E | | CSS inline (exceção à regra), cores dos tokens |
+| [x] | `Layout/Email/html/default.ctp`, `Email/html/default.ctp` | E | 2026-10-24 | Tabelas de 600px com CSS inline (exceção à regra), valores dos tokens anotados no topo do layout: fundo `--ss-bg`, card branco com borda e raio 10px, logo, rodapé "© ano Reiniciando · Acessar o painel". Parágrafos com margem inline; o conteúdo continua sem `h()`, como no template padrão do Cake. Nenhum código envia e-mail ainda: conferido só renderizando pela linha de comando. Links e logo usam URL completa (`Url->build(..., true)`); em envio pelo shell, configure `App.fullBaseUrl`. Os templates `text` não mudaram |
 
 ## Ordem sugerida
 

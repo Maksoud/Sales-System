@@ -1,47 +1,66 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Developed by:
+ *     Renée Maksoud
  *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * All rights reserved - 2018-2019
  */
+
+/* File: src/Template/Layout/error.ctp */
+
+//Páginas de erro fora do modo debug (no debug o Cake usa o layout dev_error).
+//O ErrorController padrão não passa pelo AppController: não há $title, helpers
+//do projeto nem sessão. Por isso o <head> fica aqui, sem o element('head').
+$titulo = $this->fetch('title') ?: __('Erro');
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <?= $this->Html->charset() ?>
-    <title>
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="robots" content="noindex">
+    <?= $this->Html->meta('favicon.ico', 'img/favicon.png', ['type' => 'icon']) ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+
+    <?= $this->Html->css([
+            'bootstrap.min',
+            'font-awesome.min',
+            //Tema: SEMPRE por último (mesma versão de Element/head.ctp)
+            'ss-theme.css?v=9',
+        ])
+    ?>
+
+    <title><?= h($titulo) ?> · Reiniciando</title>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
 <body>
-    <div id="container">
-        <div id="header">
-            <h1><?= __('Error') ?></h1>
+    <header class="ss-topbar">
+        <div class="ss-container ss-topbar-inner">
+            <?= $this->Html->link($this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando']),
+                    '/', ['class' => 'ss-logo', 'escape' => false]) ?>
         </div>
-        <div id="content">
-            <?= $this->Flash->render() ?>
+    </header>
 
-            <?= $this->fetch('content') ?>
+    <main id="conteudo">
+        <div class="ss-container ss-container--narrow ss-page">
+            <?= $this->Flash->render() ?>
+            <section class="ss-card">
+                <?= $this->fetch('content') ?>
+            </section>
         </div>
-        <div id="footer">
-            <?= $this->Html->link(__('Back'), 'javascript:history.back()') ?>
+    </main>
+
+    <footer class="ss-footer">
+        <div class="ss-container ss-spread">
+            <span>&copy; <?= date('Y') ?> Reiniciando</span>
         </div>
-    </div>
+    </footer>
 </body>
 </html>

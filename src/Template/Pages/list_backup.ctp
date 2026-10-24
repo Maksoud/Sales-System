@@ -1,79 +1,102 @@
-<!-- Backups -->
-<!-- File: src/Template/Backups/index.ctp -->
-<div class="container-fluid noPadding">
-    <?= $this->element('navbar-side-system') ?>
-    <?= $this->Form->create('Backup') ?>
-    
-    <div class="col-xs-12 col-sm-9 col-md-10">
-        <div class="no-padding-lat">
-            <div class="pull-right"><?= $this->Form->button(' Excluir Selecionados', ['type' => 'submit', 'class' => 'btn btn-danger fa fa-trash-o', 'div' => false]) ?></div>
-            <h3 class="page-header"><?= ('Lista de Arquivos de Backup') ?></h3>
+<?php
+/**
+ * Developed by:
+ *     Renée Maksoud
+ *
+ * All rights reserved - 2018-2019
+ */
+
+/* File: src/Template/Pages/list_backup.ctp */
+
+//Arquivos de backup. Ainda não há action no PagesController que envie $backups;
+//sem a lista, a tela mostra o estado vazio.
+$backups = isset($backups) ? $backups : [];
+$total = count($backups);
+?>
+
+<div class="ss-container ss-page">
+    <div class="ss-layout">
+
+        <?= $this->element('navbar-side-system') ?>
+
+        <div>
+            <header class="ss-page-header">
+                <div class="ss-page-header-main">
+                    <ol class="ss-breadcrumb">
+                        <li><?= __('Sistema') ?></li>
+                        <li><?= __('Backups') ?></li>
+                    </ol>
+                    <h1 class="ss-page-title"><?= __('Arquivos de backup') ?></h1>
+                    <p class="ss-page-subtitle"><?= __n('{0} arquivo', '{0} arquivos', $total, $total) ?></p>
+                </div>
+            </header>
+
+            <?= $this->element('msg-alert') ?>
+
+            <?= $this->Form->create('Backup') ?>
+            <section class="ss-card ss-card--flush">
+                <?php if ($total): ?>
+                <div class="ss-card-header">
+                    <h2 class="ss-card-title"><?= __('Arquivos') ?></h2>
+                    <?= $this->Form->button('<i class="fa fa-trash-o" aria-hidden="true"></i> ' . __('Excluir selecionados'),
+                            ['type' => 'submit', 'class' => 'btn btn-sm ss-btn-danger-soft']) ?>
+                </div>
+
+                <div class="ss-table-wrap">
+                    <table class="table ss-table ss-table--stack" id="adjustable">
+                        <thead>
+                            <tr>
+                                <th class="ss-col-id hidden-print" data-orderable="false">
+                                    <label for="select_all" class="sr-only"><?= __('Selecionar todos') ?></label>
+                                    <?= $this->Form->checkbox('select_all', ['id' => 'select_all', 'hiddenField' => false]) ?>
+                                </th>
+                                <th><?= __('Arquivo') ?></th>
+                                <th><?= __('Criação') ?></th>
+                                <th class="ss-num"><?= __('Tamanho') ?></th>
+                                <th class="ss-actions" data-orderable="false"><span class="sr-only"><?= __('Ações') ?></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($backups as $backup): ?>
+                            <tr>
+                                <td class="ss-col-id hidden-print" data-label="<?= __('Selecionar') ?>" data-order="<?= h($backup['file']) ?>">
+                                    <label for="listRecord_<?= h($backup['file']) ?>" class="sr-only"><?= __('Selecionar {0}', h($backup['file'])) ?></label>
+                                    <?= $this->Form->checkbox('record[' . $backup['file'] . ']', ['id' => 'listRecord_' . $backup['file'],
+                                            'hiddenField' => false, 'value' => $backup['file']]) ?>
+                                </td>
+                                <td class="ss-cell-primary">
+                                    <span class="ss-cell-title ss-mono"><?= h($backup['file']) ?></span>
+                                </td>
+                                <td data-label="<?= __('Criação') ?>"><?= h($backup['modifield']) ?></td>
+                                <td class="ss-num" data-label="<?= __('Tamanho') ?>" data-order="<?= sprintf('%.2F', $backup['size']) ?>">
+                                    <?= $this->Number->precision($backup['size'], 2) ?> KB
+                                </td>
+                                <td class="ss-actions">
+                                    <?= $this->Html->link('<i class="fa fa-download" aria-hidden="true"></i>',
+                                            ['action' => 'download', $backup['file']],
+                                            ['class' => 'btn btn-sm ss-btn-ghost ss-btn-icon', 'target' => '_blank',
+                                             'title' => __('Baixar'), 'aria-label' => __('Baixar {0}', $backup['file']), 'escape' => false]) ?>
+                                    <?= $this->Form->postLink('<i class="fa fa-trash-o" aria-hidden="true"></i>',
+                                            ['action' => 'delete', $backup['file']],
+                                            ['confirm' => __('Excluir o arquivo {0}? Esta ação não pode ser desfeita.', $backup['file']),
+                                             'class' => 'btn btn-sm ss-btn-danger-soft ss-btn-icon', 'title' => __('Excluir'),
+                                             'aria-label' => __('Excluir {0}', $backup['file']), 'escape' => false, 'block' => true]) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <?php else: ?>
+                <div class="ss-empty">
+                    <div class="ss-empty-icon"><i class="fa fa-database" aria-hidden="true"></i></div>
+                    <p class="ss-empty-title"><?= __('Nenhum arquivo de backup') ?></p>
+                    <p class="ss-empty-text"><?= __('Os backups gerados aparecem aqui para baixar ou excluir.') ?></p>
+                </div>
+                <?php endif; ?>
+            </section>
+            <?= $this->Form->end() ?>
+            <?= $this->fetch('postLink') ?>
         </div>
-        
-    <!-- 
-    Implementado para corrigir falha de conflito do postLink
-    com o Form->button que permite a exclusão de mais de um
-    registro ao mesmo tempo. Falha: O primeiro postLink após
-    a declaração do Form->create não exibe o <form> no HTML.
-    Necessário estar localizado após o Form->button e antes
-    da listagem. 07/2017
-    -->
-    <?= $this->Form->postLink('') ?>
-    
-        <div class="scrolling bottom-40 col-xs-12 box-panel bg-white">
-            <table class="table table-striped box" id="adjustable">
-                <thead>
-                    <tr>
-                        <th class="text-center hidden-print" style="width: 20px">
-                            <?= $this->Form->control('select_all', ['type'        => 'checkbox', 
-                                                                    'id'          => 'select_all',
-                                                                    'label'       => false, 
-                                                                    'templates'   => ['inputContainer' => '{{content}}'],
-                                                                    'hiddenField' => false,
-                                                                    'class'       => 'btn btn-actions',
-                                                                   ]) ?>
-                        </th>
-                        <th class="width-50 text-center"><?= ('#') ?></th>
-                        <th class="col-xs-1"><?= ('Criação') ?></th>
-                        <th class="col-xs-1"><?= ('Tamanho') ?></th>
-                        <th class="text-nowrap"><?= ('Arquivo') ?></th>
-                        <th class="text-center"><?= ('Ações') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                $count = 1;
-                foreach ($backups as $backup): ?>
-                    <tr>
-                        <td class="text-center hidden-print">
-                            <div>
-                                <?= $this->Form->control('record['.$backup['file'].']', ['type'        => 'checkbox', 
-                                                                                         'id'          => 'listRecord_'.$backup['file'],
-                                                                                         'multiple'    => true,
-                                                                                         'label'       => false, 
-                                                                                         'templates'   => ['inputContainer' => '{{content}}'],
-                                                                                         'hiddenField' => false,
-                                                                                         'class'       => 'btn btn-actions',
-                                                                                         'value'       => $backup['file']
-                                                                                        ]) ?>
-                            </div>
-                        </td>
-                        <th class="text-center"><?= $count++; ?></th>
-                        <td><?= ($backup['modifield']) ?></td>
-                        <td class="text-right"><?= $this->Number->precision($backup['size'], 2) ?> Kb</td>
-                        <td><?= ($backup['file']) ?></td>
-                        <td class="col-xs-1">
-                            <?= $this->Html->link('<i class="fa fa-download"></i> Download', ['action' => 'download', $backup['file']], ['class' => 'top-5 btn btn-default btn-block', 'data-loading-text' => 'Carregando...', 'target' => '_blank', 'title' => 'Download', 'aria-hidden' => true, 'escape' => false]) ?>
-                            <div class="clearfix"></div>
-                            <?= $this->Form->postLink('<i class="fa fa-trash"></i> Apagar', ['action' => 'delete', $backup['file']], ['confirm' => 'Você tem certeza que deseja excluir o registro?', 'class' => 'top-5 btn btn-danger btn-block', 'title' => 'Excluir', 'aria-hidden' => true, 'escape' => false]) ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-        <?= $this->element('paginator-footer-jquery') ?>
     </div>
-    <?= $this->Form->end() ?>
-    
 </div>

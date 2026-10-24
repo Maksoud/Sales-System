@@ -35,9 +35,15 @@ if (Configure::read('debug')):
 
     $this->end();
 endif;
+
+if (!Configure::read('debug')) {
+    $this->assign('title', __('Algo deu errado'));
+}
 ?>
-<h2><?= __d('cake', 'An Internal Error Has Occurred') ?></h2>
-<p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= h($message) ?>
-</p>
+<div class="ss-empty">
+    <div class="ss-empty-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></div>
+    <h1 class="ss-empty-title"><?= __('Algo deu errado') ?></h1>
+    <p class="ss-empty-text"><?= __('Não foi possível concluir a ação. Tente de novo em alguns minutos.') ?></p>
+    <?= $this->Html->link('<i class="fa fa-home" aria-hidden="true"></i> ' . __('Voltar ao início'), '/',
+            ['class' => 'btn btn-primary', 'escape' => false]) ?>
+</div>

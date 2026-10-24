@@ -8,7 +8,7 @@ está em `webroot/css/ss-theme.css` (o número da seção aparece entre parênte
 [Métricas](#métricas) · [Atalhos](#atalhos) · [Menus e dropdowns](#menus-e-dropdowns) ·
 [Controle segmentado](#controle-segmentado) · [Navegação lateral](#navegação-lateral) ·
 [Modal](#modal) · [Paginação](#paginação) · [Mensagens e avisos](#mensagens-e-avisos) ·
-[Estado vazio](#estado-vazio) · [Avatar](#avatar) · [Carregamento](#carregamento) ·
+[Estado vazio](#estado-vazio) · [Produto da loja](#produto-da-loja) · [Avatar](#avatar) · [Carregamento](#carregamento) ·
 [Utilitários de layout](#utilitários-de-layout)
 
 ---
@@ -400,6 +400,36 @@ Obrigatório em toda lista que pode vir vazia (tabela, avisos, rede).
 
 Em tabela, coloque o `ss-empty` no lugar da `<table>` (não numa linha `colspan`). Com DataTables
 (`#adjustable`), deixe a tabela e o texto `zeroRecords` do plugin.
+
+## Produto da loja
+(seção 17)
+
+Card de produto da loja (`Orders/store.ctp`), dentro de `ss-grid-auto`. No celular (< 480px) a
+imagem vai para a esquerda para a lista ficar mais curta. As classes `item_produto`,
+`valor_unit` (só o preço, sem outro markup) e `valor_total_prod` são ganchos do `CalculaTotal`
+em `maksoud-custom.js`: não remova.
+
+```php
+<article class="ss-card ss-product item_produto">
+    <a href="#" class="ss-product-media btn_modal" data-title="<?= h($produto->title) ?>" data-img="true"
+       title="<?= __('Ampliar imagem') ?>" aria-label="<?= __('Ampliar imagem de {0}', h($produto->title)) ?>">
+        <?= $this->Html->image('produtos/' . $produto->imagem, ['alt' => '']) ?>
+    </a>
+    <div class="ss-product-body">
+        <h2 class="ss-product-title"><?= h($produto->title) ?></h2>
+        <p class="ss-product-desc"><?= h($produto->descricao) ?></p>
+        <span class="ss-product-price ss-money valor_unit"><?= $this->Number->currency($produto->valor, 'BRL') ?></span>
+    </div>
+    <div class="ss-product-footer">
+        <div class="ss-product-qty">
+            <label for="produto-<?= $produto->id ?>"><?= __('Qtd.') ?></label>
+            <?= $this->Form->number('produtos.' . $produto->id, ['id' => 'produto-' . $produto->id, 'min' => 0, 'step' => 1,
+                    'class' => 'form-control', 'placeholder' => '0', 'inputmode' => 'numeric']) ?>
+        </div>
+        <span class="ss-product-subtotal">R$ <span class="valor_total_prod">0,00</span></span>
+    </div>
+</article>
+```
 
 ## Avatar
 (seção 14)

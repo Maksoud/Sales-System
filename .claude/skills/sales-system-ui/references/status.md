@@ -58,6 +58,8 @@ Na visualização do pedido, a sequência V → P → S → T → F aparece em `
 | A | Ativo | Disponível | `label-success` |
 | I | Inativo | Fora de linha | `label-default` |
 
+Helper: `ProdutosHelper::statusLabel($status, $loja = false)` (`$loja = true` usa os textos da loja).
+
 ## Avisos
 
 | Situação | Texto | Classe |

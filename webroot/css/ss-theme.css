@@ -850,7 +850,7 @@ input[type="file"]::file-selector-button {
 }
 .ss-card--flush > .table, .ss-card--flush .ss-table-wrap { margin: 0; }
 .ss-card + .ss-card { margin-top: var(--ss-space-4); }
-.ss-stack > .ss-card + .ss-card, .ss-stack-lg > .ss-card + .ss-card { margin-top: 0; }
+.ss-stack > .ss-card + .ss-card, .ss-stack-lg > .ss-card + .ss-card, .ss-grid-auto > .ss-card + .ss-card { margin-top: 0; }
 
 /* Card que é link inteiro */
 a.ss-card, .ss-card--link { display: block; color: inherit; transition: border-color var(--ss-transition), box-shadow var(--ss-transition); }
@@ -1065,6 +1065,16 @@ a.ss-cell-title:hover { color: var(--ss-link); }
 }
 table.dataTable thead th, table.dataTable thead td { border-bottom: 1px solid var(--ss-border) !important; }
 table.dataTable.no-footer { border-bottom: 0 !important; }
+/* Controles do DataTables dentro de card sem padding (ss-card--flush) */
+.ss-card--flush .dataTables_wrapper .dataTables_length,
+.ss-card--flush .dataTables_wrapper .dataTables_info,
+.ss-card--flush .dataTables_wrapper .dataTables_paginate { padding: var(--ss-space-3) var(--ss-space-4); }
+.ss-card--flush .dataTables_wrapper .dataTables_info,
+.ss-card--flush .dataTables_wrapper .dataTables_paginate { border-top: 1px solid var(--ss-border); }
+@media (max-width: 767px) {
+    .ss-card--flush .dataTables_wrapper .dataTables_info { border-top: 0; padding-bottom: 0; }
+    .ss-card--flush .dataTables_wrapper .dataTables_paginate { border-top: 0; }
+}
 
 /* =========================================================================
    11. VISUALIZAÇÃO DE REGISTRO
@@ -1159,6 +1169,7 @@ table.dataTable.no-footer { border-bottom: 0 !important; }
     margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--ss-border);
     font-size: var(--ss-text-md); font-weight: 600; color: var(--ss-text);
 }
+.ss-totals li.is-total:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .ss-totals--end { margin-left: auto; max-width: 320px; }
 
 /* Valores monetários */
@@ -1235,6 +1246,11 @@ ul.pagination li a {
 .modal-footer .btn + .btn { margin-left: 0; }
 .modal-footer form { display: contents; }
 .modal-footer .ss-footer-start { margin-right: auto; }
+/* O jQuery ignora o </div> que "fecha" o corpo nos templates, então o rodapé fica dentro do
+   .modal-body: margens negativas o levam até as bordas do modal */
+.modal-body .modal-footer {
+    margin: var(--ss-space-5) calc(var(--ss-space-5) * -1) calc(var(--ss-space-5) * -1);
+}
 
 @media (min-width: 768px) {
     .modal-dialog { margin: 48px auto; }
@@ -1244,12 +1260,16 @@ ul.pagination li a {
 /* Celular: modal ocupa a tela, rodapé fixo embaixo */
 @media (max-width: 767px) {
     .modal-dialog, .modal-lg, .modal-sm { width: auto; margin: 0; }
-    .modal-content { border-radius: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+    /* overflow visível: com hidden o rodapé sticky não gruda embaixo */
+    .modal-content { border-radius: 0; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; overflow: visible; }
     .modal-header { position: sticky; top: 0; z-index: 2; background: var(--ss-surface); padding: 12px var(--ss-space-4); }
     .modal-body { flex: 1 1 auto; padding: var(--ss-space-4); }
     .modal-footer {
         position: sticky; bottom: 0; z-index: 2;
         flex-direction: column-reverse; padding: 12px var(--ss-space-4) calc(12px + env(safe-area-inset-bottom));
+    }
+    .modal-body .modal-footer {
+        margin: var(--ss-space-4) calc(var(--ss-space-4) * -1) calc(var(--ss-space-4) * -1);
     }
     .modal-footer .btn { width: 100%; }
     .modal-footer .ss-footer-start { margin-right: 0; }
@@ -1581,6 +1601,37 @@ a.list-group-item:hover, a.list-group-item:focus { background: var(--ss-surface-
 }
 .minha-rede li a:hover + ul li::after, .minha-rede li a:hover + ul li::before,
 .minha-rede li a:hover + ul::before, .minha-rede li a:hover + ul ul::before { border-color: var(--ss-primary-500); }
+
+/* Produto da loja (Orders/store): card com imagem, preço e quantidade */
+.ss-product { display: flex; flex-direction: column; overflow: hidden; }
+.ss-product-media {
+    display: flex; align-items: center; justify-content: center;
+    height: 160px; padding: var(--ss-space-3);
+    background: var(--ss-surface-2);
+    border-bottom: 1px solid var(--ss-border);
+}
+.ss-product-media img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.ss-product-body { flex: 1 1 auto; padding: var(--ss-space-4); }
+.ss-product-title { margin: 0; font-size: var(--ss-text-base); font-weight: 600; line-height: 1.3; color: var(--ss-text); }
+.ss-product-desc { margin: 4px 0 0; font-size: var(--ss-text-xs); line-height: 1.4; color: var(--ss-text-muted); }
+.ss-product-price { display: block; margin-top: var(--ss-space-2); font-size: var(--ss-text-md); font-weight: 600; color: var(--ss-text); }
+.ss-product-footer {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--ss-space-3);
+    padding: 10px var(--ss-space-4);
+    background: var(--ss-surface-2);
+    border-top: 1px solid var(--ss-border);
+}
+.ss-product-qty { display: flex; align-items: center; gap: var(--ss-space-2); }
+.ss-product-qty label { margin: 0; font-size: var(--ss-text-sm); font-weight: 500; color: var(--ss-text-muted); }
+.ss-product-qty .form-control { width: 80px; text-align: right; font-variant-numeric: tabular-nums; }
+.ss-product-subtotal { font-size: var(--ss-text-sm); color: var(--ss-text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Celular: imagem à esquerda para a lista ficar mais curta */
+@media (max-width: 479px) {
+    .ss-product { display: grid; grid-template-columns: 88px minmax(0, 1fr); }
+    .ss-product-media { grid-row: 1 / span 2; height: auto; padding: var(--ss-space-2); border-bottom: 0; border-right: 1px solid var(--ss-border); }
+    .ss-product-body { padding: var(--ss-space-3); }
+    .ss-product-footer { padding: 8px var(--ss-space-3); }
+}
 
 /* Login */
 .ss-auth {

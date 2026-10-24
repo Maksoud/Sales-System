@@ -202,9 +202,12 @@ Feitos para imprimir em A4; a tela é a prévia.
 
 ## Loja (`Orders/store.ctp`)
 
-- Produtos em `ss-grid-auto` de cards (imagem, nome, preço em `ss-money`, campo de quantidade)
-  em vez de tabela; total do carrinho fixo em um `ss-card` lateral (`ss-split`) ou, no celular,
-  em uma barra no fim da página com o botão primário "Finalizar pedido".
+- Produtos em `ss-grid-auto` de cards `ss-product` (ver
+  [componentes.md › Produto da loja](componentes.md#produto-da-loja)) em vez de tabela.
+- Coluna lateral (`ss-split`) com os cards Entrega (ou Dados da bonificação, para a gestão),
+  Forma de pagamento e Resumo (total + botão primário "Finalizar pedido"). No celular a coluna
+  desce para depois dos produtos. `#ajax-retorno` fica no Resumo, logo acima do botão, para o
+  erro "informe uma quantidade" aparecer onde a pessoa clicou.
 - Mantenha `#form-loja`, `.item_produto`, os inputs `type=number`, `#valor_total` e as abas de
   `#tipos_de_pagamentos`. As abas de pagamento ficam com `nav-tabs` (o tema reestiliza) ou
   viram `ss-choices`.

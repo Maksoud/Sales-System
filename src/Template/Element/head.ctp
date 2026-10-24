@@ -28,7 +28,7 @@
         //Ícones
         'font-awesome.min',
         //Tema: SEMPRE por último; suba o ?v= a cada alteração do CSS
-        'ss-theme.css?v=1',
+        'ss-theme.css?v=3',
     ])
 ?>
 

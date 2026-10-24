@@ -90,7 +90,7 @@ class PedidosHelper extends Helper
     public function total($pedido)
     {
         if ($pedido->status == 'V') {
-            return '<small>Aguardando</small><br><small class="label label-default">Frete+Impostos</small>';
+            return '<span class="ss-muted" title="' . __('Aguardando o cálculo do frete e dos impostos') . '">' . __('Em cálculo') . '</span>';
         }
         return $this->Number->currency($pedido->total, 'BRL');
     }

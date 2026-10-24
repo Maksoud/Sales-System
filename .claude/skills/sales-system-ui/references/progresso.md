@@ -21,6 +21,19 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 Verificado em 2026-10-24 no navegador em 1280px e 375px: perfis Dev e Super Master, menu ativo,
 menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, sem rolagem horizontal.
 
+Ajustes no tema feitos na migração de Produtos (2026-10-24, `ss-theme.css?v=2` em `head.ctp`):
+- **Rodapé do modal:** o jQuery ignora o `</div>` que fecha o corpo nos templates, então o
+  `.modal-footer` fica dentro do `.modal-body`. Margens negativas (`.modal-body .modal-footer`)
+  o levam às bordas, e no celular `.modal-content` passou a `overflow: visible` (com `hidden` o
+  rodapé sticky não ficava preso embaixo). Vale para todos os modais.
+- **DataTables em `ss-card--flush`:** "Mostrando N registros", info e paginação ganharam padding
+  e divisória.
+
+Ajustes no tema feitos na migração de Pedidos (2026-10-24, `ss-theme.css?v=3` em `head.ctp`):
+- `.ss-grid-auto > .ss-card + .ss-card` sem `margin-top` (a regra `.ss-card + .ss-card`
+  desalinhava o primeiro card da grade).
+- `.ss-totals li.is-total:first-child` sem divisória quando o total é a única linha.
+
 ## Módulos
 
 ### Início e acesso
@@ -37,14 +50,20 @@ menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, s
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Orders/index.ctp` | I | | Pedidos da loja |
-| [ ] | `Orders/my_orders.ctp` | I | | |
-| [ ] | `Orders/store.ctp` | E | | Loja |
-| [ ] | `Orders/view.ctp` | V | | Modal |
-| [ ] | `Orders/delivery.ctp` | F | | Envio |
-| [ ] | `Orders/values.ctp` | F | | Frete e impostos |
-| [ ] | `Orders/report.ctp` | F | | |
-| [ ] | `Element/navbar-side-pedidos.ctp` | E | | Vira `ss-subnav` |
+| [x] | `Orders/index.ctp` | I | 2026-10-24 | Pedidos da loja. `ss-layout` com `navbar-side-pedidos`. 7 colunas: tipo foi para a linha de apoio (só quando não é Normal), junto do selo do plano. Nome do associado abre o pedido; ações na linha: ação do status (Informar valores / Registrar envio / Entrega feita) + ícones Faturas, Associado e Cancelar envio (só em T). Sem menu "Mais ações": o `ss-table-wrap` cortaria o dropdown |
+| [x] | `Orders/my_orders.ctp` | I | 2026-10-24 | Identificação = nomes dos produtos (associado, para a gestão), com forma de pagamento na linha de apoio; coluna "Forma Pgto" saiu. Estado vazio diferente com e sem filtro |
+| [x] | `Orders/store.ctp` | E | 2026-10-24 | Novo componente `ss-product` em `ss-grid-auto` + coluna `ss-split` (Entrega/Dados da bonificação, Forma de pagamento em `nav-tabs`, Resumo). Abas com rótulos curtos (Cartão, Transferência, Boleto); `#ajax-retorno` foi para o Resumo, acima do botão. Ganchos do `CalculaTotal` mantidos |
+| [x] | `Orders/view.ctp` | V | 2026-10-24 | Modal, igual ao modelo de `visualizacao.md`. Totais com Produtos, Frete, ICMS (se > 0) e Total; seção Entrega some quando cancelado; Observações só se houver |
+| [x] | `Orders/delivery.ctp` | F | 2026-10-24 | Modal sm. Form passou a `type => file` (o campo da NF não era enviado sem `multipart`). Datas lado a lado |
+| [x] | `Orders/values.ctp` | F | 2026-10-24 | Modal sm. Dados fixos em `ss-dl` no topo (sai o `alert-info`). "Gravar e Enviar Fatura" → "Salvar e enviar fatura" |
+| [x] | `Orders/report.ctp` | F | 2026-10-24 | Só os textos de "todos" dos selects. O visual vem de `Element/report-form.ctp`, que fica para a migração dos relatórios |
+| [x] | `Element/navbar-side-pedidos.ctp` | E | 2026-10-24 | `ss-subnav` de status: Todos, Aguardando a empresa (M), Aguardando pagamento, Concluídos, Cancelados. Antes não era usado por nenhuma tela e apontava para o controller `Pedidos`, que não existe; agora fica em `Orders/index` e mantém os outros filtros ao trocar o status |
+
+Pedidos verificado em 2026-10-24 no navegador (1280px e 375px), perfis Dev e Cliente: filtro
+lateral, filtros, modal do pedido, Informar valores, Registrar envio (salvar), loja (cálculo do
+total, aviso sem quantidade, troca de aba de pagamento, finalizar), Meus pedidos, sem rolagem
+horizontal. `PedidosHelper::total()` mostra "Em cálculo" (em `ss-muted`) no lugar do antigo
+"Aguardando / Frete+Impostos".
 
 ### Financeiro (`InvoicesController`)
 
@@ -88,14 +107,19 @@ menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, s
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Element/navbar-side-system.ctp` | E | | Vira `ss-subnav` |
-| [ ] | `Products/index.ctp` | I | | Exemplo de referência em `listagem.md` |
-| [ ] | `Products/view.ctp` | V | | |
-| [ ] | `Products/form.ctp` | F | | Exemplo de referência em `formulario.md` |
+| [x] | `Element/navbar-side-system.ctp` | E | 2026-10-24 | `ss-subnav`. Ícones: Metas `fa-bullseye`, Produtos `fa-cube`. Telas ainda não migradas continuam com a barra antiga pela lista `$legado` no próprio element (Regions, GoalPlans, SaleGoals, SaleCommissions, Users, Pages): **retire o controller da lista ao migrar a tela** |
+| [x] | `Products/index.ctp` | I | 2026-10-24 | Novo `ProdutosHelper` (`statusLista`, `statusLabel($status, $loja)`). Ações: editar + excluir (ícones). Marca de comissões vai na linha de apoio + legenda `ss-note`. Coluna de ações sem ordenação (`data-orderable="false"`) |
+| [x] | `Products/view.ctp` | V | 2026-10-24 | Modal (aberto a partir de Planos). Usa os textos da loja (Disponível / Fora de linha) |
+| [x] | `Products/form.ctp` | F | 2026-10-24 | Seções Identificação, Venda, Imagem. "Gravar" → Salvar/Cadastrar; Cancelar `type=button`; Excluir no rodapé (`postLink` com `block`). Sem `Form->error()`: o form usa `create(null)` e não há erro de campo para mostrar |
 | [ ] | `Regions/index.ctp`, `add.ctp`, `edit.ctp` | I/F | | |
 | [ ] | `GoalPlans/index.ctp`, `add.ctp`, `edit.ctp` | I/F | | |
 | [ ] | `SaleGoals/index.ctp`, `add.ctp`, `edit.ctp`, `report.ctp` | I/F | | |
 | [ ] | `SaleCommissions/index.ctp`, `add.ctp`, `edit.ctp`, `report.ctp` | I/F | | |
+
+Sistema > Produtos verificado em 2026-10-24 no navegador (1280px e 375px): subnav, filtros,
+estado vazio, modal de edição e de inclusão (foco no nome), salvar, cadastrar, excluir pela
+linha e pelo rodapé do modal (mensagem de confirmação nova), view em modal a partir de Planos,
+Planos ainda com a barra antiga, sem rolagem horizontal.
 
 ### Relatórios (`ReportsController`)
 
@@ -132,4 +156,4 @@ menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, s
 
 | Data | Componente | Seção do CSS | Motivo |
 |---|---|---|---|
-| | | | |
+| 2026-10-24 | `ss-product` (card de produto da loja) | 17. Peças do domínio | Loja precisava de imagem, preço, quantidade e subtotal por produto; nenhum card existente tinha campo de quantidade |

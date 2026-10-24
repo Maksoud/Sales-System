@@ -13,8 +13,8 @@ $this->layout = 'ajax';
 echo $this->element('report-form', [
     'url'     => ['controller' => 'Reports', 'action' => 'orders'],
     'selects' => [
-        'usuarios_id' => [__('Associado'), $associados],
-        'status'      => [__('Status'), $this->Pedidos->statusLista()],
-        'tipo'        => [__('Tipo'), ['N' => __('Normal'), 'E' => __('Bonificação de Inscrição'), 'B' => __('Bonificação por Meta')]],
+        'usuarios_id' => [__('Associado'), $associados, __('Todos os associados')],
+        'status'      => [__('Status'), $this->Pedidos->statusLista(), __('Todos os status')],
+        'tipo'        => [__('Tipo'), ['N' => __('Normal'), 'E' => __('Bonificação de Inscrição'), 'B' => __('Bonificação por Meta')], __('Todos os tipos')],
     ],
 ]);

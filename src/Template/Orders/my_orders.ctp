@@ -7,87 +7,188 @@
  */
 
 /* File: src/Template/Orders/my_orders.ctp */
+
+$temFiltro = $this->request->getQuery('iniciar_busca');
+$total = count($pedidos);
+$titulo = $gestao ? __('Bonificações lançadas') : __('Meus pedidos');
+
+//Nomes dos produtos do pedido, para a identificação da linha
+$produtosDoPedido = function ($pedido) {
+    $nomes = [];
+    foreach ($pedido->pedidos_produtos as $item) {
+        $nomes[] = ($item->quantidade > 1 ? $item->quantidade . '× ' : '') . $item->produto->title;
+    }
+    return implode(', ', $nomes);
+};
 ?>
 
-<div class="container-fluid">
-    <div class="col-xs-12">
-        <div class="no-padding-lat">
-            <div class="pull-right top-20">
-                <?= $this->Html->link('<i class="fa fa-cart-plus" aria-hidden="true"></i> ' . ($gestao ? __('Nova Bonificação') : __('Novo Pedido')), ['action' => 'store'], ['class' => 'btn btn-primary', 'escape' => false]) ?>
-            </div>
-            <h3 class="page-header top-20">
-                <?= $gestao ? __('Bonificações Lançadas') : __('Meus Pedidos') ?>
-            </h3>
+<div class="ss-container ss-page">
+    <header class="ss-page-header">
+        <div class="ss-page-header-main">
+            <ol class="ss-breadcrumb">
+                <li><?= __('Pedidos') ?></li>
+                <li><?= $titulo ?></li>
+            </ol>
+            <h1 class="ss-page-title"><?= $titulo ?></h1>
+            <p class="ss-page-subtitle">
+                <?php if ($temFiltro): ?>
+                    <?= __n('{0} encontrado', '{0} encontrados', $total, $total) ?>
+                <?php elseif ($gestao): ?>
+                    <?= __n('{0} bonificação', '{0} bonificações', $total, $total) ?>
+                <?php else: ?>
+                    <?= __n('{0} pedido', '{0} pedidos', $total, $total) ?>
+                <?php endif; ?>
+            </p>
         </div>
+        <div class="ss-page-actions">
+            <?= $this->Html->link('<i class="fa fa-cart-plus" aria-hidden="true"></i> ' . ($gestao ? __('Nova bonificação') : __('Novo pedido')),
+                    ['action' => 'store'], ['class' => 'btn btn-primary', 'escape' => false]) ?>
+        </div>
+    </header>
 
-        <?= $this->element('msg-alert') ?>
+    <?= $this->element('msg-alert') ?>
 
-        <div class="row form-busca bottom-10">
-            <div class="col-xs-12">
-                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline']) ?>
-                    <?= $this->Form->text('id', ['class' => 'form-control', 'placeholder' => __('Nº do pedido'), 'value' => $this->request->getQuery('id'), 'style' => 'width:120px']) ?>
-                    <?= $this->MyForm->select_ultimos_anos('ano', ['class' => 'form-control', 'empty' => __('- ano -'), 'value' => $this->request->getQuery('ano')], 2018) ?>
-                    <?= $this->MyForm->select_meses('mes', ['class' => 'form-control', 'empty' => __('- mês -'), 'value' => $this->request->getQuery('mes')]) ?>
-                    <?= $this->Form->select('status', $this->Pedidos->statusLista(), ['class' => 'form-control', 'empty' => __('- status -'), 'value' => $this->request->getQuery('status')]) ?>
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?></button>
+    <section class="ss-card ss-card--flush">
+        <div class="ss-card-header">
+            <button type="button" class="btn btn-default ss-filters-toggle" data-toggle="collapse"
+                    data-target="#filtros" aria-expanded="false" aria-controls="filtros">
+                <i class="fa fa-sliders" aria-hidden="true"></i> <?= __('Filtros') ?>
+                <?php if ($temFiltro): ?><span class="ss-filters-count">!</span><?php endif; ?>
+            </button>
+            <div id="filtros" class="ss-filters-panel collapse">
+                <?= $this->Form->create(null, ['type' => 'get', 'class' => 'ss-filters']) ?>
+                    <div class="form-group">
+                        <label for="f-id" class="sr-only"><?= __('Nº do pedido') ?></label>
+                        <?= $this->Form->text('id', ['id' => 'f-id', 'class' => 'form-control', 'inputmode' => 'numeric',
+                                'placeholder' => __('Nº do pedido'), 'value' => $this->request->getQuery('id')]) ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-ano" class="sr-only"><?= __('Ano') ?></label>
+                        <?= $this->MyForm->select_ultimos_anos('ano', ['id' => 'f-ano', 'class' => 'form-control',
+                                'empty' => __('Qualquer ano'), 'value' => $this->request->getQuery('ano')], 2018) ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-mes" class="sr-only"><?= __('Mês') ?></label>
+                        <?= $this->MyForm->select_meses('mes', ['id' => 'f-mes', 'class' => 'form-control',
+                                'empty' => __('Qualquer mês'), 'value' => $this->request->getQuery('mes')]) ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-status" class="sr-only"><?= __('Status') ?></label>
+                        <?= $this->Form->select('status', $this->Pedidos->statusLista(), ['id' => 'f-status', 'class' => 'form-control',
+                                'empty' => __('Todos os status'), 'value' => $this->request->getQuery('status')]) ?>
+                    </div>
                     <input type="hidden" name="iniciar_busca" value="true">
-                    <?= $this->Html->link('<i class="fa fa-list" aria-hidden="true"></i> ' . __('Listar Todos'), ['action' => 'myOrders'], ['class' => 'btn btn-default', 'id' => 'btn-resetar-form', 'style' => 'display:none;', 'escape' => false]) ?>
+                    <div class="ss-filters-actions">
+                        <?= $this->Html->link(__('Limpar'), ['action' => 'myOrders'],
+                                ['class' => 'btn btn-link', 'id' => 'btn-resetar-form', 'style' => 'display:none;']) ?>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i> <?= __('Buscar') ?>
+                        </button>
+                    </div>
                 <?= $this->Form->end() ?>
             </div>
         </div>
 
-        <div class="scrolling bottom-40 box-panel bg-white">
-            <table class="table table-striped box" id="adjustable">
+        <?php if ($total): ?>
+        <div class="ss-table-wrap">
+            <table class="table ss-table ss-table--stack" id="adjustable">
                 <thead>
                     <tr>
-                        <th class="text-nowrap"><?= __('#') ?></th>
-                        <th class="text-nowrap"><?= __('Data do pedido') ?></th>
-                        <?php if ($gestao): ?>
-                            <th class="text-nowrap"><?= __('Associado') ?></th>
-                        <?php endif; ?>
-                        <th class="text-nowrap"><?= __('Fatura') ?></th>
-                        <th class="text-nowrap"><?= __('Tipo') ?></th>
-                        <th class="text-center text-nowrap"><?= __('Forma Pgto') ?></th>
-                        <th class="text-nowrap"><?= __('Valor Total') ?></th>
-                        <th class="text-nowrap"><?= __('Status') ?></th>
-                        <th class="text-center"><?= __('Ações') ?></th>
+                        <th class="ss-col-id"><?= __('Código') ?></th>
+                        <th><?= $gestao ? __('Associado') : __('Produtos') ?></th>
+                        <th><?= __('Data') ?></th>
+                        <th><?= __('Fatura') ?></th>
+                        <th class="ss-num"><?= __('Total') ?></th>
+                        <th><?= __('Status') ?></th>
+                        <th class="ss-actions" data-orderable="false"><span class="sr-only"><?= __('Ações') ?></span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($pedidos as $pedido): ?>
-                        <?php $numero = str_pad($pedido->id, 6, '0', STR_PAD_LEFT); ?>
-                        <tr>
-                            <td><?= $numero ?></td>
-                            <td data-order="<?= $pedido->created->format('YmdHi') ?>"><?= $this->MyHtml->date($pedido->created) ?></td>
+                <?php foreach ($pedidos as $pedido): ?>
+                    <?php
+                    $numero = str_pad($pedido->id, 6, '0', STR_PAD_LEFT);
+                    $produtos = $produtosDoPedido($pedido);
+                    ?>
+                    <tr>
+                        <td class="ss-col-id" data-label="<?= __('Código') ?>" data-order="<?= $pedido->id ?>">
+                            <span class="ss-id">#<?= $numero ?></span>
+                        </td>
+                        <td class="ss-cell-primary">
                             <?php if ($gestao): ?>
-                                <td><?= h($pedido->usuario->nome) ?></td>
+                                <?= $this->Html->link(h($pedido->usuario->nome), ['action' => 'view', $pedido->id],
+                                        ['class' => 'ss-cell-title btn_modal', 'data-title' => __('Pedido #{0}', $numero),
+                                         'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                                <span class="ss-cell-sub ss-truncate" title="<?= h($produtos) ?>"><?= h($produtos) ?></span>
+                            <?php else: ?>
+                                <?= $this->Html->link(h($produtos), ['action' => 'view', $pedido->id],
+                                        ['class' => 'ss-cell-title ss-truncate btn_modal', 'title' => $produtos,
+                                         'data-title' => __('Pedido #{0}', $numero),
+                                         'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                                <span class="ss-cell-sub">
+                                    <?php if ($pedido->tipo != 'N'): ?>
+                                        <?= h($this->Pedidos->tipo($pedido->tipo)) ?>
+                                    <?php elseif ($pedido->fatura): ?>
+                                        <?= h($this->Faturas->forma_pagamento($pedido->fatura->forma_pagamento)) ?>
+                                        <?= $pedido->fatura->qt_parcelas > 1 ? __('em {0}x', $pedido->fatura->qt_parcelas) : __('à vista') ?>
+                                    <?php endif; ?>
+                                </span>
                             <?php endif; ?>
-                            <td><?= $pedido->fatura ? $this->Html->link(str_pad($pedido->fatura->id, 6, '0', STR_PAD_LEFT), ['controller' => 'Invoices', 'action' => 'view', $pedido->fatura->id], ['class' => 'btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Detalhes da Fatura')]) : '-' ?></td>
-                            <td><?= $this->Pedidos->tipo($pedido->tipo) ?></td>
-                            <td class="text-center">
-                                <?php if ($pedido->tipo != 'N'): ?>
-                                    <small class="text-cinza"><?= __('Bonificação') ?></small>
-                                <?php else: ?>
-                                    <?= $this->Faturas->forma_pagamento($pedido->fatura->forma_pagamento) ?>
-                                    <?= $pedido->fatura->qt_parcelas > 1 ? ' (' . $pedido->fatura->qt_parcelas . 'x)' : '' ?>
-                                <?php endif; ?>
-                            </td>
-                            <td class="text-nowrap"><?= $this->Pedidos->total($pedido) ?></td>
-                            <td><small><?= $this->Pedidos->etapas($pedido->status) ?></small></td>
-                            <td class="col-xs-1">
-                                <?= $this->Html->link('<i class="fa fa-eye"></i> ' . __('Visualizar'), ['action' => 'view', $pedido->id], ['class' => 'btn btn-default btn-block btn_modal', 'data-loading-text' => __('Carregando...'), 'data-title' => __('Detalhes do Pedido #') . $numero, 'escape' => false]) ?>
-                                <?php if ($pedido->status == 'P' && $pedido->fatura && $pedido->fatura->boleto): ?>
-                                    <?= $this->Html->link('<i class="fa fa-barcode"></i> ' . __('Ver Boleto'), ['controller' => 'Invoices', 'action' => 'view', $pedido->fatura->id], ['class' => 'top-5 btn btn-warning btn-block btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Detalhes da Fatura'), 'escape' => false]) ?>
-                                <?php elseif ($pedido->status == 'P' && $pedido->fatura): ?>
-                                    <?= $this->Html->link('<i class="fa fa-usd"></i> ' . __('Pagar agora'), ['controller' => 'Invoices', 'action' => 'bankDetails', $pedido->fatura->id], ['class' => 'top-5 btn btn-warning btn-block btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Dados para Pagamento'), 'escape' => false]) ?>
-                                <?php elseif ($pedido->status == 'T' && !$gestao): ?>
-                                    <?= $this->Form->postLink('<i class="fa fa-check-square-o"></i> ' . __('Marcar como recebido'), ['action' => 'markReceived', $pedido->id], ['class' => 'top-5 btn btn-primary btn-block', 'escape' => false]) ?>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                        </td>
+                        <td data-label="<?= __('Data') ?>" data-order="<?= $pedido->created->format('YmdHi') ?>">
+                            <?= $this->MyHtml->tinyDate($pedido->created) ?>
+                        </td>
+                        <td data-label="<?= __('Fatura') ?>">
+                            <?php if ($pedido->fatura): ?>
+                                <?= $this->Html->link('#' . str_pad($pedido->fatura->id, 6, '0', STR_PAD_LEFT),
+                                        ['controller' => 'Invoices', 'action' => 'view', $pedido->fatura->id],
+                                        ['class' => 'ss-mono btn_modal', 'data-tamanho' => 'sm', 'data-title' => __('Detalhes da fatura'),
+                                         'data-loading-text' => __('Carregando...')]) ?>
+                            <?php else: ?>
+                                <span class="ss-muted">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="ss-num" data-label="<?= __('Total') ?>" data-order="<?= $pedido->status == 'V' ? -1 : $pedido->total ?>">
+                            <?= $this->Pedidos->total($pedido) ?>
+                        </td>
+                        <td data-label="<?= __('Status') ?>">
+                            <?= $this->Pedidos->statusLabel($pedido->status) ?>
+                        </td>
+                        <td class="ss-actions">
+                            <?php if ($pedido->status == 'P' && $pedido->fatura && $pedido->fatura->boleto): ?>
+                                <?= $this->Html->link('<i class="fa fa-barcode" aria-hidden="true"></i> ' . __('Ver boleto'),
+                                        ['controller' => 'Invoices', 'action' => 'view', $pedido->fatura->id],
+                                        ['class' => 'btn btn-sm ss-btn-ghost btn_modal', 'data-tamanho' => 'sm',
+                                         'data-title' => __('Detalhes da fatura'), 'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                            <?php elseif ($pedido->status == 'P' && $pedido->fatura): ?>
+                                <?= $this->Html->link('<i class="fa fa-university" aria-hidden="true"></i> ' . __('Pagar agora'),
+                                        ['controller' => 'Invoices', 'action' => 'bankDetails', $pedido->fatura->id],
+                                        ['class' => 'btn btn-sm ss-btn-ghost btn_modal', 'data-tamanho' => 'sm',
+                                         'data-title' => __('Dados para pagamento'), 'data-loading-text' => __('Carregando...'), 'escape' => false]) ?>
+                            <?php elseif ($pedido->status == 'T' && !$gestao): ?>
+                                <?= $this->Form->postLink('<i class="fa fa-check" aria-hidden="true"></i> ' . __('Marcar como recebido'),
+                                        ['action' => 'markReceived', $pedido->id],
+                                        ['class' => 'btn btn-sm ss-btn-ghost', 'escape' => false]) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-    </div>
+        <?php elseif ($temFiltro): ?>
+        <div class="ss-empty">
+            <div class="ss-empty-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+            <p class="ss-empty-title"><?= $gestao ? __('Nenhuma bonificação encontrada') : __('Nenhum pedido encontrado') ?></p>
+            <p class="ss-empty-text"><?= __('Ajuste os filtros para ver outros períodos ou status.') ?></p>
+            <?= $this->Html->link(__('Limpar filtros'), ['action' => 'myOrders'], ['class' => 'btn btn-default']) ?>
+        </div>
+        <?php else: ?>
+        <div class="ss-empty">
+            <div class="ss-empty-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+            <p class="ss-empty-title"><?= $gestao ? __('Nenhuma bonificação lançada') : __('Você ainda não fez pedidos') ?></p>
+            <p class="ss-empty-text"><?= $gestao ? __('As bonificações lançadas pela loja aparecem aqui.') : __('Os pedidos feitos na loja aparecem aqui.') ?></p>
+            <?= $this->Html->link(__('Ir para a loja'), ['action' => 'store'], ['class' => 'btn btn-default']) ?>
+        </div>
+        <?php endif; ?>
+    </section>
 </div>

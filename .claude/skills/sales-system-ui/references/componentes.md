@@ -5,7 +5,7 @@ está em `webroot/css/ss-theme.css` (o número da seção aparece entre parênte
 
 Índice: [Botões](#botões) · [Links](#links) · [Badges e selos](#badges-e-selos) ·
 [Alertas e flash](#alertas-e-flash) · [Notas e faixas](#notas-e-faixas) · [Cards](#cards) ·
-[Métricas](#métricas) · [Atalhos](#atalhos) · [Menus e dropdowns](#menus-e-dropdowns) ·
+[Métricas](#métricas) · [Atalhos](#atalhos) · [Metas](#metas-progresso) · [Menus e dropdowns](#menus-e-dropdowns) ·
 [Controle segmentado](#controle-segmentado) · [Navegação lateral](#navegação-lateral) ·
 [Modal](#modal) · [Paginação](#paginação) · [Mensagens e avisos](#mensagens-e-avisos) ·
 [Estado vazio](#estado-vazio) · [Produto da loja](#produto-da-loja) · [Avatar](#avatar) · [Carregamento](#carregamento) ·
@@ -214,6 +214,28 @@ Blocos do "Acesso rápido" do dashboard.
 
 Tons iguais aos das métricas (`ss-tone-*`), usados com moderação: o padrão é a primária. Use tom
 diferente só para separar grupos (ex.: financeiro `ss-tone-info`).
+
+## Metas (progresso)
+(seção 17)
+
+Lista de metas do associado no dashboard. A barra é um `<progress>` nativo (`ss-progress`):
+nada de `.progress-bar` com `style="width"`. `is-done` (100% ou mais) pinta a barra de verde.
+
+```php
+<ul class="ss-goals">
+    <li class="ss-goal<?= $porcentagem >= 100 ? ' is-done' : '' ?>">
+        <div class="ss-goal-head">
+            <span class="ss-goal-title"><?= h($frase) ?></span>
+            <span class="ss-goal-value"><?= min($porcentagem, 100) ?>%</span>
+        </div>
+        <progress class="ss-progress" value="<?= min($porcentagem, 100) ?>" max="100"
+                  aria-label="<?= h($frase_meta) ?>"><?= $porcentagem ?>%</progress>
+        <span class="ss-goal-meta"><i class="fa fa-bullseye" aria-hidden="true"></i> <?= h($frase_meta) ?></span>
+    </li>
+</ul>
+```
+
+`ss-progress` também serve sozinho para qualquer barra de progresso.
 
 ## Menus e dropdowns
 (seção 14; estrutura completa do cabeçalho em [telas-especiais.md](telas-especiais.md#layout-base))

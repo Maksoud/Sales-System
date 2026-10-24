@@ -850,7 +850,7 @@ input[type="file"]::file-selector-button {
 }
 .ss-card--flush > .table, .ss-card--flush .ss-table-wrap { margin: 0; }
 .ss-card + .ss-card { margin-top: var(--ss-space-4); }
-.ss-stack > .ss-card + .ss-card, .ss-stack-lg > .ss-card + .ss-card, .ss-grid-auto > .ss-card + .ss-card { margin-top: 0; }
+.ss-stack > .ss-card + .ss-card, .ss-stack-lg > .ss-card + .ss-card, .ss-grid-auto > .ss-card + .ss-card, .ss-split > .ss-card + .ss-card { margin-top: 0; }
 
 /* Card que é link inteiro */
 a.ss-card, .ss-card--link { display: block; color: inherit; transition: border-color var(--ss-transition), box-shadow var(--ss-transition); }
@@ -1697,6 +1697,28 @@ a.list-group-item:hover, a.list-group-item:focus { background: var(--ss-surface-
 .ss-footer img { height: 18px; width: auto; opacity: .6; filter: grayscale(1); vertical-align: middle; }
 .ss-footer a:hover img { opacity: 1; filter: none; }
 .pull-bottom-developed { position: static; margin: 0; background: transparent !important; }
+
+/* Metas do associado (dashboard): barra de progresso nativa, sem style="width" */
+.ss-goals { list-style: none; margin: 0; padding: 0; }
+.ss-goal + .ss-goal { margin-top: var(--ss-space-4); padding-top: var(--ss-space-4); border-top: 1px solid var(--ss-border); }
+.ss-goal-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ss-space-3); }
+.ss-goal-title { min-width: 0; font-size: var(--ss-text-sm); color: var(--ss-text); }
+.ss-goal-value { font-size: var(--ss-text-sm); font-weight: 600; color: var(--ss-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ss-goal-meta { display: block; margin-top: 6px; font-size: var(--ss-text-xs); color: var(--ss-text-muted); }
+.ss-progress {
+    display: block; width: 100%; height: 8px; margin-top: 6px;
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    border: 0; border-radius: var(--ss-radius-pill);
+    background: var(--ss-gray-100); color: var(--ss-primary-600);
+    overflow: hidden;
+}
+.ss-progress::-webkit-progress-bar { background: var(--ss-gray-100); border-radius: var(--ss-radius-pill); }
+.ss-progress::-webkit-progress-value { background: var(--ss-primary-600); border-radius: var(--ss-radius-pill); }
+.ss-progress::-moz-progress-bar { background: var(--ss-primary-600); border-radius: var(--ss-radius-pill); }
+.ss-goal.is-done .ss-progress { color: var(--ss-success-solid); }
+.ss-goal.is-done .ss-progress::-webkit-progress-value { background: var(--ss-success-solid); }
+.ss-goal.is-done .ss-progress::-moz-progress-bar { background: var(--ss-success-solid); }
+.ss-goal.is-done .ss-goal-value { color: var(--ss-success-fg); }
 
 /* =========================================================================
    18. UTILITÁRIOS E IMPRESSÃO

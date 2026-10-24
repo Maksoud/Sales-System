@@ -16,7 +16,7 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 | [x] | `Element/footer.ctp` | 2026-10-24 | Selo Make2 deixou de ser fixo; scripts na mesma ordem |
 | [x] | `Element/paginator-footer.ctp` + `paginator-footer-jquery.ctp` | 2026-10-24 | `paginator-footer` ainda não é usado por nenhuma tela; o `-jquery` é só um comentário, ficou como estava |
 | [x] | Helpers: `FaturasHelper`, `PedidosHelper` (`statusLabel`, `etapas`), `UsuariosHelper` | 2026-10-24 | Cancelado em cinza; `Faturas::statusLabel($status, $vencimento)` mostra "Vencida" (passar o vencimento em `invoice-table.ctp` na migração do Financeiro); `etapas()` gera `ss-steps`; `Usuarios::plano()` gera `ss-plan`. Textos de `status()` não mudaram |
-| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp`, `Layout/relatorio.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer). Restante fica para login, erros e relatórios |
+| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp`, `Layout/relatorio.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer); serve o login sem outra mudança. Restante fica para erros e relatórios |
 
 Verificado em 2026-10-24 no navegador em 1280px e 375px: perfis Dev e Super Master, menu ativo,
 menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, sem rolagem horizontal.
@@ -40,11 +40,17 @@ Ajustes no tema feitos na migração de Pedidos (2026-10-24, `ss-theme.css?v=3` 
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Pages/home.ctp` | E | | Dashboard |
-| [ ] | `Pages/login.ctp` | E | | |
+| [x] | `Pages/home.ctp` | E | 2026-10-24 | Dashboard. Faixa `ss-banner` (pendente), "Olá, {primeiro nome}" + selo do plano. Gestão: 4 `a.ss-stat` (Pedidos aguardando, Saques a pagar, Faturas vencidas, Recebido no mês) + cards Acesso rápido e Relatórios em `ss-shortcut`, todos na primária. Associado: "Solicitar saque" vira a ação primária do cabeçalho; saldos viram 2 `a.ss-stat` (levam a Meu extrato); `ss-split` com Acesso rápido e Minhas metas (novo `ss-goals`/`ss-progress`, sem `style="width"`; estado vazio `ss-empty`). Cliente: só Acesso rápido. Textos com só a 1ª maiúscula; ícones `fa-btc`→`fa-money`, Taxas `fa-ticket`, Comissões `fa-handshake-o`, Metas `fa-bullseye`, Avisos `fa-bell-o`. Selo "Debug mode" virou `ss-note`. **Avisos recentes e resumo da rede ficaram de fora**: o controller não envia esses dados |
+| [x] | `Pages/login.ctp` | E | 2026-10-24 | `ss-auth` com labels visíveis, sem ícones nos campos nem fundo; `#form_entrar`, `.focus` no login, `autocomplete` username/current-password, `required`. Manutenção (`$liberado_temporariamente`) mostra `ss-alert--warning` no lugar do form; `?admin` lido por `getQuery` (antes `$_GET` com `=` no lugar de `==`, mesmo efeito). Saiu o `login.css` (o arquivo não existe) e o bloco comentado de "recuperar senha" |
 | [ ] | `Pages/modal_content.ctp` | E | | |
 | [ ] | `Pages/list_backup.ctp`, `Pages/make_backup.ctp` | I/E | | |
 | [ ] | `Error/error400.ctp`, `Error/error500.ctp` | E | | |
+
+Início e acesso verificado em 2026-10-24 no navegador (1280px; 375px num iframe), perfis Dev,
+Master e Cliente: métricas, atalhos (abrir relatório em modal), metas, Solicitar saque, login,
+sem rolagem horizontal. O envio do login não foi testado (não há credenciais de teste no projeto).
+Tema em `ss-theme.css?v=7`: `.ss-split > .ss-card + .ss-card` sem `margin-top` (o segundo card
+da coluna lateral ficava 16px abaixo do primeiro).
 
 ### Pedidos (`OrdersController`)
 
@@ -177,4 +183,5 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 |---|---|---|---|
 | 2026-10-24 | `ss-product` (card de produto da loja) | 17. Peças do domínio | Loja precisava de imagem, preço, quantidade e subtotal por produto; nenhum card existente tinha campo de quantidade |
 | 2026-10-24 | `ss-net-node` (pessoa na árvore da rede) | 17. Peças do domínio | O nó antigo empilhava itens com `clearfix` e `style`; precisava de avatar, nome, login, plano, status e contagem num card só, e de um estado sem clique para quem não tem indicados |
+| 2026-10-24 | `ss-goals` / `ss-progress` (metas com barra de progresso) | 17. Peças do domínio | A barra do Bootstrap precisa de `style="width"`; o `<progress>` nativo recebe o valor sem estilo inline |
 | 2026-10-24 | `ss-richtext` e `ss-figure` (texto com HTML e imagem do aviso) | 16. Mensagens, avisos e estado vazio | A mensagem do aviso vem com `<p>`/`<strong>`: `ss-message-text` usa `pre-line` e é um `<p>`, o que quebrava o espaçamento; a imagem precisava de borda e raio dos tokens |

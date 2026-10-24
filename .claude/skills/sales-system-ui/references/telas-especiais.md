@@ -150,6 +150,15 @@ Ordem:
 
 O título "Acesso rápido" vira `ss-card-title`; o `panel-titulo` antigo sai.
 
+Como ficou (2026-10-24):
+- Associado (SM, Master, VIP): ação primária "Solicitar saque" no cabeçalho (some com cadastro
+  pendente); 2 métricas (Disponível, Bloqueado), como em Meu extrato; `ss-split` com Acesso
+  rápido e "Minhas metas" (`ss-goals`, ver [componentes.md › Metas](componentes.md#metas-progresso)).
+- Cliente: sem métricas nem metas; só Acesso rápido.
+- Gestão: 4 métricas, Acesso rápido e Relatórios (atalhos que abrem o formulário em modal).
+- Avisos recentes e resumo da rede ainda não aparecem: `PagesController::home()` não envia esses
+  dados (o sino e Minha rede já cobrem). Incluir exige mexer no controller.
+
 ## Login (`Pages/login.ctp`, layout `layout-clean`)
 
 ```php

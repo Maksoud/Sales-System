@@ -1,14 +1,60 @@
+# ---------------------------------------------------------------------------
+# Configuração local (contém salt e senhas)
+# Use config/app.default.php como modelo. Veja o README.
+# ---------------------------------------------------------------------------
+/config/app.php
+/config/app_local.php
+/.env
+
+# ---------------------------------------------------------------------------
+# Arquivos gerados em execução: as pastas ficam no Git, o conteúdo não
+# ---------------------------------------------------------------------------
+/logs/*
+!/logs/empty
+
+/tmp/*
+!/tmp/cache/
+/tmp/cache/*
+!/tmp/cache/models/
+!/tmp/cache/persistent/
+!/tmp/cache/views/
 /tmp/cache/models/*
-!/tmp/cache/models/empty
 /tmp/cache/persistent/*
-!/tmp/cache/persistent/empty
 /tmp/cache/views/*
+!/tmp/cache/models/empty
+!/tmp/cache/persistent/empty
 !/tmp/cache/views/empty
+!/tmp/sessions/
 /tmp/sessions/*
 !/tmp/sessions/empty
+!/tmp/tests/
 /tmp/tests/*
 !/tmp/tests/empty
 
-/logs/*
-!/logs/empty
-*.DS_Store
+# Uploads feitos pelos usuários
+/webroot/img/uploads/*
+
+# ---------------------------------------------------------------------------
+# Dependências
+# A pasta vendor/ CONTINUA versionada de propósito: ela tem correções no
+# CakePHP 3.4 para rodar no PHP 7.4/8. Um "composer install" limpo
+# desfaria essas correções.
+# ---------------------------------------------------------------------------
+/node_modules/
+
+# ---------------------------------------------------------------------------
+# Editores, IDEs e sistema operacional
+# ---------------------------------------------------------------------------
+/nbproject/
+*.code-workspace
+/.vscode/
+/.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testes e ferramentas
+/.phpunit.result.cache
+*.log

@@ -1,4 +1,35 @@
 <?php
+/**
+ * ============================================================================
+ *  Sales-System - EXEMPLO DE CONFIGURAÇÃO
+ * ============================================================================
+ *
+ *  Este arquivo é versionado no Git. O arquivo usado pelo sistema é o
+ *  config/app.php, que NÃO vai para o Git porque contém senhas e o salt.
+ *
+ *  Como criar o seu config/app.php (na raiz do projeto):
+ *
+ *    1. Copie este arquivo:
+ *           cp config/app.default.php config/app.php
+ *    2. Gere um salt aleatório e cole no lugar do valor de Security.salt:
+ *           php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
+ *
+ *  Depois revise os itens marcados com [AJUSTE] neste arquivo:
+ *
+ *    1. debug                -> true em desenvolvimento, false em produção.
+ *    2. Security.salt        -> único por instalação. Nunca reutilize nem publique.
+ *    3. EmailTransport/Email -> servidor SMTP e remetente (só se for enviar e-mail).
+ *    4. Datasources.default  -> dados do MySQL. Hoje as consultas ao banco
+ *                               estão desativadas nos controllers, então o
+ *                               sistema abre mesmo sem banco configurado.
+ *
+ *  Todos esses valores também podem vir de variáveis de ambiente
+ *  (DEBUG, SECURITY_SALT, DATABASE_URL, EMAIL_TRANSPORT_DEFAULT_URL).
+ *
+ *  Os IDs dos tipos de acesso (Dev, Admin, SM, Master, VIP, Cliente) ficam
+ *  em config/bootstrap.php, não aqui.
+ * ============================================================================
+ */
 return [
     /**
      * Debug Level:
@@ -9,6 +40,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
+    // [AJUSTE 1] true em desenvolvimento, false em produção
     'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
 
     /**
@@ -63,6 +95,7 @@ return [
      *   The salt value is also used as the encryption key.
      *   You should treat it as extremely sensitive data.
      */
+    // [AJUSTE 2] Salt único por instalação. Gere com: php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
     'Security' => [
         'salt' => env('SECURITY_SALT', '__SALT__'),
     ],
@@ -150,7 +183,7 @@ return [
      *   breathing room to complete logging or error handling.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' => E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED,
         'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
         'skipLog' => [],
         'log' => true,
@@ -176,6 +209,7 @@ return [
      * appropriate file to src/Mailer/Transport. Transports should be named
      * 'YourTransport.php', where 'Your' is the name of the transport.
      */
+    // [AJUSTE 3] Envio de e-mail (SMTP). Opcional.
     'EmailTransport' => [
         'default' => [
             'className' => 'Mail',
@@ -204,8 +238,8 @@ return [
         'default' => [
             'transport' => 'default',
             'from' => 'you@localhost',
-            //'charset' => 'utf-8',
-            //'headerCharset' => 'utf-8',
+            'charset' => 'utf-8',
+            'headerCharset' => 'utf-8',
         ],
     ],
 
@@ -217,21 +251,22 @@ return [
      * Drivers include Mysql Postgres Sqlite Sqlserver
      * See vendor\cakephp\cakephp\src\Database\Driver for complete list
      */
+    // [AJUSTE 4] Conexão com o MySQL
     'Datasources' => [
         'default' => [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
-            'host' => 'localhost',
+            'host' => 'localhost',          // servidor do MySQL
             /**
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
             //'port' => 'non_standard_port_number',
-            'username' => 'my_app',
-            'password' => 'secret',
-            'database' => 'my_app',
+            'username' => 'usuario_do_banco',
+            'password' => 'senha_do_banco',
+            'database' => 'sales_system',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
@@ -342,5 +377,6 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'timeout'  => 30
     ],
 ];

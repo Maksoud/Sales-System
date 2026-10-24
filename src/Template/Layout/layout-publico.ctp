@@ -13,9 +13,9 @@
             <div class="container-fluid aSemUnderline">
                 <div class="row">
                     <div class="top-5 col-xs-6 col-sm-4">
-                        <?= $this->Html->image("Reiniciando.png", ['alt'      => 'Reiniciando',
+                        <?= $this->Html->image("logomarca.png", ['alt'      => 'Sales-System',
                                                                  //'width'    => '210px',
-                                                                   'style'    => 'height: 62px;',
+                                                                   'style'    => 'height: 56px; width: auto;',
                                                                    'class'    => 'img-responsive',
                                                                    'id'       => 'logo',
                                                                    'data-url' => $this->Url->build('/', true)

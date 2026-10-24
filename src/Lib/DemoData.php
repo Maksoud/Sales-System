@@ -440,7 +440,7 @@ class DemoData
             6 => ['Boia de Nível', 'Boia que controla o nível de água do reservatório.', 24.90, 'mineralizador.jpg', 'A'],
             7 => ['Kit VIP', '1 portfólio, 3 catálogos, 20 flyers, 1 manual e 3 mineralizadores.', 1290.00, 'kit-vip.jpg', 'A'],
             8 => ['Kit Master', '1 portfólio, 5 catálogos, 20 flyers, apostila de treinamento e 30 mineralizadores.', 9990.00, 'kit-master.jpg', 'A'],
-            9 => ['Garrafa Térmica 1L', 'Garrafa de inox com a marca Reiniciando. Fora de linha.', 69.90, 'produto.jpg', 'I'],
+            9 => ['Garrafa Térmica 1L', 'Garrafa de inox com a marca Sales-System. Fora de linha.', 69.90, 'produto.jpg', 'I'],
         ];
 
         foreach ($produtos as $id => $p) {
@@ -477,7 +477,7 @@ class DemoData
         //id, nome, login, plano, patrocinador, dias desde o cadastro, status
         $lista = [
             [1,  'Renée Maksoud',        'maksoudrodrigues',  1, null, 900, 'A'],
-            [2,  'Equipe Reiniciando',   'reiniciando',       2, null, 900, 'A'],
+            [2,  'Equipe Sales-System',   'reiniciando',       2, null, 900, 'A'],
             [3,  'Carlos Eduardo Lima',  'carloslima',        3, 2,    690, 'A'],
             [4,  'Patrícia Nogueira',    'patricianogueira',  3, 2,    640, 'A'],
             [5,  'Roberto Sampaio',      'robertosampaio',    3, 2,    590, 'A'],
@@ -907,7 +907,7 @@ class DemoData
 
         //título, texto, plano de destino, dias desde a criação, validade em dias (null = sem validade), banner
         $avisos = [
-            ['Bem-vindo ao novo painel Reiniciando',
+            ['Bem-vindo ao novo painel Sales-System',
              '<p>O painel foi totalmente renovado. Agora você acompanha <strong>pedidos, faturas, comissões e metas</strong> em um só lugar, de qualquer dispositivo.</p><p>Use o menu <em>Financeiro</em> para consultar seu extrato e solicitar saques.</p>',
              null, 45, null, null],
             ['Atualização da tabela de preços',

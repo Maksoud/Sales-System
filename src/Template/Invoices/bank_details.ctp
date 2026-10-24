@@ -31,7 +31,7 @@ $this->layout = 'ajax';
     <h4 class="ss-section-title"><?= __('Transferência, depósito ou PIX') ?></h4>
     <dl class="ss-dl">
         <dt><?= __('Favorecido') ?></dt>
-        <dd><?= __('Reiniciando Sistemas Ltda.') ?></dd>
+        <dd><?= __('Sales-System Ltda.') ?></dd>
         <dt><?= __('CNPJ') ?></dt>
         <dd><span class="ss-mono">00.000.000/0001-00</span></dd>
         <dt><?= __('Banco') ?></dt>

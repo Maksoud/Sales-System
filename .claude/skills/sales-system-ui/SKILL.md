@@ -1,6 +1,6 @@
 ---
 name: sales-system-ui
-description: Padrão visual do Sales-System (painel Reiniciando/Mineralli, CakePHP 3.4 + Bootstrap 3.3.6 + Font Awesome 4.7). Use sempre que for criar, refazer ou ajustar o visual de qualquer tela, template .ctp, element, layout, menu, modal, alerta, tabela, formulário ou CSS deste projeto, ou quando o pedido for "atualizar o visual", "aplicar o padrão", "migrar a tela X para o novo layout". Define cores, fontes, componentes e os modelos de listagem (index), visualização (view) e formulários (add/edit).
+description: Padrão visual do Sales-System (painel Sales-System/Mineralli, CakePHP 3.4 + Bootstrap 3.3.6 + Font Awesome 4.7). Use sempre que for criar, refazer ou ajustar o visual de qualquer tela, template .ctp, element, layout, menu, modal, alerta, tabela, formulário ou CSS deste projeto, ou quando o pedido for "atualizar o visual", "aplicar o padrão", "migrar a tela X para o novo layout". Define cores, fontes, componentes e os modelos de listagem (index), visualização (view) e formulários (add/edit).
 ---
 
 # Sales-System UI

@@ -35,7 +35,7 @@ $modal = function ($titulo, $tamanho = null) {
                 </button>
 
                 <?= $this->Html->link(
-                        $this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando', 'id' => 'logo',
+                        $this->Html->image('logomarca.png', ['alt' => 'Sales-System', 'id' => 'logo',
                                                                'data-url' => $this->Url->build('/', true)]),
                         ['controller' => 'Pages', 'action' => 'home'],
                         ['class' => 'ss-logo', 'escape' => false]

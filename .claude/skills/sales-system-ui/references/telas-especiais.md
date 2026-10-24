@@ -30,7 +30,7 @@ Feito uma vez, na Fase 0 (ver SKILL.md). Arquivos: `Element/head.ctp`, `Layout/d
         'ss-theme.css?v=1',        // SEMPRE por último; suba o ?v= a cada alteração
     ]) ?>
 
-<title><?= h($title) ?> · Reiniciando</title>
+<title><?= h($title) ?> · Sales-System</title>
 ```
 
 Remova o bloco de `html5shiv`/`respond.js` (IE8).
@@ -55,7 +55,7 @@ Estrutura (mantém a lógica atual de avisos, contagem da sessão, menus por per
                 <i class="fa fa-bars" aria-hidden="true"></i>
             </button>
 
-            <?= $this->Html->link($this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando', 'id' => 'logo',
+            <?= $this->Html->link($this->Html->image('logomarca.png', ['alt' => 'Sales-System', 'id' => 'logo',
                     'data-url' => $this->Url->build('/', true)]),
                     ['controller' => 'Pages', 'action' => 'home'], ['class' => 'ss-logo', 'escape' => false]) ?>
 
@@ -125,10 +125,7 @@ Estrutura (mantém a lógica atual de avisos, contagem da sessão, menus por per
 
 ```php
 <div class="ss-container ss-spread">
-    <span>© <?= date('Y') ?> Reiniciando</span>
-    <a href="http://www.make2.com.br" target="_blank" rel="noopener" title="Make2">
-        <?= $this->Html->image('logo-make2.png', ['alt' => 'Desenvolvido por Make2']) ?>
-    </a>
+    <span>© <?= date('Y') ?> Sales-System</span>
 </div>
 <!-- scripts (jQuery, máscaras, Bootstrap, reiniciando.js...) continuam aqui, na mesma ordem -->
 ```
@@ -164,7 +161,7 @@ Como ficou (2026-10-24):
 ```php
 <div class="ss-auth">
     <div class="ss-auth-card">
-        <?= $this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando', 'class' => 'ss-auth-logo']) ?>
+        <?= $this->Html->image('logomarca.png', ['alt' => 'Sales-System', 'class' => 'ss-auth-logo']) ?>
         <h1 class="ss-auth-title"><?= __('Acesse o painel') ?></h1>
         <p class="ss-auth-subtitle"><?= __('Entre com seu login e senha.') ?></p>
         <?= $this->Flash->render() ?>

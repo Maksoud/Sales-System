@@ -17,7 +17,7 @@ $liberado = $this->request->getQuery('admin') !== null || $liberado_temporariame
 
 <main class="ss-auth">
     <div class="ss-auth-card">
-        <?= $this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando', 'class' => 'ss-auth-logo']) ?>
+        <?= $this->Html->image('logomarca.png', ['alt' => 'Sales-System', 'class' => 'ss-auth-logo']) ?>
 
         <?php if ($liberado): ?>
             <h1 class="ss-auth-title"><?= __('Acesse o painel') ?></h1>

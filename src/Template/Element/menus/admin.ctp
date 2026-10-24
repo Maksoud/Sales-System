@@ -34,7 +34,7 @@ $atual = function () use ($ctrl, $acao) {
         <i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> <?= __('Minha Rede') ?> <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-        <li><?= $this->Html->link($icone('fa-users', __('Visualizar')), ['controller' => 'Users', 'action' => 'network'], $modal(__('Rede Reiniciando'))) ?></li>
+        <li><?= $this->Html->link($icone('fa-users', __('Visualizar')), ['controller' => 'Users', 'action' => 'network'], $modal(__('Rede Sales-System'))) ?></li>
         <li role="separator" class="divider"></li>
         <li><?= $this->Html->link($icone('fa-user-plus', __('Cadastrar Associado')), ['controller' => 'Users', 'action' => 'add'], $modal(__('Novo Associado'))) ?></li>
     </ul>

@@ -7,10 +7,7 @@
  */
 ?>
 <div class="ss-container ss-spread">
-    <span>&copy; <?= date('Y') ?> Reiniciando</span>
-    <a href="http://www.make2.com.br" target="_blank" rel="noopener" title="Make2">
-        <?= $this->Html->image('logo-make2.png', ['alt' => __('Desenvolvido por Make2')]) ?>
-    </a>
+    <span>&copy; <?= date('Y') ?> Sales-System</span>
 </div>
 
 <!-- jQuery -->

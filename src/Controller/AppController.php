@@ -94,7 +94,7 @@ class AppController extends Controller
 
         ////////////////////////////////////////////////////////////////////////
 
-        $title = "Painel Administrativo :: Reiniciando";
+        $title = "Painel Administrativo :: Sales-System";
         
         ////////////////////////////////////////////////////////////////////////
         

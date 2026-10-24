@@ -8,7 +8,7 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 
 | Feito | Arquivo | Data | Observações |
 |---|---|---|---|
-| [x] | `Element/head.ctp` (fonte + `ss-theme.css` + viewport) | 2026-10-24 | Sem html5shiv/respond; título usa só `$title` (já traz "Reiniciando") |
+| [x] | `Element/head.ctp` (fonte + `ss-theme.css` + viewport) | 2026-10-24 | Sem html5shiv/respond; título usa só `$title` (já traz "Sales-System") |
 | [x] | `Layout/default.ctp` (topbar, navbar, flash, main) | 2026-10-24 | Avisos, contador da sessão, menus por perfil e "Ver como" mantidos; sino único |
 | [x] | `Element/menus/*.ctp` (dev, admin, sm, master, vip, cliente, associado): estado ativo | 2026-10-24 | Closure `$atual('Controller', 'Controller/acao')` em cada menu (em `associado.ctp`, `$ativo` continua sendo o cadastro pendente) |
 | [x] | `Element/Flash/*.ctp` + `Element/msg-alert.ctp` | 2026-10-24 | `msg-alert` lê `getQuery('action')` em vez de `$_GET` |
@@ -203,7 +203,7 @@ Tema em `ss-theme.css?v=9`: nova seção 19 (Relatórios).
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [x] | `Layout/Email/html/default.ctp`, `Email/html/default.ctp` | E | 2026-10-24 | Tabelas de 600px com CSS inline (exceção à regra), valores dos tokens anotados no topo do layout: fundo `--ss-bg`, card branco com borda e raio 10px, logo, rodapé "© ano Reiniciando · Acessar o painel". Parágrafos com margem inline; o conteúdo continua sem `h()`, como no template padrão do Cake. Nenhum código envia e-mail ainda: conferido só renderizando pela linha de comando. Links e logo usam URL completa (`Url->build(..., true)`); em envio pelo shell, configure `App.fullBaseUrl`. Os templates `text` não mudaram |
+| [x] | `Layout/Email/html/default.ctp`, `Email/html/default.ctp` | E | 2026-10-24 | Tabelas de 600px com CSS inline (exceção à regra), valores dos tokens anotados no topo do layout: fundo `--ss-bg`, card branco com borda e raio 10px, logo, rodapé "© ano Sales-System · Acessar o painel". Parágrafos com margem inline; o conteúdo continua sem `h()`, como no template padrão do Cake. Nenhum código envia e-mail ainda: conferido só renderizando pela linha de comando. Links e logo usam URL completa (`Url->build(..., true)`); em envio pelo shell, configure `App.fullBaseUrl`. Os templates `text` não mudaram |
 
 ## Ordem sugerida
 

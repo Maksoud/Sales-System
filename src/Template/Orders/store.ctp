@@ -21,7 +21,7 @@
                 <li><?= __('Pedidos') ?></li>
                 <li><?= __('Loja') ?></li>
             </ol>
-            <h1 class="ss-page-title"><?= __('Loja Reiniciando') ?></h1>
+            <h1 class="ss-page-title"><?= __('Loja Sales-System') ?></h1>
             <p class="ss-page-subtitle">
                 <?= $gestao ? __('Lançamento de bonificação: escolha os produtos e o associado.') : __('Escolha os produtos e a quantidade de cada um.') ?>
             </p>
@@ -139,7 +139,7 @@
                             <div class="radio">
                                 <label><input type="radio" name="forma_pagamento" id="forma_pagamento_opcao5" value="D1"> <?= __('Transferência ou depósito à vista') ?></label>
                             </div>
-                            <p class="ss-help ss-mb-0"><?= __('Os dados bancários da Reiniciando serão enviados para o seu e-mail.') ?></p>
+                            <p class="ss-help ss-mb-0"><?= __('Os dados bancários da Sales-System serão enviados para o seu e-mail.') ?></p>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="forma_boleto">
                             <?php foreach ([1, 2] as $vezes): ?>

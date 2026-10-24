@@ -31,7 +31,7 @@ $gerado  = date('d/m/Y H:i');
 <?php $this->end() ?>
 
 <header class="ss-report-header">
-    <?= $this->Html->image('Reiniciando.png', ['class' => 'ss-report-logo', 'alt' => 'Reiniciando']) ?>
+    <?= $this->Html->image('logomarca.png', ['class' => 'ss-report-logo', 'alt' => 'Sales-System']) ?>
     <div class="ss-report-heading">
         <h1 class="ss-report-title"><?= h($titulo) ?></h1>
         <?php if ($periodo[0] || $periodo[1]): ?>

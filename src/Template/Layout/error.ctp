@@ -31,11 +31,11 @@ $titulo = $this->fetch('title') ?: __('Erro');
             'bootstrap.min',
             'font-awesome.min',
             //Tema: SEMPRE por último (mesma versão de Element/head.ctp)
-            'ss-theme.css?v=9',
+            'ss-theme.css?v=10',
         ])
     ?>
 
-    <title><?= h($titulo) ?> · Reiniciando</title>
+    <title><?= h($titulo) ?> · Sales-System</title>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -43,7 +43,7 @@ $titulo = $this->fetch('title') ?: __('Erro');
 <body>
     <header class="ss-topbar">
         <div class="ss-container ss-topbar-inner">
-            <?= $this->Html->link($this->Html->image('Reiniciando.png', ['alt' => 'Reiniciando']),
+            <?= $this->Html->link($this->Html->image('logomarca.png', ['alt' => 'Sales-System']),
                     '/', ['class' => 'ss-logo', 'escape' => false]) ?>
         </div>
     </header>
@@ -59,7 +59,7 @@ $titulo = $this->fetch('title') ?: __('Erro');
 
     <footer class="ss-footer">
         <div class="ss-container ss-spread">
-            <span>&copy; <?= date('Y') ?> Reiniciando</span>
+            <span>&copy; <?= date('Y') ?> Sales-System</span>
         </div>
     </footer>
 </body>

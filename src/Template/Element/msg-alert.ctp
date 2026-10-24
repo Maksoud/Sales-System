@@ -1,24 +1,21 @@
-<?php if ( isset( $_GET['action'] ) && $_GET['action'] == 'ok' ): ?>
-    <div class="row">
-        <div id="ajax-sucesso-retorno" class="col-xs-12">
-            <div class="alert alert-success" onclick="this.classList.add('hidden')" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <i class="fa fa-check" aria-hidden="true"></i> Registro gravado com sucesso
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-<?php if ( isset( $_GET['action'] ) && $_GET['action'] == 'deleted' ): ?>
-    <div class="row">
-        <div id="ajax-sucesso-retorno" class="col-xs-12">
-            <div class="alert alert-warning" onclick="this.classList.add('hidden')" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <i class="fa fa-check" aria-hidden="true"></i> Registro excluído com sucesso
-            </div>
+<?php
+/**
+ * Mensagem de retorno após gravar/excluir (?action=ok | ?action=deleted).
+ * Mantém o id #ajax-sucesso-retorno usado pelo JS.
+ */
+$retorno = $this->request->getQuery('action');
+$mensagens = [
+    'ok'      => ['alert-success', 'fa-check-circle', __('Registro gravado com sucesso.')],
+    'deleted' => ['alert-warning', 'fa-check-circle', __('Registro excluído com sucesso.')],
+];
+?>
+<?php if (isset($mensagens[$retorno])): list($classe, $icone, $texto) = $mensagens[$retorno]; ?>
+    <div id="ajax-sucesso-retorno" class="ss-flash">
+        <div class="alert <?= $classe ?>" role="status" onclick="this.classList.add('hidden')">
+            <button type="button" class="close" data-dismiss="alert" aria-label="<?= __('Fechar') ?>">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="fa <?= $icone ?>" aria-hidden="true"></i> <?= $texto ?>
         </div>
     </div>
 <?php endif; ?>

@@ -43,6 +43,14 @@ class PedidosHelper extends Helper
                 'T' => 'Aguardando entrega', 'F' => 'Concluído', 'C' => 'Cancelado'];
     }
 
+    /** Status como badge (mapa em .claude/skills/sales-system-ui/references/status.md) */
+    public function statusLabel($status)
+    {
+        $classes = ['V' => 'info', 'P' => 'warning', 'S' => 'primary', 'T' => 'primary', 'F' => 'success', 'C' => 'default'];
+        $classe  = isset($classes[$status]) ? $classes[$status] : 'default';
+        return '<span class="label label-' . $classe . '">' . h($this->status($status)) . '</span>';
+    }
+
     public function tipo($tipo)
     {
         $lista = ['E' => 'Bonificação de Inscrição', 'B' => 'Bonificação por Meta', 'N' => 'Normal'];
@@ -50,31 +58,32 @@ class PedidosHelper extends Helper
     }
 
     /**
-     * Linha do tempo do pedido: etapas concluídas com check verde,
-     * a etapa atual em azul e as próximas em cinza.
+     * Linha do tempo do pedido (ss-steps): etapas concluídas como is-done,
+     * a etapa atual como is-current e as próximas sem destaque.
+     * Concluído: todas is-done. Cancelado: só o item is-canceled
+     * (o status não guarda até onde o pedido chegou).
      */
     public function etapas($status)
     {
-        if ($status == 'F') {
-            return '<span class="text-azul"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Concluído</span>';
-        }
+        $item = function ($classe, $texto) {
+            return '<li' . ($classe ? ' class="' . $classe . '"' : '') . '><span class="ss-steps-title">' . h($texto) . '</span></li>';
+        };
+
         if ($status == 'C') {
-            return '<span class="text-cinza"><i class="fa fa-ban" aria-hidden="true"></i> Cancelado</span>';
+            return '<ol class="ss-steps">' . $item('is-canceled', __('Cancelado')) . '</ol>';
         }
 
         $ordem = array_keys($this->etapas);
-        $atual = array_search($status, $ordem);
+        $atual = $status == 'F' ? count($ordem) : array_search($status, $ordem);
         $html  = '';
 
         foreach ($ordem as $i => $etapa) {
-            list($icone, $texto) = $this->etapas[$etapa];
-            $classe = $i <= $atual ? 'text-azul' : 'text-cinza';
-            $check  = $i < $atual ? 'fa-check-square-o text-verde' : 'fa-square-o';
-            $html  .= '<span class="' . $classe . ' text-nowrap"><i class="fa ' . $icone . ' fa-fw" aria-hidden="true"></i> ' . $texto
-                    . ' <i class="fa ' . $check . '" aria-hidden="true"></i></span><br>';
+            $classe = $i < $atual ? 'is-done' : ($i === $atual ? 'is-current' : '');
+            $html  .= $item($classe, $this->etapas[$etapa][1]);
         }
+        $html .= $item($status == 'F' ? 'is-done' : '', __('Concluído'));
 
-        return $html;
+        return '<ol class="ss-steps">' . $html . '</ol>';
     }
 
     /** Valor do pedido ou o aviso de que frete e impostos ainda estão em cálculo */

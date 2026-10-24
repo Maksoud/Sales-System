@@ -6,7 +6,7 @@
     <body>
         <?= $this->fetch('content') ?>
         <?= $this->elementExists('chat') ? $this->element('chat') : '' ?>
-        <footer>
+        <footer class="ss-footer">
             <?= $this->element('footer') ?>
         </footer>
     </body>

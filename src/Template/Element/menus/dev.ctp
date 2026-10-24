@@ -10,20 +10,32 @@
 
 //Desenvolvedor: tudo do Administrador + o menu Sistema
 $icone = function ($icone, $texto) { return '<i class="fa ' . $icone . ' fa-fw" aria-hidden="true"></i> ' . $texto; };
+//Estado ativo: recebe 'Controller' ou 'Controller/acao' e devolve ' active' quando a página atual bate
+$ctrl  = $this->request->getParam('controller');
+$acao  = strtolower(str_replace(['_', '-'], '', $this->request->getParam('action')));
+$atual = function () use ($ctrl, $acao) {
+    foreach (func_get_args() as $alvo) {
+        $partes = explode('/', $alvo);
+        if ($partes[0] == $ctrl && (!isset($partes[1]) || strtolower($partes[1]) == $acao)) {
+            return ' active';
+        }
+    }
+    return '';
+};
 ?>
 <?= $this->element('menus/admin') ?>
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-        <i class="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;<?= __('Sistema') ?><span class="caret"></span>
+<li class="dropdown<?= $atual('Regions', 'GoalPlans', 'SaleGoals', 'SaleCommissions', 'Products', 'Users/index', 'Users/view', 'Users/edit') ?>">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-heartbeat fa-fw" aria-hidden="true"></i> <?= __('Sistema') ?> <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu">
         <li><?= $this->Html->link($icone('fa-globe', __('Regiões')), ['controller' => 'Regions', 'action' => 'index'], ['escape' => false]) ?></li>
         <li><?= $this->Html->link($icone('fa-server', __('Planos')), ['controller' => 'GoalPlans', 'action' => 'index'], ['escape' => false]) ?></li>
         <li><?= $this->Html->link($icone('fa-crosshairs', __('Metas')), ['controller' => 'SaleGoals', 'action' => 'index'], ['escape' => false]) ?></li>
         <li><?= $this->Html->link($icone('fa-handshake-o', __('Comissões')), ['controller' => 'SaleCommissions', 'action' => 'index'], ['escape' => false]) ?></li>
         <li><?= $this->Html->link($icone('fa-diamond', __('Produtos')), ['controller' => 'Products', 'action' => 'index'], ['escape' => false]) ?></li>
         <li><?= $this->Html->link($icone('fa-users', __('Usuários')), ['controller' => 'Users', 'action' => 'index'], ['escape' => false]) ?></li>
-        <li class="divider"></li>
+        <li role="separator" class="divider"></li>
         <li><?= $this->Form->postLink($icone('fa-linux', __('Atualizar Sistema')), ['controller' => 'Pages', 'action' => 'update'], ['escape' => false, 'confirm' => __('Atualizar o sistema a partir do repositório?')]) ?></li>
         <li><?= $this->Html->link($icone('fa-bug', __('Modo Debug')), ['controller' => 'Pages', 'action' => 'debug_mode'], ['escape' => false]) ?></li>
     </ul>

@@ -8,15 +8,18 @@ o que ficou de fora. Tipo: **I** index · **V** view · **F** formulário · **R
 
 | Feito | Arquivo | Data | Observações |
 |---|---|---|---|
-| [ ] | `Element/head.ctp` (fonte + `ss-theme.css` + viewport) | | |
-| [ ] | `Layout/default.ctp` (topbar, navbar, flash, main) | | |
-| [ ] | `Element/menus/*.ctp` (dev, admin, sm, master, vip, cliente, associado): estado ativo | | |
-| [ ] | `Element/Flash/*.ctp` + `Element/msg-alert.ctp` | | |
-| [ ] | `Element/modal.ctp` | | |
-| [ ] | `Element/footer.ctp` | | |
-| [ ] | `Element/paginator-footer.ctp` + `paginator-footer-jquery.ctp` | | |
-| [ ] | Helpers: `FaturasHelper`, `PedidosHelper` (`statusLabel`, `etapas`), `UsuariosHelper` | | |
-| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp`, `Layout/relatorio.ctp` | | |
+| [x] | `Element/head.ctp` (fonte + `ss-theme.css` + viewport) | 2026-10-24 | Sem html5shiv/respond; título usa só `$title` (já traz "Reiniciando") |
+| [x] | `Layout/default.ctp` (topbar, navbar, flash, main) | 2026-10-24 | Avisos, contador da sessão, menus por perfil e "Ver como" mantidos; sino único |
+| [x] | `Element/menus/*.ctp` (dev, admin, sm, master, vip, cliente, associado): estado ativo | 2026-10-24 | Closure `$atual('Controller', 'Controller/acao')` em cada menu (em `associado.ctp`, `$ativo` continua sendo o cadastro pendente) |
+| [x] | `Element/Flash/*.ctp` + `Element/msg-alert.ctp` | 2026-10-24 | `msg-alert` lê `getQuery('action')` em vez de `$_GET` |
+| [x] | `Element/modal.ctp` | 2026-10-24 | |
+| [x] | `Element/footer.ctp` | 2026-10-24 | Selo Make2 deixou de ser fixo; scripts na mesma ordem |
+| [x] | `Element/paginator-footer.ctp` + `paginator-footer-jquery.ctp` | 2026-10-24 | `paginator-footer` ainda não é usado por nenhuma tela; o `-jquery` é só um comentário, ficou como estava |
+| [x] | Helpers: `FaturasHelper`, `PedidosHelper` (`statusLabel`, `etapas`), `UsuariosHelper` | 2026-10-24 | Cancelado em cinza; `Faturas::statusLabel($status, $vencimento)` mostra "Vencida" (passar o vencimento em `invoice-table.ctp` na migração do Financeiro); `etapas()` gera `ss-steps`; `Usuarios::plano()` gera `ss-plan`. Textos de `status()` não mudaram |
+| [ ] | `Layout/layout-clean.ctp`, `Layout/error.ctp`, `Layout/relatorio.ctp` | | `layout-clean` só ganhou `class="ss-footer"` no `<footer>` (usa o mesmo footer). Restante fica para login, erros e relatórios |
+
+Verificado em 2026-10-24 no navegador em 1280px e 375px: perfis Dev e Super Master, menu ativo,
+menu do usuário, contador, modais (senha, avisos), menu recolhido no celular, sem rolagem horizontal.
 
 ## Módulos
 

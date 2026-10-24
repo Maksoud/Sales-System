@@ -25,11 +25,12 @@ class UsuariosHelper extends Helper
         return isset($lista[$status]) ? $lista[$status] : '';
     }
 
+    /** Status como badge (mapa em .claude/skills/sales-system-ui/references/status.md) */
     public function statusLabel($status)
     {
-        $classes = ['A' => 'success', 'P' => 'warning', 'I' => 'default', 'C' => 'danger'];
+        $classes = ['A' => 'success', 'P' => 'warning', 'I' => 'default', 'C' => 'default'];
         $classe  = isset($classes[$status]) ? $classes[$status] : 'default';
-        return '<span class="label label-' . $classe . '">' . $this->status($status) . '</span>';
+        return '<span class="label label-' . $classe . '">' . h($this->status($status)) . '</span>';
     }
 
     public function tipo_de_pessoa($tipo_de_pessoa)
@@ -60,12 +61,12 @@ class UsuariosHelper extends Helper
         return array_combine($ufs, $ufs);
     }
 
-    /** Selo do plano com o ícone usado no cabeçalho (classes plano1..plano6) */
+    /** Selo do plano (ss-plan--1..6, mesma cor do cabeçalho) */
     public function plano($usuario)
     {
         if (!$usuario || !$usuario->plano) {
             return '-';
         }
-        return '<span class="plano' . $usuario->planos_id . ' text-nowrap"><label class="fa"></label> ' . h($usuario->plano->title) . '</span>';
+        return '<span class="ss-plan ss-plan--' . (int)$usuario->planos_id . '">' . h($usuario->plano->title) . '</span>';
     }
 }

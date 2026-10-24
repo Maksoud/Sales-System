@@ -5,17 +5,14 @@
  * 
  * All rights reserved - 2018-2019
  */
-?>
 
-<div class="paginator">
+/* Paginação: fica dentro do card da tabela, logo após ela */
+?>
+<div class="ss-table-footer">
+    <span class="ss-pagination-info"><?= $this->Paginator->counter(__('{{start}}–{{end}} de {{count}}')) ?></span>
     <ul class="pagination">
-        <?= $this->Paginator->first('<<', ['tag' => 'li', 'disabledTag' => 'a']) ?>
-        <?= $this->Paginator->prev('<', ['tag' => 'li', 'disabledTag' => 'a']) ?>
-        <?= $this->Paginator->numbers(['tag' => 'li', 'currentTag' => 'a', 'currentClass' => 'active', 'separator' => '']) ?>
-        <?= $this->Paginator->next('>', ['tag' => 'li', 'disabledTag' => 'a']) ?>
-        <?= $this->Paginator->last('>>', ['tag' => 'li', 'disabledTag' => 'a']) ?>
+        <?= $this->Paginator->prev('<i class="fa fa-angle-left" aria-hidden="true"></i><span class="sr-only">' . __('Anterior') . '</span>', ['escape' => false]) ?>
+        <?= $this->Paginator->numbers(['modulus' => 4]) ?>
+        <?= $this->Paginator->next('<i class="fa fa-angle-right" aria-hidden="true"></i><span class="sr-only">' . __('Próxima') . '</span>', ['escape' => false]) ?>
     </ul>
-    <div style="margin-bottom: 40px; margin-top: -10px;">
-        <?= $this->Paginator->counter('Página {{page}} de {{pages}}') ?>
-    </div>
 </div>

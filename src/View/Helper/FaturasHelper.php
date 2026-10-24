@@ -36,12 +36,18 @@ class FaturasHelper extends Helper
         return isset($lista[$status]) ? $lista[$status] : '';
     }
 
-    /** Status com selo colorido */
-    public function statusLabel($status)
+    /**
+     * Status como badge (mapa em .claude/skills/sales-system-ui/references/status.md).
+     * Pendente com vencimento no passado aparece como "Vencida".
+     */
+    public function statusLabel($status, $vencimento = null)
     {
-        $classes = ['P' => 'warning', 'F' => 'success', 'C' => 'danger'];
+        if ($status == 'P' && $vencimento && $vencimento->format('Y-m-d') < date('Y-m-d')) {
+            return '<span class="label label-danger">' . __('Vencida') . '</span>';
+        }
+        $classes = ['P' => 'warning', 'F' => 'success', 'C' => 'default'];
         $classe  = isset($classes[$status]) ? $classes[$status] : 'default';
-        return '<span class="label label-' . $classe . '">' . $this->status($status) . '</span>';
+        return '<span class="label label-' . $classe . '">' . h($this->status($status)) . '</span>';
     }
 
     public function tipoLista()

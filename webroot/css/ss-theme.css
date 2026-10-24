@@ -1569,6 +1569,18 @@ a.list-group-item:hover, a.list-group-item:focus { background: var(--ss-surface-
 .ss-message--warning .ss-message-icon { background: var(--ss-warning-bg); color: var(--ss-warning-fg); }
 .ss-message--danger  .ss-message-icon { background: var(--ss-danger-bg);  color: var(--ss-danger-fg); }
 
+/* Texto com HTML vindo do cadastro (mensagem do aviso) e imagem que o acompanha */
+.ss-richtext { color: var(--ss-text-2); overflow-wrap: anywhere; }
+.ss-message-text.ss-richtext { white-space: normal; }
+.ss-richtext p, .ss-richtext ul, .ss-richtext ol { margin: 0 0 var(--ss-space-2); }
+.ss-richtext > :last-child { margin-bottom: 0; }
+.ss-richtext strong { font-weight: 600; color: var(--ss-text); }
+.ss-figure {
+    display: block; max-width: 100%; height: auto;
+    margin-top: var(--ss-space-3);
+    border: 1px solid var(--ss-border); border-radius: var(--ss-radius);
+}
+
 .ss-empty {
     padding: var(--ss-space-10) var(--ss-space-5);
     text-align: center;

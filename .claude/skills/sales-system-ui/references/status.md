@@ -75,6 +75,10 @@ Helper: `ProdutosHelper::statusLabel($status, $loja = false)` (`$loja = true` us
 | Período encerrado | Encerrado | `label-default` |
 | Ainda não começou | Agendado | `label-info` |
 
+Helper: `AvisosHelper::statusLabel($aviso)` (pela validade; "Agendado" só quando o aviso tiver
+o campo `inicio` no futuro, que hoje não existe). `AvisosHelper::destino($aviso)` gera o selo do
+plano ou "Todos".
+
 ## Tipos (não são status)
 
 Tipo de fatura (Comissão, Saque, Pedido, Taxa) e tipo de pedido (Normal, Bonificação) são

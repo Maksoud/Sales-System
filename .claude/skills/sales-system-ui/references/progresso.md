@@ -89,11 +89,17 @@ horizontal. Novo `FaturasHelper::situacao($fatura)`: "Em cálculo" (pedido em V)
 
 | Feito | Tela | Tipo | Data | Observações |
 |---|---|---|---|---|
-| [ ] | `Notices/index.ctp` | I | | |
-| [ ] | `Notices/form.ctp` | F | | |
-| [ ] | `Notices/view.ctp` | V | | |
-| [ ] | `Notices/pending.ctp` | E | | Sino do cabeçalho, `ss-messages` |
-| [ ] | `Element/navbar-side-avisos.ctp` | E | | |
+| [x] | `Notices/index.ctp` | I | 2026-10-24 | `ss-layout` com `navbar-side-avisos`. 7 colunas: Código, Aviso (título abre a view; trecho da mensagem e ícone de imagem na linha de apoio), Destino (selo do plano ou "Todos"), Enviado, Validade ("Sem validade" em `ss-muted`), Status, ações (Editar e Excluir em ícones; "Visualizar" saiu). Destino saiu da busca (vai como campo oculto). Status "Vencido" (vermelho) virou "Encerrado" (cinza), pelo mapa. **A lista passa a abrir ordenada pelo código** (antes pela data de cadastro). Estado vazio diferente com e sem filtro |
+| [x] | `Notices/form.ctp` | F | 2026-10-24 | Modal lg. Seções Mensagem, Envio, Mídia. Validade com calendário e ajuda "Em branco, o aviso não vence."; imagem e vídeo opcionais; imagem atual aparece na edição; o vídeo agora vem preenchido na edição. "Gravar"/"Enviar Aviso" → Salvar/Enviar aviso; Cancelar `type=button`; Excluir no rodapé (`postLink` com `block`) |
+| [x] | `Notices/view.ctp` | V | 2026-10-24 | Modal. `ss-record-header` (título, status, código, data e hora); Mensagem (`ss-richtext` + `ss-figure`, link do YouTube se houver) à esquerda; Envio em `ss-dl` à direita. Saem os três `alert-info` |
+| [x] | `Notices/pending.ctp` | E | 2026-10-24 | `ss-messages` com `is-unread`; texto em `ss-richtext`; "Descartar aviso" → "Marcar como lido" (mesmo efeito, só na tela); `ss-empty` quando não há avisos ou todos foram lidos |
+| [x] | `Element/navbar-side-avisos.ctp` | E | 2026-10-24 | `ss-subnav` de destino: Todos os avisos, Para todos e um item por plano (SM, Master, VIP). Antes não era usado e apontava para o controller `Avisos`, que não existe; agora fica em `Notices/index` e mantém os outros filtros ao trocar o destino. Relógio removido |
+
+Avisos verificado em 2026-10-24 no navegador (1280px e 375px), perfil Dev: filtro por destino,
+busca, modal do aviso, edição (salvar), sino (marcar como lido até o estado vazio), sem rolagem
+horizontal. Novo `AvisosHelper` (`situacao`, `statusLabel`, `destino`, `resumo`). Novas classes
+`ss-richtext` e `ss-figure` (seção 16). Tema em `ss-theme.css?v=5`. O 375px foi conferido num
+iframe (a janela do Chrome não redimensionou).
 
 ### Associados e rede (`UsersController`)
 
@@ -171,3 +177,4 @@ Planos ainda com a barra antiga, sem rolagem horizontal.
 |---|---|---|---|
 | 2026-10-24 | `ss-product` (card de produto da loja) | 17. Peças do domínio | Loja precisava de imagem, preço, quantidade e subtotal por produto; nenhum card existente tinha campo de quantidade |
 | 2026-10-24 | `ss-net-node` (pessoa na árvore da rede) | 17. Peças do domínio | O nó antigo empilhava itens com `clearfix` e `style`; precisava de avatar, nome, login, plano, status e contagem num card só, e de um estado sem clique para quem não tem indicados |
+| 2026-10-24 | `ss-richtext` e `ss-figure` (texto com HTML e imagem do aviso) | 16. Mensagens, avisos e estado vazio | A mensagem do aviso vem com `<p>`/`<strong>`: `ss-message-text` usa `pre-line` e é um `<p>`, o que quebrava o espaçamento; a imagem precisava de borda e raio dos tokens |

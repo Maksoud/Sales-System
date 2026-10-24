@@ -8,32 +8,50 @@
 
 /* File: src/Template/Notices/view.ctp */
 
+//Visualização do aviso (modal)
 $this->layout = 'ajax';
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 col-sm-8">
-            <?= $aviso->aviso ?>
+<div class="ss-record-header">
+    <div>
+        <h3 class="ss-record-title">
+            <?= h($aviso->title) ?>
+            <?= $this->Avisos->statusLabel($aviso) ?>
+        </h3>
+        <div class="ss-record-meta">
+            <span class="ss-id">#<?= str_pad($aviso->id, 6, '0', STR_PAD_LEFT) ?></span>
+            <span><?= __('Enviado em {0}', $this->MyHtml->time($aviso->created)) ?></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <section class="ss-section">
+            <h4 class="ss-section-title"><?= __('Mensagem') ?></h4>
+            <div class="ss-richtext"><?= $aviso->aviso ?></div>
             <?php if ($aviso->banner): ?>
-                <?= $this->Html->image($aviso->banner, ['class' => 'top-10 img-responsive img-rounded', 'alt' => $aviso->title]) ?>
+                <?= $this->Html->image($aviso->banner, ['class' => 'ss-figure', 'alt' => $aviso->title]) ?>
             <?php endif; ?>
-        </div>
-        <div class="top-10 col-xs-12 col-sm-4">
-            <div class="alert alert-info" role="alert">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-                <?= __('Enviado') ?> <?= $this->MyHtml->time($aviso->created) ?>
-            </div>
-            <?php if ($aviso->validade): ?>
-                <div class="alert <?= $aviso->ativo ? 'alert-info' : 'alert-danger' ?>" role="alert">
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
-                    <?= $aviso->ativo ? __('Válido até') : __('Venceu em') ?> <?= $this->MyHtml->date($aviso->validade) ?>
-                </div>
+            <?php if ($aviso->youtube): ?>
+                <p>
+                    <a href="<?= h($aviso->youtube) ?>" class="ss-link-external" target="_blank" rel="noopener"><?= __('Ver vídeo no YouTube') ?></a>
+                </p>
             <?php endif; ?>
-            <div class="alert alert-info" role="alert">
-                <i class="fa fa-users" aria-hidden="true"></i>
-                <?= $aviso->plano ? __('Enviado para todos do plano {0}', h($aviso->plano->title)) : __('Enviado para todos do sistema') ?>
-            </div>
-        </div>
+        </section>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        <section class="ss-section">
+            <h4 class="ss-section-title"><?= __('Envio') ?></h4>
+            <dl class="ss-dl">
+                <dt><?= __('Destino') ?></dt>
+                <dd><?= $aviso->plano ? $this->Avisos->destino($aviso) : __('Todos do sistema') ?></dd>
+                <dt><?= __('Enviado') ?></dt>
+                <dd><?= $this->MyHtml->tinyDate($aviso->created) ?></dd>
+                <dt><?= __('Validade') ?></dt>
+                <dd><?= $aviso->validade ? $this->MyHtml->tinyDate($aviso->validade) : '<span class="ss-muted">' . __('Sem validade') . '</span>' ?></dd>
+            </dl>
+        </section>
     </div>
 </div>

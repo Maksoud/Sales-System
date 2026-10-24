@@ -2,30 +2,45 @@
 /**
  * Developed by:
  *     Renée Maksoud
- * 
+ *
  * All rights reserved - 2018-2019
  */
 
-$pendente = $processamento = $cancelado = $finalizado = 'list-group-item ';
-if ($this->request->url == 'Avisos?pendente')      $pendente      .= 'active';
-if ($this->request->url == 'Avisos?processamento') $processamento .= 'active';
-if ($this->request->url == 'Avisos?cancelado')     $cancelado     .= 'active';
-if ($this->request->url == 'Avisos?finalizado')    $finalizado    .= 'active';
+/* File: src/Template/Element/navbar-side-avisos.ctp */
+
+/**
+ * Filtro por destino na lista de avisos (Notices/index).
+ * Cada link mantém os demais filtros da busca e troca só o destino (planos_id).
+ * Variável: $planos (id => nome dos planos que recebem avisos)
+ */
+
+//planos_id => [ícone, rótulo]
+$itens = [
+    ''      => ['fa-list',  __('Todos os avisos')],
+    'todos' => ['fa-users', __('Para todos')],
+];
+foreach ($planos as $id => $nome) {
+    $itens[$id] = ['fa-certificate', h($nome)];
+}
+
+$query = $this->request->getQueryParams();
+$atual = isset($query['planos_id']) ? (string)$query['planos_id'] : '';
+unset($query['planos_id'], $query['iniciar_busca']);
+$query = array_filter($query, 'strlen');
 ?>
 
-<div class="col-sm-3 col-md-2 sidebar">
-    <div class="row">
-        <div class="list-group">
-            <li class="list-group-item list-group-item-info">Filtros</li>
-            <?= $this->Html->link(('<i class="fa fa-users fa-fw" aria-hidden="true"></i> Todos'), ['controller' => 'Avisos', 'action' => 'index', 'pendentes'], ['class' => $pendente, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i> SM Coordenador'), ['controller' => 'Avisos', 'action' => 'index', 'processamento'], ['class' => $processamento, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> SM Regional'), ['controller' => 'Avisos', 'action' => 'index', 'cancelado'], ['class' => $cancelado, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-user-secret fa-fw" aria-hidden="true"></i> Master'), ['controller' => 'Avisos', 'action' => 'index', 'finalizado'], ['class' => $finalizado, 'escape' => false]); ?>
-            <?= $this->Html->link(('<i class="fa fa-street-view fa-fw" aria-hidden="true"></i> VIP'), ['controller' => 'Avisos', 'action' => 'index', 'finalizado'], ['class' => $finalizado, 'escape' => false]); ?>
-        </div>
-    </div>
-    
-    <div id="footer_hora" class="pull-bottom-time text-nowrap">
-        <h4><?= date('d/m/Y ') ?><span id="timer"><?= date('H:i:s') ?></span></h4>
-    </div>
-</div>
+<nav class="ss-subnav" aria-label="<?= __('Filtrar avisos por destino') ?>">
+    <p class="ss-subnav-title"><?= __('Destino') ?></p>
+    <ul class="ss-subnav-list">
+        <?php foreach ($itens as $destino => $item): ?>
+            <?php
+            $filtros = $destino === '' ? $query : $query + ['planos_id' => $destino];
+            if ($filtros) $filtros['iniciar_busca'] = 'true';
+            $ativo = $atual === (string)$destino;
+            ?>
+            <li><?= $this->Html->link('<i class="fa ' . $item[0] . '" aria-hidden="true"></i> ' . $item[1],
+                    ['controller' => 'Notices', 'action' => 'index', '?' => $filtros],
+                    ['class' => $ativo ? 'is-active' : '', 'escape' => false] + ($ativo ? ['aria-current' => 'page'] : [])) ?></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>

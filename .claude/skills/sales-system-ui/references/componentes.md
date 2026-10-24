@@ -381,6 +381,11 @@ Lista de avisos (sino do cabeçalho, `Notices/pending`), recados e históricos.
 Variantes de ícone: padrão (primária), `ss-message--warning`, `ss-message--danger`.
 `is-unread` adiciona o ponto antes do título.
 
+**Texto com HTML** (mensagem do aviso, que já vem com `<p>`, `<strong>`): use
+`<div class="ss-message-text ss-richtext">` no lugar do `<p>`, para não aninhar parágrafos e
+desligar o `pre-line`. `ss-richtext` também serve fora da lista (view do aviso).
+Imagem que acompanha o texto (banner do aviso): `$this->Html->image($src, ['class' => 'ss-figure', 'alt' => …])`.
+
 No cabeçalho, o sino usa `ss-icon-btn` com `ss-count ss-count--alert` quando há pendentes.
 Sem animação de giro.
 

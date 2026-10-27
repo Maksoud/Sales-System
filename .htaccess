@@ -1,11 +1,24 @@
-# Uncomment the following to prevent the httpoxy vulnerability
-# See: https://httpoxy.org/
-#<IfModule mod_headers.c>
-#    RequestHeader unset Proxy
-#</IfModule>
+# Raiz do projeto CakePHP
+Options -Indexes
+
+# Proteção contra httpoxy (https://httpoxy.org/)
+<IfModule mod_headers.c>
+    RequestHeader unset Proxy
+</IfModule>
 
 <IfModule mod_rewrite.c>
     RewriteEngine on
-    RewriteRule    ^$    webroot/    [L]
-    RewriteRule    (.*) webroot/$1    [L]
+
+    ## 1. BLOQUEIOS (antes de mandar para webroot) ##
+    # Dotfiles e dotdirs, exceto .well-known (SSL/ACME)
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+    # Pastas internas do CakePHP
+    RewriteRule ^(config|src|vendor|tmp|logs|bin|plugins|tests|resources|templates)(/|$) - [F,L,NC]
+    # Extensões sensíveis
+    RewriteRule \.(sql|xlsx|md|lock|log|bak|ini|sh|dist)$ - [F,L,NC]
+    RewriteRule (^|/)(composer|package(-lock)?)\.json$ - [F,L,NC]
+
+    ## 2. TUDO VAI PARA webroot/ ##
+    RewriteRule ^$ webroot/ [L]
+    RewriteRule (.*) webroot/$1 [L]
 </IfModule>
